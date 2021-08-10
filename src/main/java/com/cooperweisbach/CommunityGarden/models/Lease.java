@@ -1,0 +1,56 @@
+package com.cooperweisbach.CommunityGarden.models;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+
+@Entity
+@Table(name="lease")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Lease {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="LeaseId")
+    int leaseId;
+    @NonNull
+    @Temporal(value = TemporalType.DATE)
+    @Column(name="StartDate")
+    Date startDate;
+    @NonNull
+    @Temporal(value = TemporalType.DATE)
+    @Column(name="endDate")
+    Date endDate;
+
+    ///////////////////MAPPINGS///////////////////////////
+
+    // Mapping for leases to members. In this instance, many leases can belong to one member.
+    // For example, member 1 may have 2 garden plots and a beehive each with their own lease.
+    //Uni-Directional(Owner)
+    @ManyToOne
+    Member member;
+
+    // Mapping for leases to their status. In this instance, many leases can belong to one status.
+    // For example, (status 1: active) may be the status more a number of leases at one time.
+    //Uni-Directional(Owner)
+    @ManyToOne
+    LeaseStatus leaseStatus;
+
+    //Mapping for leases to leasables, where leasables are the leasable entities
+    // ( i.e. garden plots, bee hives, etc.). In this instance, one leasable will belong to many
+    // leases over time.
+    //Uni-Directional(Owner)
+    @ManyToOne
+    @JoinColumn(name="LeasableId", referencedColumnName = "LeaseId")
+    Leasable leasable;
+}
