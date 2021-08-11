@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface iPostRepo extends JpaRepository<Post, Integer> {
     List<Post> findAll();
     Optional<Post> getAllByMember(Member member);
-    List<Post> findAllTop();
+    List<Post> findFirstBy();
     List<Post> getAllByPostTagList_PostTagTitle(String postTagTitle);
 
     void deleteByPostId(Integer integer);

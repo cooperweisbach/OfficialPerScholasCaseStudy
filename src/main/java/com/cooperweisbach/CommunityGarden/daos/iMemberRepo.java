@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface iMemberRepo extends JpaRepository<Member, Integer> {
-    List<Member> getAll(); //Get all the members
     Member getByMemberId(int memberId);
+    List<Member> findAll();
     long count();
     List<Member> getMemberByUserRoles_UserRoleName(String userRoleName);
 

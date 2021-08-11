@@ -21,7 +21,7 @@ public class MessageThreadStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="message_thread_status_id")
-    int MessageThreadStatusId;
+    int messageThreadStatusId;
     @NonNull
     @NotBlank
     @Column(name="message_thread_status")
