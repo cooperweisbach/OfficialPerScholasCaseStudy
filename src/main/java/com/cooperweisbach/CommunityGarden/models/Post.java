@@ -25,30 +25,50 @@ public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="PostId")
+    @Column(name="post_id")
     int postId;
     @NonNull
     @Temporal(value=TemporalType.DATE)
+    @Column(name="post_date")
     Date postDate;
     @NonNull
     @Temporal(value=TemporalType.DATE)
+    @Column(name="creation_date")
     Date creationDate;
     @NonNull
-    @Column(name="PostTitle", columnDefinition = "VARCHAR(150) NOT NULL")
+    @Column(name="post_title", columnDefinition = "VARCHAR(150) NOT NULL")
     String postTitle;
     @NonNull
-    @Column(name="PostContent", columnDefinition = "TEXT NOT NULL")
+    @Column(name="post_content", columnDefinition = "TEXT NOT NULL")
     String postContent;
 
     ///////////////////MAPPINGS///////////////////////////
 
-    @ManyToOne
+    //Mapping for member to profile pics.
+    // In this instance, one profile pic has the ability to belong to many users due to default images
+    //However, by no means will other user's profile pics be accessible by other users. This is simply to accommodate defaults
+    //Uni-Directional(Owner)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="post_status")
     PostStatus postStatus;
-    @ManyToOne
+
+    //Mapping for member to profile pics.
+    // In this instance, one profile pic has the ability to belong to many users due to default images
+    //However, by no means will other user's profile pics be accessible by other users. This is simply to accommodate defaults
+    //Uni-Directional(Owner)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="member")
     Member member;
 
-
-    @ManyToMany
+    //This is the owning/parent element in this manytomany relationship between Posts and PostTags
+    //This is the case because the element with the Join Table annotation is declaring the join table from its POV
+    //Here, the join column is a post_id while the inverse join column is post_tag_id.
+    @ManyToMany( cascade = {CascadeType.ALL})
+            @JoinTable(
+                    name="post_tags",
+                    joinColumns= {@JoinColumn(name="post_id")},
+                    inverseJoinColumns = {@JoinColumn(name="post_tag_id")}
+            )
     List<PostTag> postTagList;
 
 }

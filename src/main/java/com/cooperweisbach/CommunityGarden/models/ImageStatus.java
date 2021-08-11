@@ -21,11 +21,11 @@ public class ImageStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ImageStatusId")
+    @Column(name="image_status_id")
     int imageStatusId;
     @NonNull
     @NotBlank
-    @Column(name="ImageStatus")
+    @Column(name="image_status")
     String imageStatus;
 
 }

@@ -22,11 +22,11 @@ public class LeasableType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="LeasableTypeId")
+    @Column(name="leasable_type_id")
     int leaseableTypeId;
     @NonNull
     @NotBlank
-    @Column(name="LeasableTypeName")
+    @Column(name="leasable_type_name")
     String leasableTypeName;
 
 }

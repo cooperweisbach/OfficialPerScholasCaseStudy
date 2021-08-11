@@ -21,18 +21,26 @@ public class MessageThread {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="MessageThreadId")
+    @Column(name="message_thread_id")
     int messageThreadId;
 
     @NonNull
     @NotBlank
-    @Column(name="MessageThreadName", columnDefinition = "VARCHAR(100) NOT NULL")
+    @Column(name="message_thread_name", columnDefinition = "VARCHAR(100) NOT NULL")
     String messageThreadName;
 
     @NonNull
     @Temporal(value=TemporalType.DATE)
+    @Column(name="message_thread_creation")
     Date messageThreadCreation;
 
-    @ManyToOne
+    ///////////////////MAPPINGS///////////////////////////
+
+    //Mapping for message thread to thread status.
+    //In this instance, one status has the ability to belong to many threads
+    //We want this status to live on the thread table so that the thread is easily identifiable by status
+    //Uni-Directional(Owner)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="thread_status")
     MessageThreadStatus messageThreadStatus;
 }

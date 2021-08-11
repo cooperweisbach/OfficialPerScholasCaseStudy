@@ -21,19 +21,21 @@ public class PostTag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="PostTagId")
+    @Column(name="post_tag_id")
     int postTagId;
 
     @NonNull
-    @Column(name="postTagTitle")
+    @Column(name="post_tag_title")
     String postTagTitle;
 
 
     ///////////////////MAPPINGS///////////////////////////
 
 
-
-    @ManyToMany(mappedBy = "post")
+    //This is the inverse/non-owning/child element in this manytomany relationship between Posts and PostTags
+    //This is the case because the element with the mapped by parameter is mapped by a collection in another class
+    //In this case, the other collection is the list, "postTagList" in the Post class
+    @ManyToMany(mappedBy = "postTagList")
     List<Post> postList;
 
 }

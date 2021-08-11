@@ -20,10 +20,10 @@ public class MessageThreadStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="MessageThreadStatusId")
+    @Column(name="message_thread_status_id")
     int MessageThreadStatusId;
     @NonNull
     @NotBlank
-    @Column(name="MessageThreadStatus")
+    @Column(name="message_thread_status")
     String messageThreadStatus;
 }

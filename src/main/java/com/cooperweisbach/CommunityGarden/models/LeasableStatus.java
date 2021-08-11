@@ -21,10 +21,10 @@ public class LeasableStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="LeasableStatusId")
+    @Column(name="leasable_status_id")
     int leasableStatusId;
     @NonNull
     @NotBlank
-    @Column(name="LeasableStatus")
+    @Column(name="Leasable_status")
     String leasableStatus;
 }

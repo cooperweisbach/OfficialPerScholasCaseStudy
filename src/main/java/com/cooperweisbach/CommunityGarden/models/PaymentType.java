@@ -21,14 +21,11 @@ public class PaymentType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="PaymentTypeId")
+    @Column(name="payment_type_id")
     int paymentTypeId;
 
     @NonNull
     @NotNull
-    @Column(name="PaymentType")
+    @Column(name="payment_type")
     String paymentType;
-
-
-    ///////////////////MAPPINGS///////////////////////////
 }

@@ -20,10 +20,10 @@ public class PostStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="PostStatusId")
+    @Column(name="post_status_id")
     int postStatusId;
     @NonNull
     @NotBlank
-    @Column(name="PostStatus")
+    @Column(name="post_status")
     String postStatus;
 }
