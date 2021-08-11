@@ -23,7 +23,7 @@ public class LeasableType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="leasable_type_id")
-    int leaseableTypeId;
+    int leasableTypeId;
     @NonNull
     @NotBlank
     @Column(name="leasable_type_name")

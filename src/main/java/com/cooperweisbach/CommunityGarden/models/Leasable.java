@@ -24,7 +24,7 @@ public class Leasable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="leasable_id")
-    int leaseableId;
+    int leasableId;
     @NonNull
     @NotBlank
     @Column(name="leasable_code")
