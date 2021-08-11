@@ -17,4 +17,6 @@ public interface iLeasableRepo extends JpaRepository<Leasable, Integer> {
     List<Leasable> findAll();
     List<Leasable> removeByLeasableCode(String leasableCode);
     Long countLeasableByLeasableType_LeasableTypeName(String leasableTypeName);
+
+    void deleteByLeasableId(Integer integer);
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface iPaymentRepo extends JpaRepository<Payment, Integer> {
+    void deleteByPaymentId(Integer integer);
 }

@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface iLeaseStatusRepo extends JpaRepository<LeaseStatus, Integer> {
+    void deleteByLeaseStatusId(Integer integer);
 }

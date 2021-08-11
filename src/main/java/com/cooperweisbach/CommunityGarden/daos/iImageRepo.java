@@ -10,4 +10,6 @@ import java.util.List;
 public interface iImageRepo extends JpaRepository<Image, Integer> {
     List<Image> findAllByImageStatus_ImageStatus(String imageStatus);
     Long countByImageStatus_ImageStatus(String imageStatus);
+
+    void deleteByImageId(Integer integer);
 }

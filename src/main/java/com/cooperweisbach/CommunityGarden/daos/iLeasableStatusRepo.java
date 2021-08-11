@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface iLeasableStatusRepo extends JpaRepository<LeasableStatus, Integer> {
 
+    void deleteByLeasableStatusId(Integer integer);
 }

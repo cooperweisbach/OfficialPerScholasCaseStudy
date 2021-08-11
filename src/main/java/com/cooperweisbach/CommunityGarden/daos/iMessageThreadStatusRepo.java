@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface iMessageThreadStatusRepo extends JpaRepository<MessageThreadStatus, Integer> {
+
+    void deleteByMessageThreadStatusId(Integer integer);
 }

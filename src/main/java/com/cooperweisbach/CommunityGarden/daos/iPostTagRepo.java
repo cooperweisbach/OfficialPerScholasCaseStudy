@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface iPostTagRepo extends JpaRepository<PostTag, Integer> {
+
+    void deletePostTagsByPostTagTitle(String postTagTitle);
 }

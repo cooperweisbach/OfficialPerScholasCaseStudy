@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface iPostStatusRepo extends JpaRepository<PostStatus, Integer> {
+    void deleteByPostStatusId(Integer integer);
 }

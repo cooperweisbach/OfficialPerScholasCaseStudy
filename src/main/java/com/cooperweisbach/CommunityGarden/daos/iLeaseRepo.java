@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface iLeaseRepo extends JpaRepository<Lease, Integer> {
     List<Lease> findAllByMember_MemberId(int memberId);
+    Lease findByLeasable_LeasableCode(String leasableCode);
+    List<Lease> findAllByLeaseStatus_LeaseStatus(String leaseStatus);
+
+    void deleteByLeaseId(Integer integer);
 }

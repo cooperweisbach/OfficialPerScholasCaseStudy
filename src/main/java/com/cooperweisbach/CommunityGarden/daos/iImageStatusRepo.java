@@ -8,4 +8,5 @@ import java.util.List;
 
 @Repository
 public interface iImageStatusRepo extends JpaRepository<ImageStatus, Integer> {
+    void deleteByImageStatusId(Integer integer);
 }

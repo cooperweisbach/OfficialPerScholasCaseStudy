@@ -11,4 +11,7 @@ public interface iMemberRepo extends JpaRepository<Member, Integer> {
     List<Member> getAll(); //Get all the members
     Member getByMemberId(int memberId);
     long count();
+    List<Member> getMemberByUserRoles_UserRoleName(String userRoleName);
+
+    void deleteByMemberId(Integer integer);
 }

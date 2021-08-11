@@ -14,4 +14,5 @@ public interface iPostRepo extends JpaRepository<Post, Integer> {
     List<Post> findAllTop();
     List<Post> getAllByPostTagList_PostTagTitle(String postTagTitle);
 
+    void deleteByPostId(Integer integer);
 }
