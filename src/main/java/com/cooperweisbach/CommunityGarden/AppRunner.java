@@ -114,10 +114,44 @@ public class AppRunner implements CommandLineRunner {
 
 
         //Adding members
-        Member member = new Member("Cooper", "W", "test@gmail.com", "1234567890", "PASSWORD");
-
+        Member member = new Member("Cooper", "W", "test1@gmail.com", "1234567890", "PASSWORD");
         memberRepo.save(member);
         member.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("head"));
+        Member member1 = new Member("John", "S", "test2@gmail.com", "1234567890", "PASSWORD");
+        memberRepo.save(member1);
+        member1.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("member"));
+        Member member2 = new Member("Mary Ann", "D", "test3@gmail.com", "1234567890", "PASSWORD");
+        memberRepo.save(member2);
+        member2.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("member"));
+        Member member3 = new Member("Derek", "Q", "test4@gmail.com", "1234567890", "PASSWORD");
+        memberRepo.save(member3);
+        member3.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("admin"));
+        Member member4 = new Member("Susan", "T", "test5@gmail.com", "1234567890", "PASSWORD");
+        memberRepo.save(member4);
+        member4.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("dev"));
+        Member member5 = new Member("Graham", "Z", "test6@gmail.com", "1234567890", "PASSWORD");
+        memberRepo.save(member5);
+        member5.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("member"));
+
+        //Adding leasables
+        Leasable leasable;
+        Object[][] l = {{"OP1",120.0D,50.0D, "outdoorGardenPlot"},
+                        {"OP2",120.0D,50.0D, "outdoorGardenPlot"},
+                        {"W1",120.0D,50.0D, "workshop"},
+                        {"W2",120.0D,50.0D, "workshop"},
+                        {"FT1",120.0D,50.0D, "fishTank"},
+                        {"FT2",120.0D,50.0D, "fishTank"},
+                        {"GH1",120.0D,50.0D, "greenhousePlot"},
+                        {"GH2",120.0D,50.0D, "greenhousePlot"},
+                        {"BH1", 120.0D,50.0D, "beeHive"},
+                        {"BH2", 120.0D,50.0D, "beeHive"}};
+        for(int i =0; i < l.length; i++ ){
+            leasable = new Leasable((String)l[i][0], (double)l[i][1],(double)l[i][2]);
+            leasableRepo.save(leasable);
+            leasable.setLeasableType(leasableTypeRepo.getByLeasableTypeName((String)l[i][3]));
+            leasable.setLeasableStatus(leasableStatusRepo.getByLeasableStatus("open"));
+        }
+
 
 
 

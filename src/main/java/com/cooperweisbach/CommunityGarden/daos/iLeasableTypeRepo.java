@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface iLeasableTypeRepo extends JpaRepository<LeasableType, Integer> {
+    LeasableType getByLeasableTypeName(String leasableTypeName);
     void deleteByLeasableTypeId(Integer integer);
     void deleteByLeasableTypeName(String leasableTypeName);
 }
