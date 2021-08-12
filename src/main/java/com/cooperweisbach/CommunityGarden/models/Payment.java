@@ -7,10 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table(name="payment")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -30,10 +30,9 @@ public class Payment {
     @Column(name="payment_amount")
     Double paymentAmount;
 
-    @NonNull
-    @NotNull
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="paid_on")
-    Date paidOn;
+    Date paidOn = new Timestamp(new Date().getTime());
 
 
     ///////////////////MAPPINGS///////////////////////////

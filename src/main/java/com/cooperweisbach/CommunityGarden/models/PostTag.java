@@ -9,7 +9,6 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name="posttag")
 @Getter
 @Setter
 @NoArgsConstructor

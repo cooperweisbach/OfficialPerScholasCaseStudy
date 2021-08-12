@@ -7,11 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="leasable")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -37,10 +37,10 @@ public class Leasable {
     @NotNull
     @Column(name="leasable_size")
     double leasableSize;
-    @NonNull
+
     @Column(name="creation_date")
     @Temporal(value = TemporalType.DATE)
-    Date leasableCreationDate;
+    Date leasableCreationDate = new Timestamp(new Date().getTime());
 
 
     ///////////////////MAPPINGS///////////////////////////

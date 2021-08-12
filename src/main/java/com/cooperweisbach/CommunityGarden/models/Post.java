@@ -6,11 +6,11 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="post")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,17 +27,19 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="post_id")
     int postId;
-    @NonNull
-    @Temporal(value=TemporalType.DATE)
+
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="post_date")
     Date postDate;
-    @NonNull
-    @Temporal(value=TemporalType.DATE)
+
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="creation_date")
-    Date creationDate;
+    Date creationDate = new Timestamp(new Date().getTime());
+
     @NonNull
     @Column(name="post_title", columnDefinition = "VARCHAR(150) NOT NULL")
     String postTitle;
+
     @NonNull
     @Column(name="post_content", columnDefinition = "TEXT NOT NULL")
     String postContent;
@@ -65,7 +67,7 @@ public class Post {
     //Here, the join column is a post_id while the inverse join column is post_tag_id.
     @ManyToMany( cascade = {CascadeType.ALL})
             @JoinTable(
-                    name="post_tags",
+                    name="post_post_tag",
                     joinColumns= {@JoinColumn(name="post_id")},
                     inverseJoinColumns = {@JoinColumn(name="post_tag_id")}
             )

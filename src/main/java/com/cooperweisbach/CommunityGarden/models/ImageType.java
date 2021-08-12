@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name="imagestatus")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,15 +16,15 @@ import javax.validation.constraints.NotBlank;
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ImageStatus {
+public class ImageType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="image_status_id")
-    int imageStatusId;
+    @Column(name="image_type_id")
+    int imageTypeId;
     @NonNull
     @NotBlank
-    @Column(name="image_status")
-    String imageStatus;
+    @Column(name="image_type")
+    String imageType;
 
 }

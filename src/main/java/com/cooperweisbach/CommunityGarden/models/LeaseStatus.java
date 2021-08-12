@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name="leasestatus")
 @Getter
 @Setter
 @NoArgsConstructor

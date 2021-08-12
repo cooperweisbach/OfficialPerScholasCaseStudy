@@ -6,15 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table(name="lease")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Lease {
@@ -23,11 +22,11 @@ public class Lease {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="lease_id")
     int leaseId;
-    @NonNull
+
     @Temporal(value = TemporalType.DATE)
     @Column(name="start_date")
-    Date startDate;
-    @NonNull
+    Date startDate = new Timestamp(new Date().getTime());
+
     @Temporal(value = TemporalType.DATE)
     @Column(name="end_date")
     Date endDate;

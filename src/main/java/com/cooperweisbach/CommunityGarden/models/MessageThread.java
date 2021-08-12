@@ -6,10 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table(name="messagethread")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,10 +29,9 @@ public class MessageThread {
     @Column(name="message_thread_name", columnDefinition = "VARCHAR(100) NOT NULL")
     String messageThreadName;
 
-    @NonNull
-    @Temporal(value=TemporalType.DATE)
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="message_thread_creation")
-    Date messageThreadCreation;
+    Date messageThreadCreation = new Timestamp(new Date().getTime());
 
     ///////////////////MAPPINGS///////////////////////////
 

@@ -6,12 +6,13 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="member")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,31 +27,30 @@ public class Member {
     @Column(name="member_id")
     int memberId;
     @NonNull
-    @NotNull
-    @Column(name = "first_name", columnDefinition = "VARCHAR(50) NOT NULL")
+    @NotBlank
+    @Column(name = "first_name")
     String firstName;
     @NonNull
-    @NotNull
-    @Column(name = "last_name", columnDefinition = "VARCHAR(50) NOT NULL")
+    @NotBlank
+    @Column(name = "last_name")
     String lastName;
     @NonNull
-    @NotNull
-    @Column(name="email", columnDefinition = "NOT NULL")
+    @NotBlank
+    @Column(name="email")
     @Email
     String email;
     @NonNull
-    @NotNull
-    @Column(name="phone_number", columnDefinition = "VARCHAR(12) NOT NULL")
+    @NotBlank
+    @Column(name="phone_number")
     String phoneNumber;
     @NonNull
-    @NotNull
+    @NotBlank
     @Column(name="password")
     String password;
-    @NonNull
-    @NotNull
+
     @Column(name="joined_date")
     @Temporal(TemporalType.DATE)
-    Date joinedDate;
+    Date joinedDate = new Timestamp(new Date().getTime());
 
     ///////////////////MAPPINGS///////////////////////////
 
@@ -58,6 +58,7 @@ public class Member {
     // In this instance, one status will belong to various members at one time.
     // leases over time.
     //Uni-Directional(Owner)
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="member_status")
     MemberStatus memberStatus;

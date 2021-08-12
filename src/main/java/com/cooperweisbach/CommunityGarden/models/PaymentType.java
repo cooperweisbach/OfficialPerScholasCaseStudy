@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="paymenttype")
 @Getter
 @Setter
 @NoArgsConstructor

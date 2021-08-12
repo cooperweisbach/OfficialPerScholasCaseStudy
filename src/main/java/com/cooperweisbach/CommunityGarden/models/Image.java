@@ -7,10 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name="image")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -28,20 +29,25 @@ public class Image {
     @NotBlank
     @Column(name="image_upload_name")
     String imageUploadName;
-    @NonNull
+
     @Temporal(value = TemporalType.DATE)
     @Column(name="upload_date")
-    Date uploadDate;
+    Date uploadDate = new Timestamp(new Date().getTime());
 
     ///////////////////MAPPINGS///////////////////////////
 
     //https://vladmihalcea.com/manytoone-jpa-hibernate/
-    // Mapping for image to imageStatus. In this instance image is the owning side of the relationship.
-    // This is because we want to see the status of the image in the Image table. Many to one is used because
-    // many images will have the same imageStatus. ManyToOne annotation allows you to map a Foreign Key column
+    // Mapping for image to imageType. In this instance image is the owning side of the relationship.
+    // This is because we are creating the declaration in the Image entity. Here an image can have multiple imageType labels
+    //This is because the imageType will be used by the admins to search for an image and display it in various places on the website.
     //Uni-Directional(Owner)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="image_status")
-    ImageStatus imageStatus;
+    @ManyToMany(cascade={CascadeType.ALL})
+    @JoinTable(
+            name="image_imageType",
+            joinColumns = {@JoinColumn(name="image_id")},
+            inverseJoinColumns = {@JoinColumn(name="image_type")}
+    )
+    @JoinColumn(name="image_type")
+    List<ImageType> imageType;
 
 }

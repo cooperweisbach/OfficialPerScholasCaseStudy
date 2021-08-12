@@ -6,10 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table(name="message")
+//@Table(name="message")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,10 +30,9 @@ public class Message {
     @Column(name="message_content", columnDefinition = "TEXT NOT NULL")
     String messageContent;
 
-    @NonNull
-    @Temporal(value=TemporalType.DATE)
+    @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="message_sent")
-    Date messageSent;
+    Date messageSent = new Timestamp(new Date().getTime());
 
     ///////////////////MAPPINGS///////////////////////////
 

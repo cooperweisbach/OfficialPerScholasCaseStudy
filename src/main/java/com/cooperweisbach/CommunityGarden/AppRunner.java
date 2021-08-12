@@ -9,6 +9,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Slf4j
 @Component
@@ -16,7 +18,7 @@ import javax.transaction.Transactional;
 public class AppRunner implements CommandLineRunner {
     // autowire all repo's/services
     private iImageRepo imageRepo;
-    private iImageStatusRepo imageStatusRepo;
+    private iImageTypeRepo imageTypeRepo;
     private iLeasableRepo leasableRepo;
     private iLeasableStatusRepo leasableStatusRepo;
     private iLeasableTypeRepo leasableTypeRepo;
@@ -34,8 +36,10 @@ public class AppRunner implements CommandLineRunner {
     private iPostTagRepo postTagRepo;
     private iUserRolesRepo userRolesRepo;
 
-    public AppRunner(iImageRepo imageRepo,
-                     iImageStatusRepo imageStatusRepo,
+    @Autowired
+    public AppRunner(
+                     iImageRepo imageRepo,
+                     iImageTypeRepo imageTypeRepo,
                      iLeasableRepo leasableRepo,
                      iLeasableStatusRepo leasableStatusRepo,
                      iLeasableTypeRepo leasableTypeRepo,
@@ -53,7 +57,7 @@ public class AppRunner implements CommandLineRunner {
                      iPostTagRepo postTagRepo,
                      iUserRolesRepo userRolesRepo) {
         this.imageRepo = imageRepo;
-        this.imageStatusRepo = imageStatusRepo;
+        this.imageTypeRepo = imageTypeRepo;
         this.leasableRepo = leasableRepo;
         this.leasableStatusRepo = leasableStatusRepo;
         this.leasableTypeRepo = leasableTypeRepo;
@@ -95,25 +99,25 @@ public class AppRunner implements CommandLineRunner {
         postStatusRepo.save(new PostStatus("published"));
         postStatusRepo.save(new PostStatus("inProgress"));
         postStatusRepo.save(new PostStatus("element"));
+        userRolesRepo.save(new UserRoles("dev"));
         userRolesRepo.save(new UserRoles("head"));
         userRolesRepo.save(new UserRoles("admin"));
         userRolesRepo.save(new UserRoles("adminRead"));
         userRolesRepo.save(new UserRoles("adminReadWrite"));
         userRolesRepo.save(new UserRoles("member"));
-        imageStatusRepo.save(new ImageStatus("defaultProfilePicture"));
-        imageStatusRepo.save(new ImageStatus("profilePicture"));
-        imageStatusRepo.save(new ImageStatus("postImage"));
-        imageStatusRepo.save(new ImageStatus("slideShowHP"));
-        imageStatusRepo.save(new ImageStatus("gallery"));
-
-
-
-
-
+        imageTypeRepo.save(new ImageType("defaultProfilePicture"));
+        imageTypeRepo.save(new ImageType("profilePicture"));
+        imageTypeRepo.save(new ImageType("postImage"));
+        imageTypeRepo.save(new ImageType("slideShowHP"));
+        imageTypeRepo.save(new ImageType("gallery"));
 
 
 
         //Adding members
+        Member member = new Member("Cooper", "W", "test@gmail.com", "1234567890", "PASSWORD");
+
+        memberRepo.save(member);
+        member.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("head"));
 
 
 

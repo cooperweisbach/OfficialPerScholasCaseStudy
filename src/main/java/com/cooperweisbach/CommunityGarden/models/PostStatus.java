@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name="poststatus")
 @Getter
 @Setter
 @NoArgsConstructor
