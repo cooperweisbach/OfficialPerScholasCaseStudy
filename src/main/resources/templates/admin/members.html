@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/admin}" method="get">
+        <input type="submit" value="Dashboard">
+    </form>
+    <form th:action="@{/admin/users}" method="get">
+        <input type="submit" value="Members">
+    </form>
+    <form th:action="@{/admin/leasables}" method="get">
+        <input type="submit" value="Leasables">
+    </form>
+    <form th:action="@{/admin/leases}" method="get">
+        <input type="submit" value="Leases">
+    </form>
+    <form th:action="@{/admin/posts}" method="get">
+        <input type="submit" value="Posts">
+    </form>
+    <form th:action="@{/admin/message-threads}" method="get">
+        <input type="submit" value="Message Threads">
+    </form>
+    <form th:action="@{/admin/images}" method="get">
+        <input type="submit" value="Images">
+    </form>
+    <form th:action="@{/admin/payments}" method="get">
+        <input type="submit" value="Payments">
+    </form>
+
+    <div th:if="${!#lists.isEmpty(allMembers)}">
+        <form>
+            <table>
+                <thead>
+                <th>
+                <td>Member ID</td>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Email</td>
+                <td>User Role</td>
+                <td>Member Status</td>
+                <td>Apply Updates</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="member, stat :${allMembers}" th:class="${member.firstName} + ' ' + ${member.lastName}">
+                    <td th:text="${member.memberId}"></td>
+                    <td th:text="${member.firstName}"></td>
+                    <td th:text="${member.lastName}"></td>
+                    <td th:text="${member.email}"></td>
+                    <td th:text="${member.convertUserRolesListToString()}"></td>
+                    <td th:text="${member.memberStatus}"></td>
+                    <td><input type="checkbox" th:id="'Update' + ${member.memberId}"  th:value="${stat.current}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <th>
+                        <td>User Role</td>
+                    </th>
+                </thead>
+                <tbody>
+                    <tr th:each="userRole:${userRoles}">
+                        <td>
+                            <input type="checkbox" th:id="${userRole.userRoleName}" th:name="${userRole.userRoleName}"/>
+                            <label th:for="${userRole.userRoleName}" th:text="${userRole.userRoleName}">Label</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                    <th>
+                        <td>Member Status</td>
+                    </th>
+                </thead>
+                <tbody>
+                    <tr th:each="status:${memberStatuses}">
+                        <td>
+                            <input type="radio" th:id="${status.memberStatus}" name="status"/>
+                            <label th:for="${status.memberStatus}" th:text="${status.memberStatus}">Label</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="Update"/>
+        </form>
+        <div>
+            <span>Filter Members</span>
+            <form>
+                <input type="submit" value="Update"/>
+            </form>
+        </div>
+    </div>
+    <div th:if="${#lists.isEmpty(allMembers)}">
+        <p>No results</p>
+    </div>
+</div>
+
+<!--<div th:unless="${#lists.isEmpty(allMembers)}">-->
+<!--    <form th:action="@{/admin/all-users}" method="post" >-->
+<!--        <label for="users">Select User:</label>-->
+<!--        <select name="users" id="users" >-->
+<!--            <option th:each="member :${allMembers}" th:value="${member}" th:text="${member.memberId} + ' ' + ${member.firstName} + ' ' + ${member.lastName}">Member</option>-->
+<!--        </select>-->
+<!--        <input type="submit" value="Select User">-->
+<!--    </form>-->
+<!--</div>-->
+<!--<div th:unless="${selectedUser==null}">-->
+<!--    <p th:text="'You selected'+ ${selectedUser.firstName}"/>-->
+<!--</div>-->
+</body>
+</html>

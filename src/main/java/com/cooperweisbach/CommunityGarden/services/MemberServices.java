@@ -1,6 +1,7 @@
 package com.cooperweisbach.CommunityGarden.services;
 
 import com.cooperweisbach.CommunityGarden.daos.iMemberRepo;
+import com.cooperweisbach.CommunityGarden.daos.iMemberStatusRepo;
 import com.cooperweisbach.CommunityGarden.models.Member;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class MemberServices {
 
     private iMemberRepo memberRepo;
 
+
     @Autowired
     public MemberServices(iMemberRepo memberRepo) {
         this.memberRepo = memberRepo;
@@ -23,6 +25,10 @@ public class MemberServices {
 
     public List<Member> getAllMembers(){
         return memberRepo.findAll();
+    }
+
+    public long memberCount(){
+        return memberRepo.count();
     }
 
 

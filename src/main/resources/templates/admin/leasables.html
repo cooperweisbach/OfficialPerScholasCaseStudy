@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/admin}" method="get">
+        <input type="submit" value="Dashboard">
+    </form>
+    <form th:action="@{/admin/users}" method="get">
+        <input type="submit" value="Members">
+    </form>
+    <form th:action="@{/admin/leasables}" method="get">
+        <input type="submit" value="Leasables">
+    </form>
+    <form th:action="@{/admin/leases}" method="get">
+        <input type="submit" value="Leases">
+    </form>
+    <form th:action="@{/admin/posts}" method="get">
+        <input type="submit" value="Posts">
+    </form>
+    <form th:action="@{/admin/message-threads}" method="get">
+        <input type="submit" value="Message Threads">
+    </form>
+    <form th:action="@{/admin/images}" method="get">
+        <input type="submit" value="Images">
+    </form>
+    <form th:action="@{/admin/payments}" method="get">
+        <input type="submit" value="Payments">
+    </form>
+    <div th:unless="${#lists.isEmpty(allLeasables)}">
+        <table th:each="leasables :${allLeasables}">
+            <tr>
+                <td th:text="${leasables.leasableId}"></td>
+                <td th:text="${leasables.leasableCode}"></td>
+                <td th:text="${leasables.leasableYearlyRent}"></td>
+                <td th:text="${leasables.leasableStatus}"></td>
+                <td th:text="${leasables.leasableType}"></td>
+                <td th:text="${leasables.leasableCreationDate}"></td>
+            </tr>
+        </table>
+    </div>
+    <div th:if="${#lists.isEmpty(allLeasables)}">
+        <p>No results</p>
+    </div>
+</div>
+
+<!--<div th:unless="${#lists.isEmpty(allMembers)}">-->
+<!--    <form th:action="@{/admin/all-users}" method="post" >-->
+<!--        <label for="users">Select User:</label>-->
+<!--        <select name="users" id="users" >-->
+<!--            <option th:each="member :${allMembers}" th:value="${member}" th:text="${member.memberId} + ' ' + ${member.firstName} + ' ' + ${member.lastName}">Member</option>-->
+<!--        </select>-->
+<!--        <input type="submit" value="Select User">-->
+<!--    </form>-->
+<!--</div>-->
+<!--<div th:unless="${selectedUser==null}">-->
+<!--    <p th:text="'You selected'+ ${selectedUser.firstName}"/>-->
+<!--</div>-->
+</body>
+</html>

@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -82,5 +83,10 @@ public class Member {
             inverseJoinColumns = { @JoinColumn(name = "role_id") }
     )
     List<UserRoles> userRoles;
+
+
+    public String convertUserRolesListToString(){
+        return userRoles.stream().map(userRole -> userRole.getUserRoleName()).collect(Collectors.joining(","));
+    }
 
 }
