@@ -117,30 +117,48 @@ public class HomeController {
     //Redirect admin to specific page where they're updating the user's info
     //, @RequestParam(name="MemId") Integer memberId
     @PostMapping("/admin/users/{id}")
-    public String updateUserPage(@PathVariable(name="id") String id, Model model) {
+    public String updateUserPage(@PathVariable(name="id") Integer id, Model model) {
         log.warn("String Id: " + id);
-        Member memberToUpdate = memberServices.getMemberById(Integer.parseInt(id));
-        memberToUpdate.setMemberId(Integer.parseInt(id));
+        Member memberToUpdate = memberServices.getMemberById(id);
+        memberToUpdate.setMemberId(id);
         model.addAttribute("memberToUpdate", memberToUpdate);
         model.addAttribute("memberStatuses", memberStatusServices.getEveryMemberStatus());
         model.addAttribute("userRoles", userRolesServices.getEveryUserRole());
         return "admin/member-update";
     }
 
+    @PostMapping("/admin/users/create")
+    public String createUserPage(Model model){
+        model.addAttribute("memberToCreate", new Member());
+        model.addAttribute("memberStatuses", memberStatusServices.getEveryMemberStatus());
+        model.addAttribute("userRoles", userRolesServices.getEveryUserRole());
+        return "/admin/member-create";
+    }
+
+
+    @PostMapping("/admin/users/create-approved")
+    public ModelAndView redirectToSuccessfulCreate(HttpServletRequest request, @ModelAttribute("memberToCreate") Member memberToCreate){
+        memberServices.save(memberToCreate);
+        request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.FOUND);
+        return new ModelAndView("redirect:/admin/users");
+    }
+
+
     @PostMapping("/admin/users/delete/{memberId}")
     public String deleteUserPage(@PathVariable("memberId") Integer memberId, Model model){
         log.warn("Attempted to delete user " + memberId);
         Member memberToDelete = memberServices.getMemberById(memberId);
         model.addAttribute("memberToDelete", memberToDelete);
-        model.addAttribute("allMembers", memberServices.getAllMembers());
-//        memberServices.deleteMemberById(id);
         return "admin/member-delete";
     }
 
-    @GetMapping("/admin/users/create")
-    public String createUserPage(Model model){
-        model.addAttribute("newUser", new Member());
-        return "/admin/users/member-create";
+
+    @PostMapping("/admin/users/delete-approved")
+    public ModelAndView redirectToSuccessfulDelete(HttpServletRequest request, @ModelAttribute("memberToDelete") Member memberToDelete){
+        log.warn("Member to delete " + memberToDelete.getMemberId());
+        memberServices.deleteMemberById(memberToDelete.getMemberId());
+        request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.FOUND);
+        return new ModelAndView("redirect:/admin/users");
     }
 
 
@@ -151,6 +169,24 @@ public class HomeController {
 ////        memberServices.deleteMemberById(id);
 //        return "/admin/members";
 //    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/admin/leasables")
     public String adminGetAllLeasables(Model m){

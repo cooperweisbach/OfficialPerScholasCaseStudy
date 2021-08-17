@@ -7,17 +7,9 @@
 
 </head>
 <body>
-<h1>Member To Update</h1>
-<h2>Member Info</h2>
-<p>Member ID: <p  th:text="${memberToUpdate.memberId}"></p></p>
-<p>Member Name: <p th:text="${memberToUpdate.firstName} + ' ' + ${memberToUpdate.lastName}"></p></p>
-<p>Member Status: <p th:text="${memberToUpdate.memberStatus} ? ${memberToUpdate.memberStatus.memberStatus}: 'Status Not Set'"></p></p>
-<p>Member Email: <p th:text="${memberToUpdate.email}"></p></p>
-<p>Member Phone Number: <p th:text="${memberToUpdate.phoneNumber}"></p></p>
-<p>Member Roles: <p th:text="${memberToUpdate.convertUserRolesListToString()} ?: 'User Roles Not Set'"></p></p>
+<h1>Member To Create</h1>
 
-<form th:action="@{/admin/users/update-approved}" method="post" id="updateUserForm" th:object="${memberToUpdate}">
-    <input th:field="*{memberId}" th:value="${memberToUpdate.memberId}" type="text" hidden/>
+<form th:action="@{/admin/users/create-approved}" method="post" id="createUserForm" th:object="${memberToCreate}">
     <label for="firstName">First Name:</label>
     <input type="text" id="firstName" th:field="*{firstName}"  required/>
     <label for="firstName">Last Name:</label>
@@ -31,13 +23,13 @@
     <table>
         <thead>
         <th>
-        <td>User Role</td>
+            <td>User Role</td>
         </th>
         </thead>
         <tbody>
         <tr th:each="userRole:${userRoles}">
             <td>
-                <input th:field="*{userRoles}" th:value="${userRole.userRoleId}" type="checkbox" th:id="${userRole.userRoleName}" name="userroles" th:checked="${memberToUpdate.userRoles.contains(userRole)}"/>
+                <input th:field="*{userRoles}" th:value="${userRole.userRoleId}" type="checkbox" th:id="${userRole.userRoleName}" name="userroles" />
                 <label th:for="${userRole.userRoleName}" th:text="${userRole.userRoleName}">Label</label>
             </td>
         </tr>
@@ -45,31 +37,28 @@
     </table>
     <table>
         <thead>
-        <th>
-        <td>Member Status</td>
-        </th>
+            <th>
+                <td>Member Status</td>
+            </th>
         </thead>
         <tbody>
-        <tr th:each="memberStatus:${memberStatuses}">
-            <td>
-                <input th:field="*{memberStatus}" th:value="${memberStatus.memberStatusId}" type="radio" th:id="${memberStatus.memberStatus}" name="status" th:checked="${memberToUpdate.memberStatus==memberStatus}"/>
-                <label th:for="${memberStatus.memberStatus}" th:text="${memberStatus.memberStatus}">Label</label>
-            </td>
-        </tr>
+            <tr th:each="memberStatus:${memberStatuses}">
+                <td>
+                    <input th:field="*{memberStatus}" th:value="${memberStatus.memberStatusId}" type="radio" th:id="${memberStatus.memberStatus}" name="status" />
+                    <label th:for="${memberStatus.memberStatus}" th:text="${memberStatus.memberStatus}">Label</label>
+                </td>
+            </tr>
         </tbody>
     </table>
-    <input type="submit" value="Update"/>
-    <input type="reset" value="Reset Changes"/>
+    <input type="submit" value="Create Member"/>
+    <input type="reset" value="Reset Details"/>
 </form>
 
 <script>
 
-    var id = window.location.href.toString().split("/").reverse()[0]
-    var myForm = document.querySelector("#updateUserForm");
+    var myForm = document.querySelector("#createUserForm");
 
     var formData = new FormData();
-    formData.append("id", id);
-    formData.append("email", email);
 
     console.log(myForm);
 
@@ -77,12 +66,12 @@
         // event.preventDefault();
         var email = $("#email").val().toString().split(",").reverse()[0];
         formData.append("email", email);
-        fetch('/api/users/check-email-id', {method: 'POST', body: formData})
+        fetch('/api/users/check-email', {method: 'POST', body: formData})
             .then(response => response.json())
             .then(data => {
                 for(let field in data){
                     if(field.toString() === "memberId"){
-                        if(data[field] == id) {
+                        if(data[field] == 0) {
                             console.log("email approved");
                             return true;
                         } else{

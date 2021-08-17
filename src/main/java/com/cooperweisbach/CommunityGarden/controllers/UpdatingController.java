@@ -47,7 +47,7 @@ public class UpdatingController {
     }
 
     @PostMapping("/api/users/check-email-id")
-    public Member checkUniqueEmail(@Param("id") Integer id, @Param("email") String email){
+    public Member checkUniqueEmailId(@Param("id") Integer id, @Param("email") String email){
         log.warn("Integer for ID:" + id);
     log.warn("String for Email" + email);
         String[] myEmails = email.split(",");
@@ -56,5 +56,17 @@ public class UpdatingController {
         return memberServices.checkUniqueEmailId(email, id);
     };
 
+    @PostMapping("/api/users/check-email")
+    public Member checkUniqueEmail(@Param("email") String email){
+        log.warn("String for Email" + email);
+        String[] myEmails = email.split(",");
+        email = myEmails[myEmails.length-1];
+        log.warn(email);
+        return memberServices.checkUniqueEmail(email);
+    };
+
+
     public String notCurrentUser() {return null;};
+
+
 }

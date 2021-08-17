@@ -42,6 +42,14 @@ public class MemberServices {
 
     public void save(Member member) {memberRepo.save(member);};
 
+    public Member checkUniqueEmail(String email){
+        Member byEmail = memberRepo.getMemberByEmail(email);
+        if(byEmail == null){
+            return new Member();
+        } else {
+            return byEmail;
+        }
+    }
 
     public Member checkUniqueEmailId(String email, int id){
         Member byId = memberRepo.getByMemberId(id);

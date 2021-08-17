@@ -76,7 +76,7 @@ public class Member {
     //This is the case because the element with the Join Table annotation is declaring the join table from its POV
     //Here, the join column is a member_id while the inverse join column is role_id.
     //Cascade All
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany()
     @JoinTable(
             name = "member_role",
             joinColumns = { @JoinColumn(name = "member_id") },

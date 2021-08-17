@@ -14,13 +14,14 @@
     <p>Member Phone Number: <p th:text="${memberToDelete.phoneNumber}"></p></p>
     <p>Member Roles: <p th:text="${memberToDelete.convertUserRolesListToString()} ?: 'User Roles Not Set'"></p></p>
 
-    <form th:action="@{/admin/users}" method="post">
+    <form th:action="@{/admin/users/delete-approved}" method="post" th:object="${memberToDelete}">
+        <input th:field="*{memberId}" th:value="${memberToDelete.memberId}" type="text" hidden/>
         <h1 th:text="'Are you sure you\'d like to delete' + ${memberToDelete.memberId}"></h1>
         <input type="submit" value="Delete"/>
     </form>
 
     <script>
-
+        // Make sure you can't delete yourself
 
     </script>
 </body>
