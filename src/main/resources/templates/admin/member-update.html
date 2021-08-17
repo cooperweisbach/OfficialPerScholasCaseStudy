@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+</head>
+<body>
+    <h1>Member To Update</h1>
+    <h2>Member Info</h2>
+    <p>Member ID: <p  th:text="${memberToUpdate.memberId}"></p></p>
+    <p>Member Name: <p th:text="${memberToUpdate.firstName} + ' ' + ${memberToUpdate.lastName}"></p></p>
+    <p>Member Status: <p th:text="${memberToUpdate.memberStatus} ? ${memberToUpdate.memberStatus.memberStatus}: 'Status Not Set'"></p></p>
+    <p>Member Email: <p th:text="${memberToUpdate.email}"></p></p>
+    <p>Member Phone Number: <p th:text="${memberToUpdate.phoneNumber}"></p></p>
+    <p>Member Roles: <p th:text="${memberToUpdate.convertUserRolesListToString()} ?: 'User Roles Not Set'"></p></p>
+
+    <form th:action="@{/admin/users/update-approved}" method="post" id="updateUserForm" th:object="${memberToUpdate}">
+        <input th:field="*{memberId}" th:value="${memberToUpdate.memberId}" type="text" hidden/>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" th:field="*{firstName}"  required/>
+        <label for="firstName">Last Name:</label>
+        <input type="text" id="lastName" th:field="*{lastName}" required/>
+        <label for="firstName">Phone Number:</label>
+        <input type="text" id="phoneNumber" th:field="*{phoneNumber}"  required/>
+        <label for="firstName">Email:</label>
+        <input type="email" id="email" th:field="*{email}" required/>
+        <label for="firstName">Password:</label>
+        <input type="text" id="password" th:field="*{password}" required/>
+        <table>
+            <thead>
+                <th>
+                    <td>User Role</td>
+                </th>
+            </thead>
+            <tbody>
+                <tr th:each="userRole:${userRoles}">
+                    <td>
+                        <input th:field="*{userRoles}" th:value="${userRole.userRoleId}" type="checkbox" th:id="${userRole.userRoleName}" name="userroles" th:checked="${memberToUpdate.userRoles.contains(userRole)}"/>
+                        <label th:for="${userRole.userRoleName}" th:text="${userRole.userRoleName}">Label</label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+            <table>
+                <thead>
+                    <th>
+                        <td>Member Status</td>
+                    </th>
+                </thead>
+                <tbody>
+                    <tr th:each="memberStatus:${memberStatuses}">
+                        <td>
+                            <input th:field="*{memberStatus}" th:value="${memberStatus.memberStatusId}" type="radio" th:id="${memberStatus.memberStatus}" name="status" th:checked="${memberToUpdate.memberStatus==memberStatus}"/>
+                            <label th:for="${memberStatus.memberStatus}" th:text="${memberStatus.memberStatus}">Label</label>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        <input type="submit" value="Update"/>
+        <input type="reset" value="Reset Changes"/>
+    </form>
+
+    <script>
+
+        var id = window.location.href.toString().split("/").reverse()[0]
+        var myForm = document.querySelector("#updateUserForm");
+
+        var formData = new FormData();
+        formData.append("id", id);
+        formData.append("email", email);
+
+        console.log(myForm);
+
+        myForm.addEventListener("submit", function(event) {
+            // event.preventDefault();
+            var email = $("#email").val().toString().split(",").reverse()[0];
+            formData.append("email", email);
+            fetch('/api/users/check-email-id', {method: 'POST', body: formData})
+                 .then(response => response.json())
+                 .then(data => {
+                     for(let field in data){
+                         if(field.toString() === "memberId"){
+                             if(data[field] == id) {
+                                 console.log("email approved");
+                                 return true;
+                             } else{
+                                 console.log("email rejected");
+                                 return false;
+                             }
+                         }
+                     }
+                     console.log("error");
+                     return false;
+                 });
+        });
+
+        // function restPost(email, id) {
+        //     data={email:email.getAttribute("value"), id:id};
+        //     $.post('/api/users/check-email-id', data,function(response){
+        //
+        //     }).fail();
+        //     return false;
+        // }
+
+    </script>
+</body>
+</html>

@@ -8,8 +8,9 @@ import java.util.List;
 
 @Repository
 public interface iImageRepo extends JpaRepository<Image, Integer> {
+    List<Image> findAll();
+
     List<Image> findAllByImageType_ImageType(String imageType);
     Long countByImageType_ImageType(String imageType);
-
     void deleteByImageId(Integer integer);
 }

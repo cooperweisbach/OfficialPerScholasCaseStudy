@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 </head>
 <body>
 <div>
@@ -32,7 +33,7 @@
     </form>
 
     <div th:if="${!#lists.isEmpty(allMembers)}">
-        <form>
+        <form id="myForm" method="post" th:action="@{/admin/users/}">
             <table>
                 <thead>
                 <th>
@@ -53,48 +54,20 @@
                     <td th:text="${member.email}"></td>
                     <td th:text="${member.convertUserRolesListToString()}"></td>
                     <td th:text="${member.memberStatus}"></td>
-                    <td><input type="checkbox" th:id="'Update' + ${member.memberId}"  th:value="${stat.current}"></td>
+                    <td><input type="radio" th:attr="data-member-identification=${member.memberId}" name="memberId" class="updateMember"></td>
                 </tr>
                 </tbody>
             </table>
-            <table>
-                <thead>
-                    <th>
-                        <td>User Role</td>
-                    </th>
-                </thead>
-                <tbody>
-                    <tr th:each="userRole:${userRoles}">
-                        <td>
-                            <input type="checkbox" th:id="${userRole.userRoleName}" th:name="${userRole.userRoleName}"/>
-                            <label th:for="${userRole.userRoleName}" th:text="${userRole.userRoleName}">Label</label>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table>
-                <thead>
-                    <th>
-                        <td>Member Status</td>
-                    </th>
-                </thead>
-                <tbody>
-                    <tr th:each="status:${memberStatuses}">
-                        <td>
-                            <input type="radio" th:id="${status.memberStatus}" name="status"/>
-                            <label th:for="${status.memberStatus}" th:text="${status.memberStatus}">Label</label>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <input type="submit" value="Update"/>
+            <input type="submit" id="createUser" formaction="/admin/users/create" value="Create New Member"/>
+            <input type="submit" id="deleteUser" formaction="/admin/users/" value="Delete Member"/>
+            <input type="submit" value="Update Member"/>
         </form>
-        <div>
-            <span>Filter Members</span>
-            <form>
-                <input type="submit" value="Update"/>
-            </form>
-        </div>
+
+<!--            <span>Filter Members</span>-->
+<!--            <form>-->
+<!--                <input type="submit" value="Update"/>-->
+<!--            </form>-->
+<!--        </div>-->
     </div>
     <div th:if="${#lists.isEmpty(allMembers)}">
         <p>No results</p>
@@ -113,5 +86,34 @@
 <!--<div th:unless="${selectedUser==null}">-->
 <!--    <p th:text="'You selected'+ ${selectedUser.firstName}"/>-->
 <!--</div>-->
+<script>
+    $(".updateMember").change(function() {
+        // console.log($(".updateMember:checked"));
+      var member = document.querySelector(".updateMember:checked").dataset.memberIdentification;
+      console.log(member);
+      var formElement = document.querySelector("#myForm");
+      var deleteButton = document.querySelector("#deleteUser");
+      var createButton = document.querySelector("#createUser");
+      formElement.setAttribute("action", "/admin/users/" + member);
+      deleteButton.setAttribute("formaction", "/admin/users/delete/" + member);
+      // createButton.setAttribute("formaction", "/admin/users/create");
+      // console.log(createButton.getAttribute("formaction"));
+      console.log(deleteButton.getAttribute("formaction"));
+      console.log(formElement.getAttribute("action"));
+      console.log("function executed");
+    });
+
+    // $("#deleteUser").hover(function() {
+    //     var formElement = document.querySelector("#myForm");
+    //     formElement.setAttribute("method", "delete");
+    //     console.log(formElement.getAttribute("method"));
+    // });
+    //
+    //
+    // $("#deleteUser").click(function() {
+    //     var formElement = document.querySelector("#myForm");
+    //     formElement.setAttribute("method", "delete");
+    // });
+</script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.cooperweisbach.CommunityGarden.daos;
 
 import com.cooperweisbach.CommunityGarden.models.Member;
+import com.cooperweisbach.CommunityGarden.models.UserRoles;
 import org.hibernate.internal.util.type.PrimitiveWrapperHelper;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,6 +13,7 @@ public interface iMemberRepo extends JpaRepository<Member, Integer> {
     List<Member> findAll();
     long count();
     List<Member> getMemberByUserRoles_UserRoleName(String userRoleName);
-
+    List<Member> getMemberByUserRoles(UserRoles userRoles);
     void deleteByMemberId(Integer integer);
+    Member getMemberByEmail(String email);
 }

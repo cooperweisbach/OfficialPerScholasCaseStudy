@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Member To Delete</h1>
+    <h2>Member Info</h2>
+    <p>Member ID: <p th:text="${memberToDelete.memberId}"></p></p>
+    <p>Member Name: <p th:text="${memberToDelete.firstName} + ' ' + ${memberToDelete.lastName}"></p></p>
+    <p>Member Status: <p th:text="${memberToDelete.memberStatus} ? ${memberToDelete.memberStatus.memberStatus}: 'Status Not Set'"></p></p>
+    <p>Member Email: <p th:text="${memberToDelete.email}"></p></p>
+    <p>Member Phone Number: <p th:text="${memberToDelete.phoneNumber}"></p></p>
+    <p>Member Roles: <p th:text="${memberToDelete.convertUserRolesListToString()} ?: 'User Roles Not Set'"></p></p>
+
+    <form th:action="@{/admin/users}" method="post">
+        <h1 th:text="'Are you sure you\'d like to delete' + ${memberToDelete.memberId}"></h1>
+        <input type="submit" value="Delete"/>
+    </form>
+
+    <script>
+
+
+    </script>
+</body>
+</html>

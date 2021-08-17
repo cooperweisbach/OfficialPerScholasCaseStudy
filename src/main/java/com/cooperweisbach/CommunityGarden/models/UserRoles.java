@@ -33,7 +33,7 @@ public class UserRoles {
     //This is the inverse/non-owning/child element in this manytomany relationship between Members and UserRoles
     //This is the case because the element with the mapped by parameter is mapped by a collection in another class
     //In this case, the other collection is the list, "userRoles" in the Member class
-    @ManyToMany(mappedBy="userRoles")
-    List<Member> member;
+//    @ManyToMany(mappedBy="userRoles")
+//    List<Member> member;
 
 }

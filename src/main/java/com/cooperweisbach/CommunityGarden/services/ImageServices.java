@@ -24,4 +24,5 @@ public class ImageServices {
     public List<Image> getAllImages(){
         return imageRepo.findAll();
     }
+
 }

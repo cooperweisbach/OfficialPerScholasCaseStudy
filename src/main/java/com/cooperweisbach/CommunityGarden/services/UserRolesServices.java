@@ -20,7 +20,9 @@ public class UserRolesServices {
     public UserRolesServices(iUserRolesRepo userRolesRepo) {
         this.userRolesRepo = userRolesRepo;
     }
-
+    public UserRoles getUserRole(String userRole) {
+        return userRolesRepo.getUserRolesByUserRoleName(userRole).get(0);
+    }
     public List<UserRoles> getEveryUserRole() {
         return userRolesRepo.findAll();
     }
