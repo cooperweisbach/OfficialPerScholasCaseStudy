@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -20,6 +21,12 @@ public class MemberStatusServices {
     public MemberStatusServices(iMemberStatusRepo memberStatusRepo) {
         this.memberStatusRepo = memberStatusRepo;
     }
+
+    public void createNewMemberStatus(String newStatus){memberStatusRepo.save(new MemberStatus(newStatus));}
+
+    public List<MemberStatus> getMemberStatusByName(String memberStatus){return memberStatusRepo.findMemberStatusByMemberStatus(memberStatus);}
+
+//    public Optional<MemberStatus> changeMemberStatusName(int id, String newStatusName){memberStatusRepo.findById(id).stream().map(memberStatus -> memberStatus.setMemberStatus(newStatusName))}
 
     public List<MemberStatus> getEveryMemberStatus() {
         return memberStatusRepo.findAll();

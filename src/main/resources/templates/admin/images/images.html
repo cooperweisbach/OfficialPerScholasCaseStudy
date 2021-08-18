@@ -6,13 +6,13 @@
 </head>
 <body>
 <div>
-    <form th:action="@{/admin}" method="get">
+    <form th:action="@{/templates/admin}" method="get">
         <input type="submit" value="Dashboard">
     </form>
     <form th:action="@{/admin/users}" method="get">
         <input type="submit" value="Members">
     </form>
-    <form th:action="@{/admin/leasables}" method="get">
+    <form th:action="@{/templates/admin/leasables}" method="get">
         <input type="submit" value="Leasables">
     </form>
     <form th:action="@{/admin/leases}" method="get">
@@ -24,7 +24,7 @@
     <form th:action="@{/admin/message-threads}" method="get">
         <input type="submit" value="Message Threads">
     </form>
-    <form th:action="@{/admin/images}" method="get">
+    <form th:action="@{/templates/admin/images}" method="get">
         <input type="submit" value="Images">
     </form>
     <form th:action="@{/admin/payments}" method="get">

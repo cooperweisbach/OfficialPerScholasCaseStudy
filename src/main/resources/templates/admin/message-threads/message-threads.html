@@ -6,43 +6,42 @@
 </head>
 <body>
 <div>
-    <form th:action="@{/admin}" method="get">
+    <form th:action="@{/templates/admin}" method="get">
         <input type="submit" value="Dashboard">
     </form>
     <form th:action="@{/admin/users}" method="get">
         <input type="submit" value="Members">
     </form>
-    <form th:action="@{/admin/leasables}" method="get">
+    <form th:action="@{/templates/admin/leasables}" method="get">
         <input type="submit" value="Leasables">
     </form>
-    <form th:action="@{/admin/leases}" method="get">
+    <form th:action="@{/templates/admin/leases}" method="get">
         <input type="submit" value="Leases">
     </form>
     <form th:action="@{/admin/posts}" method="get">
         <input type="submit" value="Posts">
     </form>
-    <form th:action="@{/admin/message-threads}" method="get">
+    <form th:action="@{/templates/admin/message-threads}" method="get">
         <input type="submit" value="Message Threads">
     </form>
-    <form th:action="@{/admin/images}" method="get">
+    <form th:action="@{/templates/admin/images}" method="get">
         <input type="submit" value="Images">
     </form>
     <form th:action="@{/admin/payments}" method="get">
         <input type="submit" value="Payments">
     </form>
-    <div th:unless="${#lists.isEmpty(allLeasables)}">
-        <table th:each="leasables :${allLeasables}">
+
+    <div th:unless="${#lists.isEmpty(allMessageThreads)}">
+        <table th:each="messageThread :${allMessageThreads}">
             <tr>
-                <td th:text="${leasables.leasableId}"></td>
-                <td th:text="${leasables.leasableCode}"></td>
-                <td th:text="${leasables.leasableYearlyRent}"></td>
-                <td th:text="${leasables.leasableStatus}"></td>
-                <td th:text="${leasables.leasableType}"></td>
-                <td th:text="${leasables.leasableCreationDate}"></td>
+                <td th:text="${messageThread.messageThreadId}"></td>
+                <td th:text="${messageThread.messageThreadName}"></td>
+                <td th:text="${messageThread.messageThreadCreation}"></td>
+                <td th:text="${messageThread.messageThreadStatus.messageThreadStatus}"></td>
             </tr>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(allLeasables)}">
+    <div th:if="${#lists.isEmpty(allMessageThreads)}">
         <p>No results</p>
     </div>
 </div>

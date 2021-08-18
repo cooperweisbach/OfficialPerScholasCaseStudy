@@ -6,16 +6,16 @@
 </head>
 <body>
 <div>
-    <form th:action="@{/admin}" method="get">
+    <form th:action="@{/templates/admin}" method="get">
         <input type="submit" value="Dashboard">
     </form>
     <form th:action="@{/admin/users}" method="get">
         <input type="submit" value="Members">
     </form>
-    <form th:action="@{/admin/leasables}" method="get">
+    <form th:action="@{/templates/admin/leasables}" method="get">
         <input type="submit" value="Leasables">
     </form>
-    <form th:action="@{/admin/leases}" method="get">
+    <form th:action="@{/templates/admin/leases}" method="get">
         <input type="submit" value="Leases">
     </form>
     <form th:action="@{/admin/posts}" method="get">
@@ -24,29 +24,26 @@
     <form th:action="@{/admin/message-threads}" method="get">
         <input type="submit" value="Message Threads">
     </form>
-    <form th:action="@{/admin/images}" method="get">
+    <form th:action="@{/templates/admin/images}" method="get">
         <input type="submit" value="Images">
     </form>
     <form th:action="@{/admin/payments}" method="get">
         <input type="submit" value="Payments">
     </form>
-    <div th:unless="${#lists.isEmpty(allPosts)}">
-        <table th:each="post :${allPosts}">
+    <div th:unless="${#lists.isEmpty(allLeases)}">
+        <table th:each="lease :${allLeases}">
             <tr>
-                <td th:text="${post.postId}"></td>
-                <td th:text="${post.postTitle}"></td>
-                <td th:text="${post.postDate}"></td>
-                <td th:text="${post.creationDate}"></td>
-                <td th:text="${post.postStatus.postStatus}"></td>
-                <td th:text="${post.member}"></td>
+                <td th:text="${lease.leaseId}"></td>
+                <td th:text="${lease.member.memberId}"></td>
+                <td th:text="${lease.startDate}"></td>
+                <td th:text="${lease.endDate}"></td>
             </tr>
         </table>
     </div>
-    <div th:if="${#lists.isEmpty(allPosts)}">
+    <div th:if="${#lists.isEmpty(allLeases)}">
         <p>No results</p>
     </div>
 </div>
-
 
 <!--<div th:unless="${#lists.isEmpty(allMembers)}">-->
 <!--    <form th:action="@{/admin/all-users}" method="post" >-->

@@ -152,6 +152,27 @@ public class AppRunner implements CommandLineRunner {
             leasable.setLeasableStatus(leasableStatusRepo.getByLeasableStatus("open"));
         }
 
+        PostTag postTag;
+        Object[][] pt = {{"beekeeping"},{"gardening"},{"germinating"}};
+
+        Post post;
+        Object[][] p = {{"Getting Started With Beekeeping","Some Content"},
+                        {"Gardening in Arizona Summers","Some more content"},
+                        {"Germinating your Sunflower Seeds","Even more content"}};
+
+//        Lease lease;
+//        Object[][] ll = {{}};
+//
+//        MessageThread messageThread;
+//        Object[][] mt = {{}};
+//
+//        Payment payment;
+//        Object[][] pm = {{}};
+//
+//        Image image;
+//        Object[][] i = {{}};
+
+
 
 
 

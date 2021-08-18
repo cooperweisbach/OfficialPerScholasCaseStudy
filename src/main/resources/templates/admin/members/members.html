@@ -58,8 +58,8 @@
                 </tr>
                 </tbody>
             </table>
-            <input type=""/>
-            <input type="submit" id="updateRoles" formaction="" value="Update Roles"/>
+            <input type="submit" id="updateStatus" formaction="/admin/user-status/update" value="Update Statuses"/>
+            <input type="submit" id="updateRoles" formaction="/admin/user-roles/update" value="Update Roles"/>
             <input type="submit" id="createUser" formaction="/admin/users/create" value="Create New Member"/>
             <input type="submit" id="deleteUser" formaction="/admin/users/" value="Delete Member"/>
             <input type="submit" value="Update Member"/>
@@ -89,33 +89,15 @@
 <!--    <p th:text="'You selected'+ ${selectedUser.firstName}"/>-->
 <!--</div>-->
 <script>
+
     $(".updateMember").change(function() {
-        // console.log($(".updateMember:checked"));
       var member = document.querySelector(".updateMember:checked").dataset.memberIdentification;
-      console.log(member);
       var formElement = document.querySelector("#myForm");
       var deleteButton = document.querySelector("#deleteUser");
-      var createButton = document.querySelector("#createUser");
-      formElement.setAttribute("action", "/admin/users/" + member);
+      formElement.setAttribute("action", "/admin/users/update/" + member);
       deleteButton.setAttribute("formaction", "/admin/users/delete/" + member);
-      // createButton.setAttribute("formaction", "/admin/users/create");
-      // console.log(createButton.getAttribute("formaction"));
-      console.log(deleteButton.getAttribute("formaction"));
-      console.log(formElement.getAttribute("action"));
-      console.log("function executed");
     });
 
-    // $("#deleteUser").hover(function() {
-    //     var formElement = document.querySelector("#myForm");
-    //     formElement.setAttribute("method", "delete");
-    //     console.log(formElement.getAttribute("method"));
-    // });
-    //
-    //
-    // $("#deleteUser").click(function() {
-    //     var formElement = document.querySelector("#myForm");
-    //     formElement.setAttribute("method", "delete");
-    // });
 </script>
 </body>
 </html>

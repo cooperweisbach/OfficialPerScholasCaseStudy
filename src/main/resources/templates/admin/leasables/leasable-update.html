@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+</head>
+<body>
+<h1>Leasable To Update</h1>
+<h2>Leasable Info</h2>
+<p>Leasable ID: <p th:text="${leasableToUpdate.leasableId}"></p></p>
+<p>Leasable Code: <p th:text="${leasableToUpdate.leasableCode}"></p></p>
+<p>Leasable Status: <p th:text="${leasableToUpdate.leasableStatus} ? ${leasableToUpdate.leasableStatus.leasableStatus}: 'Status Not Set'"></p></p>
+<p>Leasable Rent: <p th:text="${leasableToUpdate.leasableYearlyRent}"></p></p>
+<p>Leasable Size: <p th:text="${leasableToUpdate.leasableSize}"></p></p>
+<p>Leasable Type: <p th:text="${leasableToUpdate.leasableType} ?: 'Leasable Type Not Set'"></p></p>
+
+<form th:action="@{/admin/leasables/update-approved}" method="post" id="updateLeasableForm" th:object="${leasableToUpdate}">
+    <input th:field="*{leasableId}" th:value="${leasableToUpdate.leasableId}" type="text" hidden/>
+    <label for="leasableCode">Leasable Code:</label>
+    <input type="text" id="leasableCode" th:field="*{leasableCode}"  required/>
+    <label for="leasableSize">Leasable Size:</label>
+    <input type="text" id="leasableSize" th:field="*{leasableSize}" required/>
+    <label for="leasableYearlyRent">Yearly Rent:</label>
+    <input type="text" id="leasableYearlyRent" th:field="*{leasableYearlyRent}"  required/>
+    <table>
+        <thead>
+        <th>
+        <td>Leasable Type</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="leasableType:${leasableTypes}">
+            <td>
+                <input th:field="*{leasableType}" th:value="${leasableType.leasableTypeId}" type="radio" th:id="${leasableType.leasableTypeName}" name="userroles" th:checked="${leasableToUpdate.leasableType.leasableTypeName.equals(leasableType.leasableTypeName)}"/>
+                <label th:for="${leasableType.leasableTypeName}" th:text="${leasableType.leasableTypeName}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+        <th>
+        <td>Leasable Status</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="leasableStatus:${leasableStatuses}">
+            <td>
+                <input th:field="*{leasableStatus}" th:value="${leasableStatus.leasableStatusId}" type="radio" th:id="${leasableStatus.leasableStatus}" name="status" th:checked="${leasableToUpdate.leasableStatus.leasableStatus.equals(leasableStatus.leasableStatus)}"/>
+                <label th:for="${leasableStatus.leasableStatus}" th:text="${leasableStatus.leasableStatus}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Update"/>
+    <input type="reset" value="Reset Changes"/>
+</form>
+
+<script>
+
+    var id = window.location.href.toString().split("/").reverse()[0]
+    var myForm = document.querySelector("#updateLeasableForm");
+
+    var formData = new FormData();
+    formData.append("id", id);
+    // formData.append("email", email);
+
+    console.log(myForm);
+
+    myForm.addEventListener("submit", function(event) {
+        // event.preventDefault();
+        var code = $("#leasableCode").val().toString().split(",").reverse()[0];
+        formData.append("code", code);
+        fetch('/api/users/check-code-id', {method: 'POST', body: formData})
+            .then(response => response.json())
+            .then(data => {
+                for(let field in data){
+                    if(field.toString() === "leasableId"){
+                        if(data[field] == id) {
+                            console.log("code approved");
+                            return true;
+                        } else{
+                            console.log("code rejected");
+                            return false;
+                        }
+                    }
+                }
+                console.log("error");
+                return false;
+            });
+    });
+
+    // function restPost(email, id) {
+    //     data={email:email.getAttribute("value"), id:id};
+    //     $.post('/api/users/check-email-id', data,function(response){
+    //
+    //     }).fail();
+    //     return false;
+    // }
+
+</script>
+</body>
+</html>

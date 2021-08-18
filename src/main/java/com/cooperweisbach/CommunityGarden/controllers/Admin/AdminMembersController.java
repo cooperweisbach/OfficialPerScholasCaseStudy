@@ -1,11 +1,9 @@
-package com.cooperweisbach.CommunityGarden.controllers;
+package com.cooperweisbach.CommunityGarden.controllers.Admin;
 
-import com.cooperweisbach.CommunityGarden.models.Lease;
 import com.cooperweisbach.CommunityGarden.models.Member;
 import com.cooperweisbach.CommunityGarden.services.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
 
 @Controller
 @Slf4j
-public class HomeController {
+public class AdminMembersController {
 
     private MemberServices memberServices;
     private LeasableServices leasableServices;
@@ -32,15 +29,15 @@ public class HomeController {
     private MessageThreadServices messageThreadServices;
 
     @Autowired
-    public HomeController(MemberServices memberServices,
-                          LeasableServices leasableServices,
-                          MemberStatusServices memberStatusServices,
-                          UserRolesServices userRolesServices,
-                          LeaseServices leaseServices,
-                          PostServices postServices,
-                          ImageServices imageServices,
-                          PaymentServices paymentServices,
-                          MessageThreadServices messageThreadServices) {
+    public AdminMembersController(MemberServices memberServices,
+                                  LeasableServices leasableServices,
+                                  MemberStatusServices memberStatusServices,
+                                  UserRolesServices userRolesServices,
+                                  LeaseServices leaseServices,
+                                  PostServices postServices,
+                                  ImageServices imageServices,
+                                  PaymentServices paymentServices,
+                                  MessageThreadServices messageThreadServices) {
         this.memberServices = memberServices;
         this.leasableServices = leasableServices;
         this.memberStatusServices = memberStatusServices;
@@ -66,14 +63,7 @@ public class HomeController {
         return "template";
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////
-    ///////////////////////////////Admin Panel Request Handler//////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////
 
-    @GetMapping("/admin")
-    public String admin(Model m){
-        return "admin";
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////Admin RequestHandlers To Get READ Data/////////////////////////
@@ -86,14 +76,14 @@ public class HomeController {
         m.addAttribute("allMembers", memberServices.getAllMembers());
         m.addAttribute("memberStatuses", memberStatusServices.getEveryMemberStatus());
         m.addAttribute("userRoles", userRolesServices.getEveryUserRole());
-        return "admin/members";
+        return "admin/members/members";
     }
 
     @PostMapping("/admin/users")
     public String adminGetAllUsersPost(Model m){
 //        m.addAttribute("user", new Member());
         m.addAttribute("allMembers", memberServices.getAllMembers());
-        return "admin/members";
+        return "admin/members/members";
     }
 
     @PostMapping("/admin/users/update-approved")
@@ -116,7 +106,7 @@ public class HomeController {
     //Response to event on the users page
     //Redirect admin to specific page where they're updating the user's info
     //, @RequestParam(name="MemId") Integer memberId
-    @PostMapping("/admin/users/{id}")
+    @PostMapping("/admin/users/update/{id}")
     public String updateUserPage(@PathVariable(name="id") Integer id, Model model) {
         log.warn("String Id: " + id);
         Member memberToUpdate = memberServices.getMemberById(id);
@@ -124,7 +114,7 @@ public class HomeController {
         model.addAttribute("memberToUpdate", memberToUpdate);
         model.addAttribute("memberStatuses", memberStatusServices.getEveryMemberStatus());
         model.addAttribute("userRoles", userRolesServices.getEveryUserRole());
-        return "admin/member-update";
+        return "admin/members/member-update";
     }
 
     @PostMapping("/admin/users/create")
@@ -132,7 +122,7 @@ public class HomeController {
         model.addAttribute("memberToCreate", new Member());
         model.addAttribute("memberStatuses", memberStatusServices.getEveryMemberStatus());
         model.addAttribute("userRoles", userRolesServices.getEveryUserRole());
-        return "/admin/member-create";
+        return "/admin/members/member-create";
     }
 
 
@@ -149,7 +139,7 @@ public class HomeController {
         log.warn("Attempted to delete user " + memberId);
         Member memberToDelete = memberServices.getMemberById(memberId);
         model.addAttribute("memberToDelete", memberToDelete);
-        return "admin/member-delete";
+        return "admin/members/member-delete";
     }
 
 
@@ -162,13 +152,6 @@ public class HomeController {
     }
 
 
-//    @PostMapping("/admin/users/member-delete")
-//    public String userUpdateValid(@RequestBody Integer memberId, Model model){
-//        log.warn("Attempted to delete user " + memberId);
-//        model.addAttribute("allMembers", memberServices.getAllMembers());
-////        memberServices.deleteMemberById(id);
-//        return "/admin/members";
-//    }
 
 
 
@@ -188,45 +171,31 @@ public class HomeController {
 
 
 
-    @GetMapping("/admin/leasables")
-    public String adminGetAllLeasables(Model m){
-        m.addAttribute("allLeasables", leasableServices.getAllLeasables());
-        return "admin/leasables";
-    }
+
     @GetMapping("/admin/leases")
     public String adminGetAllLeases(Model m){
         m.addAttribute("allLeases", leaseServices.getAllLeases());
-        return "admin/leases";
+        return "admin/leases/leases";
     }
     @GetMapping("/admin/posts")
     public String adminGetAllPosts(Model m){
         m.addAttribute("allPosts", postServices.getAllPosts());
-        return "admin/posts";
+        return "admin/posts/posts";
     }
     @GetMapping("/admin/images")
     public String adminGetAllImages(Model m){
         m.addAttribute("allImages", imageServices.getAllImages());
-        return "admin/images";
+        return "admin/images/images";
     }
     @GetMapping("/admin/payments")
     public String adminGetAllPayments(Model m){
         m.addAttribute("allPayments", paymentServices.getAllPayments());
-        return "admin/payments";
+        return "admin/payments/payments";
     }
     @GetMapping("/admin/message-threads")
     public String adminGetAllMessageThreads(Model m){
         m.addAttribute("allMessageThreads", messageThreadServices.getAllMessageThreads());
-        return "admin/message-threads";
+        return "admin/message-threads/message-threads";
     }
-
-
-
-
-
-//    @PostMapping("/admin/all-users")
-//    public String adminUpdateUser(@ModelAttribute Member member, Model m){
-//        m.addAttribute("selectedUser", member);
-//        return "admin";
-//    }
 
 }

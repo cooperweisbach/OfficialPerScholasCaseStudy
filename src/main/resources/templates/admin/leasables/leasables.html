@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+</head>
+<body>
+<div>
+    <form th:action="@{/admin}" method="get">
+        <input type="submit" value="Dashboard">
+    </form>
+    <form th:action="@{/admin/users}" method="get">
+        <input type="submit" value="Members">
+    </form>
+    <form th:action="@{/admin/leasables}" method="get">
+        <input type="submit" value="Leasables">
+    </form>
+    <form th:action="@{/admin/leases}" method="get">
+        <input type="submit" value="Leases">
+    </form>
+    <form th:action="@{/admin/posts}" method="get">
+        <input type="submit" value="Posts">
+    </form>
+    <form th:action="@{/admin/message-threads}" method="get">
+        <input type="submit" value="Message Threads">
+    </form>
+    <form th:action="@{/admin/images}" method="get">
+        <input type="submit" value="Images">
+    </form>
+    <form th:action="@{/admin/payments}" method="get">
+        <input type="submit" value="Payments">
+    </form>
+
+    <div th:if="${!#lists.isEmpty(allLeasables)}">
+        <form id="myForm" method="post" th:action="@{/admin/leasables/}">
+            <table>
+                <thead>
+                <th>
+                <td>Leasable ID</td>
+                <td>Leasable Code</td>
+                <td>Leasable Type</td>
+                <td>Leasable Size</td>
+                <td>Leasable Rent</td>
+                <td>Leasable Status</td>
+                <td>Apply Updates</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="leasable, stat :${allLeasables}" th:class="${leasable.leasableCode}">
+                    <td th:text="${leasable.leasableId}"></td>
+                    <td th:text="${leasable.leasableCode}"></td>
+                    <td th:text="${leasable.leasableType.leasableTypeName}"></td>
+                    <td th:text="${leasable.leasableSize}"></td>
+                    <td th:text="${leasable.leasableYearlyRent}"></td>
+                    <td th:text="${leasable.leasableStatus.leasableStatus}"></td>
+                    <td><input type="radio" th:attr="data-leasable-identification=${leasable.leasableId}" name="leasableId" class="updateLeasable"></td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" id="updateStatus" formaction="/admin/leasable-status/update" value="Update Statuses"/>
+            <input type="submit" id="updateType" formaction="/admin/leasable-roles/update" value="Update Types"/>
+            <input type="submit" id="createLeasable" formaction="/admin/leasables/create" value="Create New Leasable"/>
+            <input type="submit" id="deleteLeasable" formaction="/admin/leasables/" value="Delete Leasable"/>
+            <input type="submit" value="Update Leasable"/>
+        </form>
+
+    <div th:if="${#lists.isEmpty(allLeasables)}">
+        <p>No results</p>
+    </div>
+</div>
+</div>
+
+<!--<div th:unless="${#lists.isEmpty(allMembers)}">-->
+<!--    <form th:action="@{/admin/all-users}" method="post" >-->
+<!--        <label for="users">Select User:</label>-->
+<!--        <select name="users" id="users" >-->
+<!--            <option th:each="member :${allMembers}" th:value="${member}" th:text="${member.memberId} + ' ' + ${member.firstName} + ' ' + ${member.lastName}">Member</option>-->
+<!--        </select>-->
+<!--        <input type="submit" value="Select User">-->
+<!--    </form>-->
+<!--</div>-->
+<!--<div th:unless="${selectedUser==null}">-->
+<!--    <p th:text="'You selected'+ ${selectedUser.firstName}"/>-->
+<!--</div>-->
+    <script>
+        $(".updateLeasable").change(function() {
+            var leasable = document.querySelector(".updateLeasable:checked").dataset.leasableIdentification;
+            var formElement = document.querySelector("#myForm");
+            var deleteButton = document.querySelector("#deleteLeasable");
+            formElement.setAttribute("action", "/admin/leasables/update/" + leasable);
+            deleteButton.setAttribute("formaction", "/admin/leasables/delete/" + leasable);
+        });
+    </script>
+
+</body>
+</html>

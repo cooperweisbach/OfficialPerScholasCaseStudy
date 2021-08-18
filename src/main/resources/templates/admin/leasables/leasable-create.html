@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+</head>
+<body>
+<h1>Leasable To Create</h1>
+
+<form th:action="@{/admin/leasables/create-approved}" method="post" id="createLeasableForm" th:object="${leasableToCreate}">
+    <label for="leasableCode">Leasable Code:</label>
+    <input type="text" id="leasableCode" th:field="*{leasableCode}"  required/>
+    <label for="leasableSize">Leasable Size:</label>
+    <input type="text" id="leasableSize" th:field="*{leasableSize}" required/>
+    <label for="leasableYearlyRent">Yearly Rent:</label>
+    <input type="text" id="leasableYearlyRent" th:field="*{leasableYearlyRent}"  required/>
+    <table>
+        <thead>
+        <th>
+        <td>Leasable Type</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="leasableType:${leasableTypes}">
+            <td>
+                <input th:field="*{leasableType}" th:value="${leasableType.leasableTypeId}" type="radio" th:id="${leasableType.leasableTypeName}" name="leasabletype" />
+                <label th:for="${leasableType.leasableTypeName}" th:text="${leasableType.leasableTypeName}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+        <th>
+        <td>Leasable Status</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="leasableStatus:${leasableStatuses}">
+            <td>
+                <input th:field="*{leasableStatus}" th:value="${leasableStatus.leasableStatusId}" type="radio" th:id="${leasableStatus.leasableStatus}" name="status" />
+                <label th:for="${leasableStatus.leasableStatus}" th:text="${leasableStatus.leasableStatus}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Create Leasable"/>
+    <input type="reset" value="Reset Details"/>
+</form>
+
+<script>
+
+    var myForm = document.querySelector("#createLeasableForm");
+    var formData = new FormData();
+
+    console.log(myForm);
+
+    myForm.addEventListener("submit", function(event) {
+        // event.preventDefault();
+        var code = $("#leasableCode").val().toString().split(",").reverse()[0];
+        formData.append("code", code);
+        fetch('/api/users/check-code', {method: 'POST', body: formData})
+            .then(response => response.json())
+            .then(data => {
+                for(let field in data){
+                    if(field.toString() === "leasableId"){
+                        if(data[field] == 0) {
+                            console.log("code approved");
+                            return true;
+                        } else{
+                            console.log("code rejected");
+                            return false;
+                        }
+                    }
+                }
+                console.log("error");
+                return false;
+            });
+    });
+
+</script>
+</body>
+</html>

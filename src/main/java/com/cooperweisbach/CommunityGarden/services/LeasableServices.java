@@ -39,7 +39,31 @@ public class LeasableServices {
          return counts;
      }
 
-     public List<Leasable> getAllLeasables() {
-        return leasableRepo.findAll();
-     }
+     public List<Leasable> getAllLeasables() {return leasableRepo.findAll();}
+
+
+     public Leasable getLeasableById(int id){ return leasableRepo.getLeasableByLeasableId(id);}
+
+    public void save(Leasable leasable){leasableRepo.save(leasable);}
+
+    public void deleteLeasableById(int leasableId){leasableRepo.deleteByLeasableId(leasableId);}
+
+    public Leasable checkUniqueCode(String code){
+        Leasable byCode = leasableRepo.getByLeasableCode(code);
+        if(byCode == null){
+            return new Leasable();
+        }
+            return byCode;
+    }
+    public Leasable checkUniqueCodeId(int id, String code){
+        Leasable byId = leasableRepo.getLeasableByLeasableId(id);
+        Leasable byCode = leasableRepo.getByLeasableCode(code);
+        if(byCode == null){
+            return byId;
+        } else if(byCode != byId ){
+            return byCode;
+        } else{
+            return byId;
+        }
+    }
 }

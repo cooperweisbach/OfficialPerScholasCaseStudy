@@ -20,6 +20,9 @@ public class UserRolesServices {
     public UserRolesServices(iUserRolesRepo userRolesRepo) {
         this.userRolesRepo = userRolesRepo;
     }
+
+    public void createNewUserRole(String newUerRoleName){ userRolesRepo.save(new UserRoles(newUerRoleName));}
+
     public UserRoles getUserRole(String userRole) {
         return userRolesRepo.getUserRolesByUserRoleName(userRole).get(0);
     }

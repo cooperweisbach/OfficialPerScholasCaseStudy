@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Leasable To Delete</h1>
+<h2>Leasable Info</h2>
+<p>Leasable ID: <p th:text="${leasableToDelete.leasableId}"></p></p>
+<p>Leasable Code: <p th:text="${leasableToDelete.leasableCode}"></p></p>
+<p>Leasable Status: <p th:text="${leasableToDelete.leasableStatus} ? ${leasableToDelete.leasableStatus.leasableStatus}: 'Status Not Set'"></p></p>
+<p>Leasable Rent: <p th:text="${leasableToDelete.leasableYearlyRent}"></p></p>
+<p>Leasable Size: <p th:text="${leasableToDelete.leasableSize}"></p></p>
+<p>Leasable Type: <p th:text="${leasableToDelete.leasableType} ?: 'Leasable Type Not Set'"></p></p>
+
+<form th:action="@{/admin/leasables/delete-approved}" method="post" th:object="${leasableToDelete}">
+    <input th:field="*{leasableId}" th:value="${leasableToDelete.leasableId}" type="text" hidden/>
+    <h1 th:text="'Are you sure you\'d like to delete' + ${leasableToDelete.leasableId}"></h1>
+    <input type="submit" value="Delete"/>
+</form>
+
+<script>
+    // Make sure you can't delete yourself
+
+</script>
+</body>
+</html>

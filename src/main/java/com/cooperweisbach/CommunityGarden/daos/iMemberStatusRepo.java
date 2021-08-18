@@ -10,5 +10,6 @@ import java.util.List;
 public interface iMemberStatusRepo extends JpaRepository<MemberStatus, Integer> {
     @Override
     List<MemberStatus> findAll();
+    List<MemberStatus> findMemberStatusByMemberStatus(String memberStatus);
     void deleteByMemberStatusId(Integer integer);
 }
