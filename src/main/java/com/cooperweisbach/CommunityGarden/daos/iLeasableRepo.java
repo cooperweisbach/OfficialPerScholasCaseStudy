@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface iLeasableRepo extends JpaRepository<Leasable, Integer> {
     Leasable getLeasableByLeasableId(int id);
-    Optional<Leasable> getAllByLeasableStatus_LeasableStatus(String leasableStatus);
+    List<Leasable> getAllByLeasableStatus_LeasableStatus(String leasableStatus);
     Optional<Leasable> getAllByLeasableType_LeasableTypeName(String leasableType);
     Leasable getByLeasableCode(String leasableCode);
     List<Leasable> findAll();

@@ -60,7 +60,7 @@
             </table>
             <input type="submit" id="updateStatus" formaction="/admin/user-status/update" value="Update Statuses"/>
             <input type="submit" id="updateRoles" formaction="/admin/user-roles/update" value="Update Roles"/>
-            <input type="submit" id="createUser" formaction="/admin/users/create" value="Create New Member"/>
+            <input type="submit" class="createUser" formaction="/admin/users/create" value="Create New Member"/>
             <input type="submit" id="deleteUser" formaction="/admin/users/" value="Delete Member"/>
             <input type="submit" value="Update Member"/>
         </form>
@@ -73,6 +73,7 @@
     </div>
     <div th:if="${#lists.isEmpty(allMembers)}">
         <p>No results</p>
+        <input type="submit" class="createUser" formaction="/admin/users/create" value="Create New Member"/>
     </div>
 </div>
 
@@ -92,6 +93,7 @@
 
     $(".updateMember").change(function() {
       var member = document.querySelector(".updateMember:checked").dataset.memberIdentification;
+      console.log(member);
       var formElement = document.querySelector("#myForm");
       var deleteButton = document.querySelector("#deleteUser");
       formElement.setAttribute("action", "/admin/users/update/" + member);

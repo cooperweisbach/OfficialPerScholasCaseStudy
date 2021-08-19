@@ -1,12 +1,15 @@
 package com.cooperweisbach.CommunityGarden.models;
 
+import com.cooperweisbach.CommunityGarden.services.LeaseStatusServices;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -16,7 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Lease {
+public class  Lease {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +32,7 @@ public class Lease {
 
     @Temporal(value = TemporalType.DATE)
     @Column(name="end_date")
-    Date endDate;
+    Date endDate = setEndDate(startDate);
 
     ///////////////////MAPPINGS///////////////////////////
 
@@ -55,4 +58,17 @@ public class Lease {
     @JoinColumn(name ="leasable_id")
 //    @JoinColumn(name="LeasableId", referencedColumnName = "LeaseId")
     Leasable leasable;
+
+
+
+    private Date setEndDate(Date startDate){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startDate);
+        cal.add(Calendar.YEAR, 1);
+        return cal.getTime();
+    }
+
+//    private LeaseStatus setActiveAsDefault(String leaseStatusName){
+//       return lss.getByLeaseStatusName(leaseStatusName);
+//    }
 }

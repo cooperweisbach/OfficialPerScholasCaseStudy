@@ -89,6 +89,7 @@ public class AppRunner implements CommandLineRunner {
         leasableStatusRepo.save(new LeasableStatus("leased"));
         leaseStatusRepo.save(new LeaseStatus("active"));
         leaseStatusRepo.save(new LeaseStatus("expired"));
+        leaseStatusRepo.save(new LeaseStatus("terminated early"));
         memberStatusRepo.save(new MemberStatus("active"));
         memberStatusRepo.save(new MemberStatus("inactive"));
         messageThreadStatusRepo.save(new MessageThreadStatus("open"));
@@ -152,16 +153,26 @@ public class AppRunner implements CommandLineRunner {
             leasable.setLeasableStatus(leasableStatusRepo.getByLeasableStatus("open"));
         }
 
-        PostTag postTag;
-        Object[][] pt = {{"beekeeping"},{"gardening"},{"germinating"}};
+//        PostTag postTag;
+//        Object[][] pt = {{"beekeeping"},{"gardening"},{"germinating"}};
+//
+//        Post post;
+//        Object[][] p = {{"Getting Started With Beekeeping","Some Content"},
+//                        {"Gardening in Arizona Summers","Some more content"},
+//                        {"Germinating your Sunflower Seeds","Even more content"}};
 
-        Post post;
-        Object[][] p = {{"Getting Started With Beekeeping","Some Content"},
-                        {"Gardening in Arizona Summers","Some more content"},
-                        {"Germinating your Sunflower Seeds","Even more content"}};
+        Lease lease;
+        Object[][] ll = {{1, 1, 1},
+                         {1, 2, 1}};
 
-//        Lease lease;
-//        Object[][] ll = {{}};
+        for(int i=0; i<ll.length; i++){
+            lease = new Lease();
+            lease.setMember(memberRepo.getByMemberId((int)ll[i][0]));
+            lease.setLeasable(leasableRepo.getLeasableByLeasableId((int)ll[i][1]));
+            lease.setLeaseStatus(leaseStatusRepo.getById((int)ll[i][2]));
+            leaseRepo.save(lease);
+            leasableRepo.getLeasableByLeasableId((int)ll[i][1]).setLeasableStatus(leasableStatusRepo.getByLeasableStatus("leased"));
+        }
 //
 //        MessageThread messageThread;
 //        Object[][] mt = {{}};

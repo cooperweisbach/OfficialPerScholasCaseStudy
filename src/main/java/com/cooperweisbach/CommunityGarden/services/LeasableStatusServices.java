@@ -22,4 +22,8 @@ public class LeasableStatusServices {
 
     public List<LeasableStatus> getEveryLeasableStatus(){return leasableStatusRepo.findAll();}
 
+    public LeasableStatus getLeasableStatusByLeasableStatus(String leasableStatus){
+        return leasableStatusRepo.getByLeasableStatus(leasableStatus);
+    }
+
 }

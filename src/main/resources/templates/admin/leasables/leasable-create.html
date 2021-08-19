@@ -61,7 +61,7 @@
         // event.preventDefault();
         var code = $("#leasableCode").val().toString().split(",").reverse()[0];
         formData.append("code", code);
-        fetch('/api/users/check-code', {method: 'POST', body: formData})
+        fetch('/api/leasables/check-code', {method: 'POST', body: formData})
             .then(response => response.json())
             .then(data => {
                 for(let field in data){

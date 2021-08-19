@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+</head>
+<body>
+<h1>Lease To Update</h1>
+
+<form th:action="@{/admin/leases/update-approved}" method="post" id="updateLeaseForm" th:object="${leaseToUpdate}">
+    <!--    <label for="leaseCode">Lease Code:</label>-->
+    <!--    <input type="text" id="leaseCode" th:field="*{leaseCode}"  required/>-->
+    <!--    <label for="leaseSize">Lease Size:</label>-->
+    <!--    <input type="text" id="leaseSize" th:field="*{leaseSize}" required/>-->
+    <!--    <label for="leaseYearlyRent">Yearly Rent:</label>-->
+    <!--    <input type="text" id="leaseYearlyRent" th:field="*{leaseYearlyRent}"  required/>-->
+    <input hidden type="text" id="leaseId" th:field="*{leaseId}" th:value="${leaseToUpdate.leaseId}"/>
+    <table>
+        <thead>
+        <th>
+        <td>Available Leasables</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr>
+            <td>
+                <input class="leasables" type="radio" name="leaseleasable" th:field="*{leasable}" th:value="${leaseToUpdate.leasable.leasableId}" th:id="${leaseToUpdate.leasable.leasableId}" th:attr="data-leasable-code=${leaseToUpdate.leasable.leasableCode}" checked/>
+                <label th:for="${leaseToUpdate.leasable.leasableId}" th:text="${leaseToUpdate.leasable.leasableCode}" />
+            </td>
+        </tr>
+        <tr th:each="leasable:${availableLeasables}">
+            <td>
+                <input class="leasables" type="radio" name="leaseleasable" th:field="*{leasable}" th:value="${leasable.leasableId}" th:id="${leasable.leasableId}"  th:attr="data-leasable-code=${leasable.leasableCode}"/>
+                <label th:for="${leasable.leasableId}" th:text="${leasable.leasableCode}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+        <th>
+        <td>Lease Member</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="member:${allMembers}">
+            <td>
+                <input class="leaseMember" th:field="*{member}" th:value="${member.memberId}" type="radio" th:id="${member.memberId}" name="leaseMember" />
+                <label th:for="${member.memberId}" th:text="${member.firstName} + ' ' + ${member.lastName}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+        <th>
+        <td>Lease Status</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="leaseStatus:${leaseStatuses}">
+            <td>
+                <input class="leaseStatus" name="status" type="radio" th:field="*{leaseStatus}" th:value="${leaseStatus.leaseStatusId}"  th:id="${leaseStatus.leaseStatus}"/>
+                <label th:for="${leaseStatus.leaseStatus}" th:text="${leaseStatus.leaseStatus}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Update Lease"/>
+    <input type="reset" value="Reset Details"/>
+</form>
+
+<script>
+    // var myForm = document.querySelector("#updateLeaseForm");
+    // var leaseId = window.location.href.toString().split("/").reverse()[0];
+    // console.log("Updating lease: " + leaseId);
+    // var formData = new FormData();
+    // var leasable;
+
+    // myForm.addEventListener("submit", function(event) {
+    //     event.preventDefault();
+    //     leasable = document.querySelector(".leasables:checked").dataset.leasableCode;
+    //     formData.append("leasable", leasable);
+    //     formData.append("id", leaseId);
+        // fetch('/api/leases/check-leasable-id', {method: 'POST', body: formData})
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         for (let field in data) {
+        //             console.log(field);
+        //             if (field.toString() === "leaseId") {
+        //                 if (data[field] == 0) {
+        //                     console.log("code approved");
+        //                     event.preventDefault();
+        //                     return false;
+        //                     // return true;
+        //                 } else {
+        //                     console.log("code rejected");
+        //                     event.preventDefault();
+        //                     return false;
+        //                 }
+        //             }
+        //         }
+        //         console.log("error");
+        //         return false;
+        //     });
+    // });
+
+</script>
+</body>
+</html>

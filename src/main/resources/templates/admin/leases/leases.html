@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 </head>
 <body>
 <div>
-    <form th:action="@{/templates/admin}" method="get">
+    <form th:action="@{/admin}" method="get">
         <input type="submit" value="Dashboard">
     </form>
     <form th:action="@{/admin/users}" method="get">
         <input type="submit" value="Members">
     </form>
-    <form th:action="@{/templates/admin/leasables}" method="get">
+    <form th:action="@{/admin/leasables}" method="get">
         <input type="submit" value="Leasables">
     </form>
-    <form th:action="@{/templates/admin/leases}" method="get">
+    <form th:action="@{/admin/leases}" method="get">
         <input type="submit" value="Leases">
     </form>
     <form th:action="@{/admin/posts}" method="get">
@@ -24,38 +25,65 @@
     <form th:action="@{/admin/message-threads}" method="get">
         <input type="submit" value="Message Threads">
     </form>
-    <form th:action="@{/templates/admin/images}" method="get">
+    <form th:action="@{/admin/images}" method="get">
         <input type="submit" value="Images">
     </form>
     <form th:action="@{/admin/payments}" method="get">
         <input type="submit" value="Payments">
     </form>
-    <div th:unless="${#lists.isEmpty(allLeases)}">
-        <table th:each="lease :${allLeases}">
-            <tr>
-                <td th:text="${lease.leaseId}"></td>
-                <td th:text="${lease.member.memberId}"></td>
-                <td th:text="${lease.startDate}"></td>
-                <td th:text="${lease.endDate}"></td>
-            </tr>
-        </table>
+
+    <div th:if="${!#lists.isEmpty(allLeases)}">
+        <form id="myForm" method="post" th:action="@{/admin/leases/}">
+            <table>
+                <thead>
+                <th>
+                <td>Lease ID</td>
+                <td>Lease Member</td>
+                <td>Lease Leasable</td>
+                <td>Lease Start</td>
+                <td>Lease End</td>
+                <td>Lease Status</td>
+                <td>Apply Updates</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="lease :${allLeases}" th:class="${lease.leaseId}">
+                    <td th:text="${lease.leaseId}"></td>
+                    <td th:text="${lease.member.firstName} + ' ' + ${lease.member.lastName}"></td>
+                    <td th:text="${lease.leasable.leasableCode}"></td>
+                    <td th:text="${lease.startDate}"></td>
+                    <td th:text="${lease.endDate}"></td>
+                    <td th:text="${lease.leaseStatus.leaseStatus}"></td>
+                    <td><input type="radio" th:attr="data-lease-identification=${lease.leaseId}" name="leaseId" class="updateLease"></td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" id="updateStatus" formaction="/admin/lease-status/update" value="Update Statuses"/>
+            <input type="submit" id="updateType" formaction="/admin/lease-roles/update" value="Update Types"/>
+            <input type="submit" class="createLease" formaction="/admin/leases/create" value="Create New Lease"/>
+            <input type="submit" id="deleteLease" formaction="/admin/leases/" value="Delete Lease"/>
+            <input type="submit" value="Update Lease"/>
+        </form>
     </div>
+
     <div th:if="${#lists.isEmpty(allLeases)}">
-        <p>No results</p>
+        <form action="/admin/leases" method="post">
+            <p>No results</p>
+            <input type="submit" class="createLease" formaction="/admin/leases/create" value="Create New Lease"/>
+        </form>
     </div>
 </div>
 
-<!--<div th:unless="${#lists.isEmpty(allMembers)}">-->
-<!--    <form th:action="@{/admin/all-users}" method="post" >-->
-<!--        <label for="users">Select User:</label>-->
-<!--        <select name="users" id="users" >-->
-<!--            <option th:each="member :${allMembers}" th:value="${member}" th:text="${member.memberId} + ' ' + ${member.firstName} + ' ' + ${member.lastName}">Member</option>-->
-<!--        </select>-->
-<!--        <input type="submit" value="Select User">-->
-<!--    </form>-->
-<!--</div>-->
-<!--<div th:unless="${selectedUser==null}">-->
-<!--    <p th:text="'You selected'+ ${selectedUser.firstName}"/>-->
-<!--</div>-->
+
+<script>
+    $(".updateLease").change(function() {
+        var lease = document.querySelector(".updateLease:checked").dataset.leaseIdentification;
+        var formElement = document.querySelector("#myForm");
+        var deleteButton = document.querySelector("#deleteLease");
+        formElement.setAttribute("action", "/admin/leases/update/" + lease);
+        deleteButton.setAttribute("formaction", "/admin/leases/delete/" + lease);
+    });
+</script>
+
 </body>
 </html>

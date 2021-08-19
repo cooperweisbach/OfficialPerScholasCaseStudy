@@ -28,6 +28,10 @@ public class LeasableServices {
         this.leasableStatusRepo = leasableStatusRepo;
     }
 
+    public List<Leasable> getAllByLeasableStatus(String status){
+        return leasableRepo.getAllByLeasableStatus_LeasableStatus(status);
+    }
+
      public TreeMap<String, Long> getLeasableCountsByType(){
         TreeMap<String, Long> counts = new TreeMap<>();
          List<LeasableType> types = leasableTypeRepo.findAll();

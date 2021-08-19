@@ -162,21 +162,6 @@ public class AdminMembersController {
 
 
 
-
-
-
-
-
-
-
-
-
-
-    @GetMapping("/admin/leases")
-    public String adminGetAllLeases(Model m){
-        m.addAttribute("allLeases", leaseServices.getAllLeases());
-        return "admin/leases/leases";
-    }
     @GetMapping("/admin/posts")
     public String adminGetAllPosts(Model m){
         m.addAttribute("allPosts", postServices.getAllPosts());

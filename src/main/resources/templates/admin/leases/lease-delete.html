@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Lease To Delete</h1>
+<h2>Lease Info</h2>
+<p>Lease ID: <p th:text="${leaseToDelete.leaseId}"></p></p>
+<p>Lease Member: <p th:text="${leaseToDelete.member.firstName} + ' ' + ${leaseToDelete.member.lastName} "></p></p>
+<p>Lease Status: <p th:text="${leaseToDelete.leaseStatus} ? ${leaseToDelete.leaseStatus.leaseStatus}: 'Status Not Set'"></p></p>
+<p>Leasable: <p th:text="${leaseToDelete.leasable.getLeasableCode()}"></p></p>
+<p>Lease Start Date: <p th:text="${leaseToDelete.startDate}"></p></p>
+
+<form th:action="@{/admin/leases/delete-approved}" method="post" th:object="${leaseToDelete}">
+    <input th:field="*{leaseId}" th:value="${leaseToDelete.leaseId}" type="text" hidden/>
+    <h1 th:text="'Are you sure you\'d like to delete' + ${leaseToDelete.leaseId}"></h1>
+    <input type="submit" value="Delete"/>
+</form>
+
+<script>
+    // Make sure you can't delete yourself
+
+</script>
+</body>
+</html>
