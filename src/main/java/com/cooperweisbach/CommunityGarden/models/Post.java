@@ -65,7 +65,7 @@ public class Post {
     //This is the owning/parent element in this manytomany relationship between Posts and PostTags
     //This is the case because the element with the Join Table annotation is declaring the join table from its POV
     //Here, the join column is a post_id while the inverse join column is post_tag_id.
-    @ManyToMany( cascade = {CascadeType.ALL})
+    @ManyToMany()
             @JoinTable(
                     name="post_post_tag",
                     joinColumns= {@JoinColumn(name="post_id")},

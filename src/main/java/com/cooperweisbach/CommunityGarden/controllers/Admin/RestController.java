@@ -2,14 +2,8 @@ package com.cooperweisbach.CommunityGarden.controllers.Admin;
 
 
 import com.cooperweisbach.CommunityGarden.exceptions.UserRoleNotFoundException;
-import com.cooperweisbach.CommunityGarden.models.Leasable;
-import com.cooperweisbach.CommunityGarden.models.Lease;
-import com.cooperweisbach.CommunityGarden.models.Member;
-import com.cooperweisbach.CommunityGarden.models.UserRoles;
-import com.cooperweisbach.CommunityGarden.services.LeasableServices;
-import com.cooperweisbach.CommunityGarden.services.LeaseServices;
-import com.cooperweisbach.CommunityGarden.services.MemberServices;
-import com.cooperweisbach.CommunityGarden.services.UserRolesServices;
+import com.cooperweisbach.CommunityGarden.models.*;
+import com.cooperweisbach.CommunityGarden.services.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -28,16 +22,22 @@ public class RestController {
     private UserRolesServices userRolesServices;
     private LeasableServices leasableServices;
     private LeaseServices leaseServices;
+    private PostTagServices postTagServices;
+    private PostServices postServices;
 
     @Autowired
     public RestController(MemberServices memberServices,
                           UserRolesServices userRolesServices,
                           LeasableServices leasableServices,
-                          LeaseServices leaseServices) {
+                          LeaseServices leaseServices,
+                          PostTagServices postTagServices,
+                          PostServices postServices) {
         this.memberServices = memberServices;
         this.userRolesServices = userRolesServices;
         this.leasableServices = leasableServices;
         this.leaseServices = leaseServices;
+        this.postTagServices = postTagServices;
+        this.postServices = postServices;
     }
 
     @GetMapping("/api/users/{userRole}")
@@ -116,8 +116,30 @@ public class RestController {
         return leaseServices.checkUniqueLeasable(leasable);
     };
 
+    @PostMapping("/api/posts/check-title")
+    public Post checkUniquePostTitle(@Param("postTitle") String postTitle){
+        log.warn("String for title " + postTitle);
+//        String[] myTitles = postTitle.split(",");
+//        postTitle = myTitles[myTitles.length-1];
+        log.warn(postTitle);
+        return postServices.checkUniquePostTitle(postTitle);
+    };
+
+    @PostMapping("/api/posts/check-title-id")
+    public Post checkUniquePostTitleId(@Param("id") Integer id, @Param("postTitle") String postTitle){
+        log.warn("String for title " + postTitle);
+        log.warn("Int for id " + id);
+        log.warn(postTitle);
+        return postServices.checkUniquePostTitleId(id, postTitle);
+    };
+
+
+    @PostMapping("/api/posts/add-new-tags")
+    public Post addNewPostTags(@Param("postTags") String[] postTags){
+        log.warn("Reached post tags");
+        log.warn(String.valueOf(postTags.length));
+        return postTagServices.savePostTagsFromList(postTags);
+    }
 
     public String notCurrentUser() {return null;};
-
-
 }

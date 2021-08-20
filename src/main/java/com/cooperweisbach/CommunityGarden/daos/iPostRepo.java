@@ -15,4 +15,8 @@ public interface iPostRepo extends JpaRepository<Post, Integer> {
     List<Post> getAllByPostTagList_PostTagTitle(String postTagTitle);
 
     void deleteByPostId(Integer integer);
+    Post findByPostTitle(String title);
+    Post findByPostId(int id);
+
 }
+

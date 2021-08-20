@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Post To Delete</h1>
+<h2>Post Info</h2>
+<p>Post ID: <p th:text="${postToDelete.postId}"></p></p>
+<p>Member Name: <p th:text="${postToDelete.member.getFullName()}"></p></p>
+<p>Post Status: <p th:text="${postToDelete.postStatus} ? ${postToDelete.postStatus.postStatus}: 'Status Not Set'"></p></p>
+<p>Post Title: <p th:text="${postToDelete.postTitle}"></p></p>
+<!--<p>Member Phone Number: <p th:text="${postToDelete.}"></p></p>-->
+<!--<p>Member Roles: <p th:text="${postToDelete.convertUserRolesListToString()} ?: 'User Roles Not Set'"></p></p>-->
+
+<form th:action="@{/admin/posts/delete-approved}" method="post" th:object="${postToDelete}">
+    <input th:field="*{postId}" th:value="${postToDelete.postId}" type="text" hidden/>
+    <h1 th:text="'Are you sure you\'d like to delete' + ${postToDelete.postId}"></h1>
+    <input type="submit" value="Delete"/>
+</form>
+
+<script>
+    // Make sure you can't delete yourself
+
+</script>
+</body>
+</html>

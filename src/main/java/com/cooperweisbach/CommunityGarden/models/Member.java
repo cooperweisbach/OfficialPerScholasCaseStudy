@@ -76,7 +76,7 @@ public class Member {
     //This is the case because the element with the Join Table annotation is declaring the join table from its POV
     //Here, the join column is a member_id while the inverse join column is role_id.
     //Cascade All
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "member_role",
             joinColumns = { @JoinColumn(name = "member_id") },
@@ -85,8 +85,16 @@ public class Member {
     List<UserRoles> userRoles;
 
 
+    @OneToMany(mappedBy = "member", cascade=CascadeType.ALL, orphanRemoval = true)
+    List<Lease> leases;
+
+
     public String convertUserRolesListToString(){
         return userRoles.stream().map(userRole -> userRole.getUserRoleName()).collect(Collectors.joining(","));
+    }
+
+    public String getFullName(){
+        return firstName + ' ' + lastName;
     }
 
 }

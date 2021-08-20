@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+</head>
+<body>
+<h1>Post To Create</h1>
+
+<form th:action="@{/admin/posts/create-approved}" method="post" id="createLeaseForm">
+        <label for="postTitle">Post Title:</label>
+        <input type="text" class="postTitle" id="postTitle" th:field="*{postToCreate.postTitle}"  required/>
+        <label for="postContent">Post Content:</label>
+        <textarea id="postContent" th:field="*{postToCreate.postContent}" rows="6" maxlength="3000" required></textarea>
+
+    <table>
+        <thead>
+        <th>
+            <td>Post Tags</td>
+        </th>
+        </thead>
+        <tbody id="tagContainer">
+        <tr th:each="tag:${allTags}">
+            <td>
+                <input class="postTags" th:field="*{postToCreate.postTagList}" th:value="${tag.postTagId}" type="checkbox" th:id="${tag.postTagId}" name="postTag" th:attr="data-post-tag=${tag.postTagTitle}"/>
+                <label th:for="${tag.postTagId}" th:text="${tag.postTagTitle}">Label</label>
+            </td>
+        </tr>
+        <tr id="tagRow">
+                <input hidden th:field="${newTagsStringList.newPostTagTitles}" id="newTagContainer" />
+        </tr>
+        <tr>
+            <td>
+                <input type="text" id="newPostTag"/>
+                <label for="newPostTag">New Post Tag: </label>
+                <button id="submitNewTag" >Add New Tag </button>
+                <span>(10 Max)</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+        <th>
+        <td>Post Author</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="member:${allMembers}">
+            <td>
+                <input class="postMember" th:field="*{postToCreate.member}" th:value="${member.memberId}" type="radio" th:id="${member.memberId}" name="postMember" />
+                <label th:for="${member.memberId}" th:text="${member.getFullName()}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table>
+        <thead>
+        <th>
+        <td>Post Status</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="postStatus:${postStatuses}">
+            <td>
+                <input class="postStatus" th:field="*{postToCreate.postStatus}" th:value="${postStatus.postStatusId}" type="radio" th:id="${postStatus.postStatus}" name="status" />
+                <label th:for="${postStatus.postStatus}" th:text="${postStatus.postStatus}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Create Post"/>
+    <input type="reset" value="Reset Details"/>
+</form>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let newTagsStringList = /*[[${newTagsStringList}]]*/ 'default';
+    let counter = 0;
+    let myForm = document.querySelector("#createLeaseForm");
+    let addTagInputBox = document.querySelector("#newPostTag");
+    let addTagButton = document.querySelector("#submitNewTag");
+    let tagContainer = document.querySelector("#tagRow");
+    let formData = new FormData();
+    let postTags;
+    let member;
+    let postTitle;
+    let stringList = [];
+    let newTitleHolder = document.querySelector("#newTagContainer");
+
+    addTagButton.addEventListener("click", function(event){
+        event.preventDefault();
+        let newTagValue = $("#newPostTag").val();
+        if(newTagValue != "") {
+            console.log(newTagValue);
+            let newSpan = document.createElement("span");
+            newSpan.appendChild(document.createTextNode(newTagValue));
+            // newSpan.setAttribute("th:value", newTagValue);
+            newSpan.setAttribute("class", "new-post-tag");
+            tagContainer.appendChild(newSpan);
+            $("#newPostTag").val('');
+            // newSpan.setAttribute("th:field", "${postTagList}");
+            // newTagsContainer.newPostTagList[counter].postTagTitle = newTagValue;
+            stringList.push(newTagValue);
+            console.log(stringList);
+            newTitleHolder.setAttribute("value", stringList.join(","));
+            console.log(newTagsStringList);
+            counter++;
+        }
+    })
+
+    myForm.addEventListener("submit", function(event) {
+        let submit = false;
+        // postTags = document.querySelector(".postTags:checked").dataset.postTag;
+        member = document.querySelector(".postMember:checked");
+        postTitle = $("#postTitle").val();
+        console.log(postTitle);
+        if(member != null && postTitle != null) {
+            console.log("passed selection validation")
+            formData.append("postTitle", postTitle);
+            fetch('/api/posts/check-title', {method: 'POST', body: formData})
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    for (let field in data) {
+                        if (field.toString() === "postId") {
+                            if (data[field] == 0) {
+                                // addNewTags();
+                                console.log("title approved");
+                                submit = true;
+                            } else {
+                                console.log("title rejected");
+                            }
+                            break;
+                        }
+                    }
+                    if(submit){
+                        return true;
+                    }
+
+                    return false;
+                });
+        } else{
+            event.preventDefault();
+        }
+
+    });
+
+    function addNewTags(){
+        var newTags = document.querySelectorAll(".new-post-tag");
+        // console.log(newTags);
+        // console.log(newTags.length);
+        var newTagStrings = [];
+        for(let tag = 0; tag < newTags.length; tag++){
+            // console.log(newTags[tag]["innerHTML"]);
+            newTagStrings.push(newTags[tag]["innerHTML"]);
+        }
+        console.log(newTagStrings);
+        if(newTags.length > 0){
+            formData.append("postTags", newTagStrings);
+            fetch("/api/posts/add-new-tags",{method: 'POST', body: formData})
+                .then(response => response.json())
+                .then(data => console.log(data));
+        }
+    }
+
+    // function addTag(){
+    //     var newTag = document.querySelectorAll(".new-post-tag");
+    //     newTag.length;
+    //
+    //     return
+    //
+    // }
+
+    /*]]>*/
+</script>
+</body>
+</html>

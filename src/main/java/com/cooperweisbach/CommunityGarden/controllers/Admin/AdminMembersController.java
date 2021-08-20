@@ -151,36 +151,4 @@ public class AdminMembersController {
         return new ModelAndView("redirect:/admin/users");
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    @GetMapping("/admin/posts")
-    public String adminGetAllPosts(Model m){
-        m.addAttribute("allPosts", postServices.getAllPosts());
-        return "admin/posts/posts";
-    }
-    @GetMapping("/admin/images")
-    public String adminGetAllImages(Model m){
-        m.addAttribute("allImages", imageServices.getAllImages());
-        return "admin/images/images";
-    }
-    @GetMapping("/admin/payments")
-    public String adminGetAllPayments(Model m){
-        m.addAttribute("allPayments", paymentServices.getAllPayments());
-        return "admin/payments/payments";
-    }
-    @GetMapping("/admin/message-threads")
-    public String adminGetAllMessageThreads(Model m){
-        m.addAttribute("allMessageThreads", messageThreadServices.getAllMessageThreads());
-        return "admin/message-threads/message-threads";
-    }
-
 }
