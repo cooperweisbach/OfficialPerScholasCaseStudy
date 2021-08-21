@@ -16,7 +16,7 @@ import java.util.Set;
 
 @org.springframework.web.bind.annotation.RestController
 @Slf4j
-public class RestController {
+public class AdminRestController {
 
     private MemberServices memberServices;
     private UserRolesServices userRolesServices;
@@ -26,12 +26,12 @@ public class RestController {
     private PostServices postServices;
 
     @Autowired
-    public RestController(MemberServices memberServices,
-                          UserRolesServices userRolesServices,
-                          LeasableServices leasableServices,
-                          LeaseServices leaseServices,
-                          PostTagServices postTagServices,
-                          PostServices postServices) {
+    public AdminRestController(MemberServices memberServices,
+                               UserRolesServices userRolesServices,
+                               LeasableServices leasableServices,
+                               LeaseServices leaseServices,
+                               PostTagServices postTagServices,
+                               PostServices postServices) {
         this.memberServices = memberServices;
         this.userRolesServices = userRolesServices;
         this.leasableServices = leasableServices;

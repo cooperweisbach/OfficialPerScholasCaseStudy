@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Date;
 
 @Slf4j
@@ -173,6 +174,7 @@ public class AppRunner implements CommandLineRunner {
             leaseRepo.save(lease);
             leasableRepo.getLeasableByLeasableId((int)ll[i][1]).setLeasableStatus(leasableStatusRepo.getByLeasableStatus("leased"));
         }
+
 //
 //        MessageThread messageThread;
 //        Object[][] mt = {{}};
@@ -184,7 +186,7 @@ public class AppRunner implements CommandLineRunner {
 //        Object[][] i = {{}};
 
 
-
+//
 
 
     }

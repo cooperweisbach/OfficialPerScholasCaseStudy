@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Image To Delete</h1>
+<h2>Image Info</h2>
+<p>Image ID: <p th:text="${imageToDelete.imageId}"></p></p>
+<p>Image Member: <p th:text="${imageToDelete.imageUploadName} "></p></p>
+<p>Image Status: <p th:text="${imageToDelete.imageDescription} ? ${imageToDelete.imageDescription}: 'Description Not Avialable'"></p></p>
+<p>Image Type: <p th:text="${imageToDelete.imageType}"></p></p>
+
+<form th:action="@{/admin/images/delete-approved}" method="post" th:object="${imageToDelete}">
+    <input th:field="*{imageId}" th:value="${imageToDelete.imageId}" type="text" hidden/>
+    <h1 th:text="'Are you sure you\'d like to delete' + ${imageToDelete.imageId}"></h1>
+    <input type="submit" value="Delete"/>
+</form>
+
+<script>
+    // Make sure you can't delete yourself
+
+</script>
+</body>
+</html>

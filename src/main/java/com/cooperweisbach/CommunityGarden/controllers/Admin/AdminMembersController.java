@@ -49,22 +49,6 @@ public class AdminMembersController {
         this.messageThreadServices = messageThreadServices;
     }
 
-    @GetMapping("/")
-    public String home(Model m){
-        long memberCount = memberServices.memberCount();
-        log.warn(String.valueOf(memberCount));
-        m.addAttribute("totalMembers", memberCount);
-        m.addAttribute("typeTreeMap", (Map<String, Long>)leasableServices.getLeasableCountsByType());
-
-//        for(Map.Entry<String, Long>   e: leasableServices.getLeasableCountsByType().entrySet()){
-//            log.warn(e.getKey() + " " + e.getValue());
-//            m.addAttribute(e.getKey(), e.getValue());
-//        }
-        return "template";
-    }
-
-
-
     ////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////Admin RequestHandlers To Get READ Data/////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////

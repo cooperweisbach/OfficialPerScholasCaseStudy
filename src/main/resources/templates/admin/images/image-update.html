@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+</head>
+<body>
+<h1>Lease To Update</h1>
+
+<form th:action="@{/admin/images/update-approved}" method="post" id="updateLeaseForm" th:object="${imageToUpdate}">
+    <!--    <label for="imageCode">Lease Code:</label>-->
+    <!--    <input type="text" id="imageCode" th:field="*{imageCode}"  required/>-->
+    <!--    <label for="imageSize">Lease Size:</label>-->
+    <!--    <input type="text" id="imageSize" th:field="*{imageSize}" required/>-->
+        <p th:text="${imageToUpdate.imageUploadName}"></p>
+        <label for="imageDescription">Image Description:</label>
+        <textarea type="text" id="imageDescription" th:field="*{imageDescription}" />
+    <input hidden type="text" id="imageId" th:field="*{imageId}" th:value="${imageToUpdate.imageId}"/>
+    <table>
+        <thead>
+        <th>
+        <td>Image Type</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="type:${imageTypes}">
+            <td>
+                <input class="types" type="checkbox" name="imageleasable" th:field="*{imageType}" th:value="${type.imageTypeId}" th:id="${type.imageTypeId}"  th:attr="data-image-type=${type.imageType}"/>
+                <label th:for="${type.imageTypeId}" th:text="${type.imageType}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Update Image"/>
+    <input type="reset" value="Reset Details"/>
+</form>
+
+<script>
+    // var myForm = document.querySelector("#updateLeaseForm");
+    // var imageId = window.location.href.toString().split("/").reverse()[0];
+    // console.log("Updating image: " + imageId);
+    // var formData = new FormData();
+    // var leasable;
+
+    // myForm.addEventListener("submit", function(event) {
+    //     event.preventDefault();
+    //     leasable = document.querySelector(".leasables:checked").dataset.leasableCode;
+    //     formData.append("leasable", leasable);
+    //     formData.append("id", imageId);
+    // fetch('/api/images/check-leasable-id', {method: 'POST', body: formData})
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         for (let field in data) {
+    //             console.log(field);
+    //             if (field.toString() === "imageId") {
+    //                 if (data[field] == 0) {
+    //                     console.log("code approved");
+    //                     event.preventDefault();
+    //                     return false;
+    //                     // return true;
+    //                 } else {
+    //                     console.log("code rejected");
+    //                     event.preventDefault();
+    //                     return false;
+    //                 }
+    //             }
+    //         }
+    //         console.log("error");
+    //         return false;
+    //     });
+    // });
+
+</script>
+</body>
+</html>

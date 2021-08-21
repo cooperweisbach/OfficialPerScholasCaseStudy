@@ -34,6 +34,9 @@ public class Image {
     @Column(name="upload_date")
     Date uploadDate = new Timestamp(new Date().getTime());
 
+    @Column(name="image_description")
+    String imageDescription;
+
     ///////////////////MAPPINGS///////////////////////////
 
     //https://vladmihalcea.com/manytoone-jpa-hibernate/

@@ -25,4 +25,14 @@ public class ImageServices {
         return imageRepo.findAll();
     }
 
+    public void save(Image image){imageRepo.save(image);}
+
+    public Image getImageById(int id){
+        return imageRepo.getById(id);
+    }
+
+    public void deleteById(int id){
+        imageRepo.deleteById(id);
+    }
+
 }

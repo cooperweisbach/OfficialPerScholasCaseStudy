@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 </head>
 <body>
 <div>
-    <form th:action="@{/templates/admin}" method="get">
+    <form th:action="@{/admin}" method="get">
         <input type="submit" value="Dashboard">
     </form>
     <form th:action="@{/admin/users}" method="get">
         <input type="submit" value="Members">
     </form>
-    <form th:action="@{/templates/admin/leasables}" method="get">
+    <form th:action="@{/admin/leasables}" method="get">
         <input type="submit" value="Leasables">
     </form>
     <form th:action="@{/admin/leases}" method="get">
@@ -24,38 +25,79 @@
     <form th:action="@{/admin/message-threads}" method="get">
         <input type="submit" value="Message Threads">
     </form>
-    <form th:action="@{/templates/admin/images}" method="get">
+    <form th:action="@{/admin/images}" method="get">
         <input type="submit" value="Images">
     </form>
     <form th:action="@{/admin/payments}" method="get">
         <input type="submit" value="Payments">
     </form>
-    <div th:unless="${#lists.isEmpty(allImages)}">
-        <table th:each="image :${allImages}">
-            <tr>
-                <td th:text="${image.imageId}"></td>
-                <td th:text="${image.imageUploadName}"></td>
-                <td th:text="${image.uploadDate}"></td>
-                <td th:text="${image.imageType}"></td>
-            </tr>
-        </table>
+
+    <div th:if="${!#lists.isEmpty(allImages)}">
+        <form id="myForm" method="post" th:action="@{/admin/images/}">
+            <table>
+                <thead>
+                <th>
+                <td>Image ID</td>
+                <td>Image Name</td>
+                <td>Upload Date</td>
+                <td>Type</td>
+                <td>Apply Updates</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="image, stat :${allImages}" th:class="${image.imageUploadName}">
+                    <td th:text="${image.imageId}"></td>
+                    <td th:text="${image.imageUploadName}"></td>
+                    <td th:text="${image.uploadDate}"></td>
+                    <td th:text="${image.imageType}"></td>
+<!--                    <td><img th:src="@{image.imageUploadName}" /></td>-->
+                    <td><input type="radio" th:attr="data-member-identification=${image.imageId}" name="imageId" class="updateImage"></td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" id="updateStatus" formaction="/admin/user-status/update" value="Update Types"/>
+            <input type="submit" class="uploadImage" formaction="/admin/images/upload" value="Upload New Image"/>
+            <input type="submit" id="deleteImage" formaction="/admin/images/" value="Delete Image"/>
+            <input type="submit" value="Update Image"/>
+        </form>
+
+        <!--            <span>Filter Images</span>-->
+        <!--            <form>-->
+        <!--                <input type="submit" value="Update"/>-->
+        <!--            </form>-->
+        <!--        </div>-->
     </div>
     <div th:if="${#lists.isEmpty(allImages)}">
-        <p>No results</p>
+        <form action="/admin/images" method="post">
+            <p>No results</p>
+            <input type="submit" class="uploadImage" formaction="/admin/images/upload" value="Upload New Image"/>
+        </form>
     </div>
 </div>
 
-<!--<div th:unless="${#lists.isEmpty(allMembers)}">-->
-<!--    <form th:action="@{/admin/all-users}" method="post" >-->
-<!--        <label for="users">Select User:</label>-->
-<!--        <select name="users" id="users" >-->
-<!--            <option th:each="member :${allMembers}" th:value="${member}" th:text="${member.memberId} + ' ' + ${member.firstName} + ' ' + ${member.lastName}">Member</option>-->
+<!--<div th:unless="${#lists.isEmpty(allImages)}">-->
+<!--    <form th:action="@{/admin/all-images}" method="post" >-->
+<!--        <label for="images">Select Image:</label>-->
+<!--        <select name="images" id="images" >-->
+<!--            <option th:each="member :${allImages}" th:value="${member}" th:text="${member.memberId} + ' ' + ${member.firstName} + ' ' + ${member.lastName}">Image</option>-->
 <!--        </select>-->
-<!--        <input type="submit" value="Select User">-->
+<!--        <input type="submit" value="Select Image">-->
 <!--    </form>-->
 <!--</div>-->
-<!--<div th:unless="${selectedUser==null}">-->
-<!--    <p th:text="'You selected'+ ${selectedUser.firstName}"/>-->
+<!--<div th:unless="${selectedImage==null}">-->
+<!--    <p th:text="'You selected'+ ${selectedImage.firstName}"/>-->
 <!--</div>-->
+<script>
+
+    $(".updateImage").change(function() {
+        var member = document.querySelector(".updateImage:checked").dataset.memberIdentification;
+        console.log(member);
+        var formElement = document.querySelector("#myForm");
+        var deleteButton = document.querySelector("#deleteImage");
+        formElement.setAttribute("action", "/admin/images/update/" + member);
+        deleteButton.setAttribute("formaction", "/admin/images/delete/" + member);
+    });
+
+</script>
 </body>
 </html>
