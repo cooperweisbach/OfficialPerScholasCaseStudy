@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+</head>
+<body>
+<h1>Leasable To Update</h1>
+<h2>Message Thread Info</h2>
+<p>Message Thread ID: <p th:text="${messageThreadToUpdate.messageThreadId}"></p></p>
+<p>Message Thread Name: <p th:text="${messageThreadToUpdate.messageThreadName}"></p></p>
+<p>Message Thread Status: <p th:text="${messageThreadToUpdate.messageThreadStatus} ? ${messageThreadToUpdate.messageThreadStatus.messageThreadStatus}: 'Status Not Set'"></p></p>
+
+<form th:action="@{/admin/message-threads/update-approved}" method="post" id="updateMessageThreadForm" th:object="${messageThreadToUpdate}">
+    <input th:field="*{messageThreadId}" th:value="${messageThreadToUpdate.messageThreadId}" type="text" hidden/>
+    <label for="messageThreadName">Message Thread Name:</label>
+    <input type="text" id="messageThreadName" th:field="*{messageThreadName}"  required/>
+    <table>
+        <thead>
+        <th>
+        <td>Message Thread Status</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="messageThreadStatus:${messageThreadStatuses}">
+            <td>
+                <input th:field="*{messageThreadStatus}" th:value="${messageThreadStatus.messageThreadStatusId}" type="radio" th:id="${messageThreadStatus.messageThreadStatus}" name="status" />
+                <label th:for="${messageThreadStatus.messageThreadStatus}" th:text="${messageThreadStatus.messageThreadStatus}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Update"/>
+    <input type="reset" value="Reset Changes"/>
+</form>
+
+<script>
+
+    var id = window.location.href.toString().split("/").reverse()[0]
+    var myForm = document.querySelector("#updateMessageThreadForm");
+
+    var formData = new FormData();
+    formData.append("id", id);
+    // formData.append("email", email);
+
+    console.log(myForm);
+
+    myForm.addEventListener("submit", function(event) {
+
+        var messageThreadName = $("#messageThreadName").val().toString().split(",").reverse()[0];
+        formData.append("messageThreadName", messageThreadName);
+        fetch('/api/message-threads/check-name-id', {method: 'POST', body: formData})
+            .then(response => response.json())
+            .then(data => {
+                for(let field in data){
+                    if(field.toString() === "messageThreadId"){
+                        if(data[field] == id) {
+                            console.log("messageThreadName approved");
+                            return true;
+                        } else{
+                            event.preventDefault();
+                            console.log("messageThreadName rejected");
+                            return false;
+                        }
+                    }
+                }
+                console.log("error");
+                event.preventDefault();
+                return false;
+            });
+    });
+
+</script>
+</body>
+</html>

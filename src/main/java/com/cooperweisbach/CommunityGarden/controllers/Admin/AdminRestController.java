@@ -24,6 +24,7 @@ public class AdminRestController {
     private LeaseServices leaseServices;
     private PostTagServices postTagServices;
     private PostServices postServices;
+    private MessageThreadServices messageThreadServices;
 
     @Autowired
     public AdminRestController(MemberServices memberServices,
@@ -31,13 +32,15 @@ public class AdminRestController {
                                LeasableServices leasableServices,
                                LeaseServices leaseServices,
                                PostTagServices postTagServices,
-                               PostServices postServices) {
+                               PostServices postServices,
+                               MessageThreadServices messageThreadServices) {
         this.memberServices = memberServices;
         this.userRolesServices = userRolesServices;
         this.leasableServices = leasableServices;
         this.leaseServices = leaseServices;
         this.postTagServices = postTagServices;
         this.postServices = postServices;
+        this.messageThreadServices = messageThreadServices;
     }
 
     @GetMapping("/api/users/{userRole}")
@@ -139,6 +142,17 @@ public class AdminRestController {
         log.warn("Reached post tags");
         log.warn(String.valueOf(postTags.length));
         return postTagServices.savePostTagsFromList(postTags);
+    }
+
+
+    @PostMapping("/api/message-threads/check-thread-name")
+    public MessageThread uniqueThreadName(@Param("messageThreadName") String messageThreadName){
+        return messageThreadServices.checkUnqiueThreadName(messageThreadName);
+    }
+
+    @PostMapping("/api/message-threads/check-name-id")
+    public MessageThread uniqueThreadNameId(@Param("id") Integer id, @Param("messageThreadName") String messageThreadName){
+        return messageThreadServices.checkUnqiueThreadNameId(id, messageThreadName);
     }
 
     public String notCurrentUser() {return null;};

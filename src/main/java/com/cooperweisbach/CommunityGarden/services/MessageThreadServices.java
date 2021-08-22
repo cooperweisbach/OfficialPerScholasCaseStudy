@@ -24,5 +24,36 @@ public class MessageThreadServices {
     public List<MessageThread> getAllMessageThreads(){
         return messageThreadRepo.findAll();
     }
+
+    public void save(MessageThread messageThread){messageThreadRepo.save(messageThread);}
+
+    public MessageThread getMessageThreadById(Integer id) {
+        return messageThreadRepo.getById(id);
+    }
+
+    public void deleteByID(int messageThreadId) {
+        messageThreadRepo.deleteById(messageThreadId);
+    }
+
+    public MessageThread checkUnqiueThreadName(String messageThreadName) {
+        MessageThread byName = messageThreadRepo.getMessageThreadByMessageThreadName(messageThreadName);
+        if(byName == null){
+            return new MessageThread();
+        }
+        return byName;
+    }
+
+    public MessageThread checkUnqiueThreadNameId(Integer id, String messageThreadName) {
+        MessageThread byName = messageThreadRepo.getMessageThreadByMessageThreadName(messageThreadName);
+        MessageThread byId = messageThreadRepo.getMessageThreadByMessageThreadId(id);
+        if(byName == null){
+            return byId;
+        } else if(byName != byId) {
+            return byName;
+        } else {
+            return byId;
+        }
+
+    }
 }
 

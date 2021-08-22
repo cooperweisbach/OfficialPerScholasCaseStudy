@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Message Thread To Delete</h1>
+<h2>Message Thread Info</h2>
+<p>Message Thread ID: <p th:text="${messageThreadToDelete.messageThreadId}"></p></p>
+<p>Message Thread Name: <p th:text="${messageThreadToDelete.messageThreadName}"></p></p>
+<p>Message Thread Status: <p th:text="${messageThreadToDelete.messageThreadStatus} ? ${messageThreadToDelete.messageThreadStatus.messageThreadStatus}: 'Status Not Set'"></p></p>
+
+<form th:action="@{/admin/message-threads/delete-approved}" method="post" th:object="${messageThreadToDelete}">
+    <input th:field="*{messageThreadId}" th:value="${messageThreadToDelete.messageThreadId}" type="text" hidden/>
+    <h1 th:text="'Are you sure you\'d like to delete' + ${messageThreadToDelete.messageThreadId}"></h1>
+    <input type="submit" value="Delete"/>
+</form>
+
+<script>
+    // Make sure you can't delete yourself
+
+</script>
+</body>
+</html>

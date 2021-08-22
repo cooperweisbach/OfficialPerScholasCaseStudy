@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
 </head>
 <body>
 <div>
@@ -32,31 +34,40 @@
     </form>
 
     <div th:unless="${#lists.isEmpty(allMessageThreads)}">
+        <form id="myForm" method="post" th:action="@{/admin/message-threads}">
         <table th:each="messageThread :${allMessageThreads}">
             <tr>
                 <td th:text="${messageThread.messageThreadId}"></td>
                 <td th:text="${messageThread.messageThreadName}"></td>
                 <td th:text="${messageThread.messageThreadCreation}"></td>
                 <td th:text="${messageThread.messageThreadStatus.messageThreadStatus}"></td>
+                <td><input type="radio" th:attr="data-message-thread-identification=${messageThread.messageThreadId}" name="messageThreadId" class="updateMessageThread"></td>
             </tr>
         </table>
+        <input type="submit" id="updateStatus" formaction="/admin/message-threads-status/update" value="Update Statuses"/>
+        <input type="submit" id="createMessageThread" formaction="/admin/message-threads/create" value="Create New Message Thread"/>
+        <input type="submit" id="deleteMessageThread" formaction="/admin/message-threads/" value="Delete Message Thread"/>
+        <input type="submit" value="Update Message Thread"/>
+        </form>
     </div>
     <div th:if="${#lists.isEmpty(allMessageThreads)}">
-        <p>No results</p>
+        <form method="post">
+            <p>No results</p>
+            <input type="submit" class="createMessageThread" formaction="/admin/message-threads/create" value="Create New Message Thread"/>
+        </form>
     </div>
-</div>
 
-<!--<div th:unless="${#lists.isEmpty(allMembers)}">-->
-<!--    <form th:action="@{/admin/all-users}" method="post" >-->
-<!--        <label for="users">Select User:</label>-->
-<!--        <select name="users" id="users" >-->
-<!--            <option th:each="member :${allMembers}" th:value="${member}" th:text="${member.memberId} + ' ' + ${member.firstName} + ' ' + ${member.lastName}">Member</option>-->
-<!--        </select>-->
-<!--        <input type="submit" value="Select User">-->
-<!--    </form>-->
-<!--</div>-->
-<!--<div th:unless="${selectedUser==null}">-->
-<!--    <p th:text="'You selected'+ ${selectedUser.firstName}"/>-->
-<!--</div>-->
+</div>
+<script>
+    $(".updateMessageThread").change(function() {
+        let messageThread = document.querySelector(".updateMessageThread:checked").dataset.messageThreadIdentification;
+        console.log(messageThread);
+        let formElement = document.querySelector("#myForm");
+        let deleteButton = document.querySelector("#deleteMessageThread");
+        formElement.setAttribute("action", "/admin/message-threads/update/" + messageThread);
+        deleteButton.setAttribute("formaction", "/admin/message-threads/delete/" + messageThread);
+    });
+</script>
+
 </body>
 </html>

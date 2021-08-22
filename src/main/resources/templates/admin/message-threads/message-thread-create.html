@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+</head>
+<body>
+<h1>Message Thread To Create</h1>
+
+<form th:action="@{/admin/message-threads/create-approved}" method="post" id="createMessageThreadForm" th:object="${messageThreadToCreate}">
+    <label for="messageThreadName">Message Thread Name:</label>
+    <input type="text" id="messageThreadName" th:field="*{messageThreadName}"  required/>
+    <table>
+        <thead>
+        <th>
+        <td>Message Thread Status</td>
+        </th>
+        </thead>
+        <tbody>
+        <tr th:each="threadStatus:${messageThreadStatuses}">
+            <td>
+                <input th:field="*{messageThreadStatus}" th:value="${threadStatus.messageThreadStatusId}" type="radio" th:id="${threadStatus.messageThreadStatus}" name="status" />
+                <label th:for="${threadStatus.messageThreadStatus}" th:text="${threadStatus.messageThreadStatus}">Label</label>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <input type="submit" value="Create Message Thread"/>
+    <input type="reset" value="Reset Details"/>
+</form>
+
+<script>
+
+    var myForm = document.querySelector("#createMessageThreadForm");
+    var formData = new FormData();
+
+    console.log(myForm);
+
+    myForm.addEventListener("submit", function(event) {
+        // event.preventDefault();
+        var messageThreadName = $("#messageThreadName").val().toString().split(",").reverse()[0];
+        formData.append("messageThreadName", messageThreadName);
+        fetch('/api/message-threads/check-thread-name', {method: 'POST', body: formData})
+            .then(response => response.json())
+            .then(data => {
+                for(let field in data){
+                    if(field.toString() === "messageThreadId"){
+                        if(data[field] == 0) {
+                            console.log("name approved");
+                            return true;
+                        } else{
+                            event.preventDefault();
+                            console.log("name rejected");
+                            return false;
+                        }
+                    }
+                }
+                event.preventDefault();
+                console.log("error");
+                return false;
+            });
+    });
+
+</script>
+</body>
+</html>

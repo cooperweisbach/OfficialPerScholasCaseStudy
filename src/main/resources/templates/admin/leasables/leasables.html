@@ -68,21 +68,8 @@
     <div th:if="${#lists.isEmpty(allLeasables)}">
         <p>No results</p>
     </div>
+    </div>
 </div>
-</div>
-
-<!--<div th:unless="${#lists.isEmpty(allMembers)}">-->
-<!--    <form th:action="@{/admin/all-users}" method="post" >-->
-<!--        <label for="users">Select User:</label>-->
-<!--        <select name="users" id="users" >-->
-<!--            <option th:each="member :${allMembers}" th:value="${member}" th:text="${member.memberId} + ' ' + ${member.firstName} + ' ' + ${member.lastName}">Member</option>-->
-<!--        </select>-->
-<!--        <input type="submit" value="Select User">-->
-<!--    </form>-->
-<!--</div>-->
-<!--<div th:unless="${selectedUser==null}">-->
-<!--    <p th:text="'You selected'+ ${selectedUser.firstName}"/>-->
-<!--</div>-->
     <script>
         $(".updateLeasable").change(function() {
             var leasable = document.querySelector(".updateLeasable:checked").dataset.leasableIdentification;

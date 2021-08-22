@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @Slf4j
@@ -47,4 +48,11 @@ public class AdminPaymentController {
         m.addAttribute("allPayments", paymentServices.getAllPayments());
         return "admin/payments/payments";
     }
+
+    @PostMapping("/admin/payments")
+    public String adminGetAllPaymentsPost(Model m){
+        m.addAttribute("allPayments", paymentServices.getAllPayments());
+        return "admin/payments/payments";
+    }
+
 }
