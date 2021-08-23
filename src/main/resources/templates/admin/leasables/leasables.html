@@ -2,6 +2,7 @@
 <html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/styles/leasables.css}"/>
     <title>Title</title>
     <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 </head>
@@ -65,10 +66,89 @@
             <input type="submit" value="Update Leasable"/>
         </form>
 
-    <div th:if="${#lists.isEmpty(allLeasables)}">
-        <p>No results</p>
+        <div th:if="${#lists.isEmpty(allLeasables)}">
+            <p>No results</p>
+        </div>
     </div>
+    <div class="flex center" id="configuration-builder-container">
+        <div class="flex column beauty-padding grow">
+            <form class="flex column beauty-padding grow" id="leftSideCanvasControls" action="#" method="GET">
+                <label for="this-configuration">Name of Configuration:</label>
+                <input type='text' id="this-configuration"/>
+                <span>
+                        <input type="checkbox"/>
+                        <label>Publish</label>
+                    </span>
+                <input type="submit" id="submit-this-configuration"/>
+            </form>
+            <select>
+                <option selected>View Saved Configurations</option>
+                <option></option>
+                <option></option>
+                <option></option>
+            </select>
+        </div>
+        <div class="flex column beauty-padding grow">
+            <div class="flex grow" id="aboveCanvasControls">
+                <button id="toggleGrid">Grid Toggle</button>
+                <select id="plotSelector">
+                    <option class="plotOption" id="defaultSelectPlotOption" value="Default">Plots To Add</option>
+                    <option th:each="leasable:${allLeasables}" class="plotOption" th:id="${leasable.leasableCode}" th:value="${leasable.leasableCode}" th:text="${leasable.leasableCode} "></option>
+<!--                    <option class="plotOption" id="OP1" value="OP1">OP1</option>-->
+<!--                    <option class="plotOption" id="OP2" value="OP2">OP2</option>-->
+<!--                    <option class="plotOption" id="OP3" value="OP3">OP3</option>-->
+<!--                    <option class="plotOption" id="OP4" value="OP4">OP4</option>-->
+<!--                    <option class="plotOption" id="OP5" value="OP5">OP5</option>-->
+<!--                    <option class="plotOption" id="OP6" value="OP6">OP6</option>-->
+<!--                    <option class="plotOption" id="OP7" value="OP7">OP7</option>-->
+<!--                    <option class="plotOption" id="OP8" value="OP8">OP8</option>-->
+<!--                    <option class="plotOption" id="OP9" value="OP9">OP9</option>-->
+                </select>
+                <button id="addPlotButton">Add Selected Plot</button>
+                <button id="deletePlotButton">Delete Selected</button>
+                <span class="hiddenAddPlotNotifications" id="noPlotSelectedOnAdd">Please select a plot to add</span>
+                <span class="hiddenAddPlotNotifications" id="noPlotsToSelectOnAdd">No more plots to add, please create a new leasable</span>
+            </div>
+            <canvas id="myCanvas" style="border:1px solid #000000;">
+
+            </canvas>
+        </div>
+        <div class="flex column beauty-padding grow" id="rightSideCanvasControls">
+            <label for="grid-size">Grid Size:</label>
+            <input type="number" id="grid-size" min="10" value="20" step="5"/>
+            <label>Additional Elements</label>
+            <select>
+                <option class="extraOption" id="defaultExtraOption" value="Default">Add Element</option>
+                <option class="extraOption" id="extraRectArea" value="1">Rect Area</option>
+                <option class="extraOption" id="extraCircleArea" value="2">Circle Area</option>
+                <option class="extraOption" id="extraTextbox" value="3">Textbox</option>
+                <option class="extraOption" id="extraDottedLine" value="4">Dotted Line</option>
+
+            </select>
+            <button id="addExtraButton">Add Extra</button>
+
+            <div class="flex column beauty-padding" id="selectedObjectInfoDiv">
+                <div id="selectedObjectIdHeader">
+                    <span>Selected</span>
+                </div>
+                <label for="adjustSelectedByBorder">Scale Shape Manually</label>
+                <input id="adjustSelectedByBorder" type="checkbox"/>
+                <label for="selectedObjectWidth">Width</label>
+                <div class="flex">
+                    <input type="button" value="-" id="sizeMinusStepWidth">
+                        <input type="type" id="selectedObjectWidth" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
+                    <input type="button" value="+"id="sizePlusStepWidth">
+                </div>
+                <label for="selectedObjectHeight">Height</label>
+                <div class="flex">
+                    <input type="button" value="-" id="sizeMinusStepHeight">
+                        <input type="type" id="selectedObjectHeight" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
+                    <input type="button" value="+"id="sizePlusStepHeight">
+                </div>
+            </div>
+        </div>
     </div>
+
 </div>
     <script>
         $(".updateLeasable").change(function() {
@@ -79,6 +159,7 @@
             deleteButton.setAttribute("formaction", "/admin/leasables/delete/" + leasable);
         });
     </script>
-
+    <script th:src="@{/js/fabric.min.js}" async defer></script>
+    <script th:src="@{/js/leasables.js}" async defer></script>
 </body>
 </html>

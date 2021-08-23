@@ -1,0 +1,22 @@
+.flex{
+    display: flex;
+}
+.column{
+    flex-direction: column;
+}
+
+.beauty-padding{
+    padding: 0 10px;
+}
+
+.center{
+    justify-content: center;
+}
+
+.grow{
+    flex:1;
+}
+
+.hiddenAddPlotNotifications {
+    visibility: hidden;
+}
