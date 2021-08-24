@@ -1,6 +1,7 @@
 package com.cooperweisbach.CommunityGarden.controllers.Admin;
 
 
+import com.cooperweisbach.CommunityGarden.models.Configuration;
 import com.cooperweisbach.CommunityGarden.models.Leasable;
 import com.cooperweisbach.CommunityGarden.models.Member;
 import com.cooperweisbach.CommunityGarden.services.*;
@@ -31,6 +32,7 @@ public class AdminLeasableController {
     private ImageServices imageServices;
     private PaymentServices paymentServices;
     private MessageThreadServices messageThreadServices;
+    private ConfigurationServices configurationServices;
 
     @Autowired
     public AdminLeasableController(MemberServices memberServices,
@@ -41,7 +43,8 @@ public class AdminLeasableController {
                                   PostServices postServices,
                                   ImageServices imageServices,
                                   PaymentServices paymentServices,
-                                  MessageThreadServices messageThreadServices) {
+                                  MessageThreadServices messageThreadServices,
+                                   ConfigurationServices configurationServices) {
         this.memberServices = memberServices;
         this.leasableServices = leasableServices;
         this.leasableStatusServices = leasableStatusServices;
@@ -51,6 +54,7 @@ public class AdminLeasableController {
         this.imageServices = imageServices;
         this.paymentServices = paymentServices;
         this.messageThreadServices = messageThreadServices;
+        this.configurationServices = configurationServices;
     }
 
 
@@ -62,12 +66,16 @@ public class AdminLeasableController {
     @GetMapping("/admin/leasables")
     public String adminGetAllLeasables(Model m){
         m.addAttribute("allLeasables", leasableServices.getAllLeasables());
+        m.addAttribute("newConfig", new Configuration());
+        m.addAttribute("savedConfigurations", configurationServices.getAllConfigurations());
         return "admin/leasables/leasables";
     }
 
     @PostMapping("/admin/leasables")
     public String adminGetAllLeasablesPost(Model m){
         m.addAttribute("allLeasables", leasableServices.getAllLeasables());
+        m.addAttribute("newConfig", new Configuration());
+        m.addAttribute("savedConfigurations", configurationServices.getAllConfigurations());
         return "admin/leasables/leasables";
     }
 

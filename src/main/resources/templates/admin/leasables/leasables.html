@@ -71,22 +71,29 @@
         </div>
     </div>
     <div class="flex center" id="configuration-builder-container">
-        <div class="flex column beauty-padding grow">
-            <form class="flex column beauty-padding grow" id="leftSideCanvasControls" action="#" method="GET">
-                <label for="this-configuration">Name of Configuration:</label>
-                <input type='text' id="this-configuration"/>
-                <span>
-                        <input type="checkbox"/>
-                        <label>Publish</label>
-                    </span>
-                <input type="submit" id="submit-this-configuration"/>
-            </form>
+        <div class="flex column beauty-padding grow" id="leftSideCanvasControls">
+<!--            <form class="flex column beauty-padding grow" id="saveConfigurationForm" action="/admin/leasables/leasables" method="post" th:object="${newConfiguration}">-->
+<!--                <label for="this-configuration-name">Name of Configuration:</label>-->
+<!--                <input type='text' id="this-configuration-name" th:field="*{configurationName}"/>-->
+<!--                <span>-->
+<!--                        <input type="checkbox"/>-->
+<!--                        <label>Publish</label>-->
+<!--                    </span>-->
+<!--                <input type="submit" id="submit-this-configuration" value="Save"/>-->
+<!--            </form>-->
+            <input hidden value="0" th:field="${newConfig.configurationId}" id="configuration-id"/>
+            <label for="configuration-name">Name of Configuration:</label>
+            <input type='text' id="configuration-name" th:field="*{newConfig.configurationName}"/>
+            <span>
+                    <input type="checkbox" id="publish-configuration" th:field="*{newConfig.published}"/>
+                    <label>Publish</label>
+            </span>
+            <button id="save-configuration">Save</button>
             <select>
-                <option selected>View Saved Configurations</option>
-                <option></option>
-                <option></option>
-                <option></option>
+                <option value="default" selected>Saved Configurations</option>
+                <option th:each="configuration:${savedConfigurations}" th:text="${configuration.configurationName}" th:value="${configuration.jsonification}"></option>
             </select>
+            <button id="load-saved-configuration">Load</button>
         </div>
         <div class="flex column beauty-padding grow">
             <div class="flex grow" id="aboveCanvasControls">
@@ -160,6 +167,6 @@
         });
     </script>
     <script th:src="@{/js/fabric.min.js}" async defer></script>
-    <script th:src="@{/js/leasables.js}" async defer></script>
+    <script th:src="@{/js/admin/leasables.js}" async defer></script>
 </body>
 </html>

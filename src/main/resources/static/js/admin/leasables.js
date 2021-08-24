@@ -2,7 +2,12 @@
 
 let gridState = false;
 var unitScale = 5;
-
+const publishConfig = document.querySelector("#publish-configuration");
+let configurationName = document.querySelector("#configuration-name");
+const saveConfigButton = document.querySelector("#save-configuration");
+saveConfigButton.addEventListener("click", saveConfig);
+const loadConfigButton = document.querySelector("#load-saved-configuration");
+loadConfigButton.addEventListener("click", loadConfig);
 const addExtraButton = document.querySelector("#addExtraButton");
 addExtraButton.addEventListener("click", addExtra);
 const objectsInfoDiv = document.querySelector("#selectedObjectIdHeader");
@@ -175,7 +180,6 @@ function addPlot() {
 
         let myPlot = new fabric.Rect({
             id: value,
-            fill: 'red',
             width: 20,
             height: 20,
             // hasBorders: false,
@@ -258,3 +262,31 @@ function addExtra(){
         default: break;
     }
 }
+
+
+function saveConfig(){
+
+    let formData = new FormData();
+    let publish = publishConfig.getAttribute("value");
+    // let nameValue = configurationName.getAttribute("value");
+    let nameValue = $("#configuration-name").val();
+    let json = JSON.stringify(canvas.toJSON(['id','class']));
+    formData.append("publish", publish);
+    formData.append("json", json);
+    formData.append("name", nameValue);
+    fetch("/api/configurations/save",{method: 'POST', body: formData})
+        .then(response => response.json())
+        .then(data => { console.log(data)});
+}
+
+function loadConfig(){
+
+}
+
+// $(".updateLeasable").change(function() {
+//     var leasable = document.querySelector(".updateLeasable:checked").dataset.leasableIdentification;
+//     var formElement = document.querySelector("#myForm");
+//     var deleteButton = document.querySelector("#deleteLeasable");
+//     formElement.setAttribute("action", "/admin/leasables/update/" + leasable);
+//     deleteButton.setAttribute("formaction", "/admin/leasables/delete/" + leasable);
+// });

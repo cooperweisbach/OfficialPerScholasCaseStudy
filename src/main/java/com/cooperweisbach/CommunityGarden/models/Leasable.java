@@ -37,7 +37,6 @@ public class Leasable {
     @NotNull
     @Column(name="leasable_size")
     double leasableSize;
-
     @Column(name="creation_date")
     @Temporal(value = TemporalType.DATE)
     Date leasableCreationDate = new Timestamp(new Date().getTime());
@@ -50,7 +49,7 @@ public class Leasable {
     // ( i.e. garden plots, bee hives, etc.). In this instance, every leasable should have
     // a type assigned to it and that type may be the same as other leasables' types.
     //Uni-Directional(Owner)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="leasable_type")
     LeasableType leasableType;
 
@@ -59,7 +58,7 @@ public class Leasable {
     // a status assigned to it and that status may be the same as other leasables' statuses.
     // (i.e. active lease, closed, open)
     //Uni-Directional(Owner)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "leasable_status")
     LeasableStatus leasableStatus;
 }

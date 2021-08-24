@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Title</title>
+  <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 </head>
 <body>
 <div>
@@ -24,8 +25,43 @@
   <form th:action="@{/member/member}" method="get">
     <input type="submit" value="Your Account Info">
   </form>
-  <form></form>
+  <canvas id="leasables-configuration" th:object="${currentConfig}" width="500" height="500" style="border:1px solid #000000;">
 
+    <div class="flex column beauty-padding" id="selectedObjectInfoDiv">
+      <div id="selectedObjectIdHeader">
+        <span>Selected</span>
+      </div>
+      <label for="adjustSelectedByBorder">Scale Shape Manually</label>
+      <input id="adjustSelectedByBorder" type="checkbox"/>
+      <label for="selectedObjectWidth">Width</label>
+      <div class="flex">
+        <input type="button" value="-" id="sizeMinusStepWidth">
+        <input type="type" id="selectedObjectWidth" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
+        <input type="button" value="+"id="sizePlusStepWidth">
+      </div>
+      <label for="selectedObjectHeight">Height</label>
+      <div class="flex">
+        <input type="button" value="-" id="sizeMinusStepHeight">
+        <input type="type" id="selectedObjectHeight" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
+        <input type="button" value="+"id="sizePlusStepHeight">
+      </div>
+    </div>
+  </canvas>
 </div>
+<script>
+  // let configObject = document.querySelector("#leasables-configuration").getAttribute("th:object");
+  // console.log(configObject);
+  // let canvas = new fabric.Canvas("leasables-configuration");
+  // canvas.loadFromJSON()
+
+  // $(function(){
+  //   fetch("/api/configurations/load",{method: 'GET'})
+  //           .then(response => response.json())
+  //           .then(data => console.log(data));
+  // });
+
+</script>
+<script th:src="@{/js/fabric.min.js}" async defer></script>
+<script th:src="@{/js/member/leasables.js}" async defer></script>
 </body>
 </html>

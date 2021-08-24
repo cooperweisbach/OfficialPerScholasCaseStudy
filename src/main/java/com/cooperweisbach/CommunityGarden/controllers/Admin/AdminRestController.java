@@ -25,6 +25,7 @@ public class AdminRestController {
     private PostTagServices postTagServices;
     private PostServices postServices;
     private MessageThreadServices messageThreadServices;
+    private ConfigurationServices configurationServices;
 
     @Autowired
     public AdminRestController(MemberServices memberServices,
@@ -33,7 +34,8 @@ public class AdminRestController {
                                LeaseServices leaseServices,
                                PostTagServices postTagServices,
                                PostServices postServices,
-                               MessageThreadServices messageThreadServices) {
+                               MessageThreadServices messageThreadServices,
+                               ConfigurationServices configurationServices) {
         this.memberServices = memberServices;
         this.userRolesServices = userRolesServices;
         this.leasableServices = leasableServices;
@@ -41,6 +43,7 @@ public class AdminRestController {
         this.postTagServices = postTagServices;
         this.postServices = postServices;
         this.messageThreadServices = messageThreadServices;
+        this.configurationServices = configurationServices;
     }
 
     @GetMapping("/api/users/{userRole}")
@@ -78,6 +81,11 @@ public class AdminRestController {
         log.warn(email);
         return memberServices.checkUniqueEmail(email);
     };
+
+    @GetMapping("/api/leasables/get-all")
+    public List<Leasable> getAllLeasables(){
+        return leasableServices.getAllLeasables();
+    }
 
     @PostMapping("/api/leasables/check-code-id")
     public Leasable checkUniqueCodeId(@Param("id") Integer id, @Param("code") String code){
@@ -153,6 +161,17 @@ public class AdminRestController {
     @PostMapping("/api/message-threads/check-name-id")
     public MessageThread uniqueThreadNameId(@Param("id") Integer id, @Param("messageThreadName") String messageThreadName){
         return messageThreadServices.checkUnqiueThreadNameId(id, messageThreadName);
+    }
+
+
+    @PostMapping("/api/configurations/save")
+    public Configuration saveConfiguration(@Param("name") String name,
+                                           @Param("publish") Boolean publish,
+                                           @Param("json") String json){
+        log.warn("This is the name value: " + name);
+        log.warn("This is the publish value: " + publish);
+        log.warn("This is the json value: " + json);
+        return configurationServices.save(publish, name, json);
     }
 
     public String notCurrentUser() {return null;};

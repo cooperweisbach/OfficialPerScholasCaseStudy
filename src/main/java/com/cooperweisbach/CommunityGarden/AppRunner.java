@@ -36,6 +36,7 @@ public class AppRunner implements CommandLineRunner {
     private iPostStatusRepo postStatusRepo;
     private iPostTagRepo postTagRepo;
     private iUserRolesRepo userRolesRepo;
+    private iConfigurationRepo configurationRepo;
 
     @Autowired
     public AppRunner(
@@ -56,7 +57,8 @@ public class AppRunner implements CommandLineRunner {
                      iPostRepo postRepo,
                      iPostStatusRepo postStatusRepo,
                      iPostTagRepo postTagRepo,
-                     iUserRolesRepo userRolesRepo) {
+                     iUserRolesRepo userRolesRepo,
+                     iConfigurationRepo configurationRepo) {
         this.imageRepo = imageRepo;
         this.imageTypeRepo = imageTypeRepo;
         this.leasableRepo = leasableRepo;
@@ -75,7 +77,9 @@ public class AppRunner implements CommandLineRunner {
         this.postStatusRepo = postStatusRepo;
         this.postTagRepo = postTagRepo;
         this.userRolesRepo = userRolesRepo;
+        this.configurationRepo =  configurationRepo;
     }
+
 
     @Override
     public void run(String... args) throws Exception {

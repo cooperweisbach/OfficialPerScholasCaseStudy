@@ -21,6 +21,7 @@ public class BasicController {
     private MessageThreadServices messageThreadServices;
     private UserRolesServices userRolesServices;
     private ImageServices imageServices;
+    private ConfigurationServices configurationServices;
 
     @Autowired
     public BasicController(MemberServices memberServices,
@@ -29,7 +30,8 @@ public class BasicController {
                            PostServices postServices,
                            MessageThreadServices messageThreadServices,
                            UserRolesServices userRolesServices,
-                           ImageServices imageServices) {
+                           ImageServices imageServices,
+                           ConfigurationServices configurationServices) {
         this.memberServices = memberServices;
         this.leasableServices = leasableServices;
         this.leaseServices = leaseServices;
@@ -37,6 +39,7 @@ public class BasicController {
         this.messageThreadServices = messageThreadServices;
         this.userRolesServices = userRolesServices;
         this.imageServices = imageServices;
+        this.configurationServices = configurationServices;
     }
 
     @GetMapping("/")
@@ -51,5 +54,11 @@ public class BasicController {
 //            m.addAttribute(e.getKey(), e.getValue());
 //        }
         return "index";
+    }
+
+    @GetMapping("/leasables")
+    public String leasables(Model m){
+        m.addAttribute("currentConfig", configurationServices.getPublishedConfiguration());
+        return "/member/leasables";
     }
 }
