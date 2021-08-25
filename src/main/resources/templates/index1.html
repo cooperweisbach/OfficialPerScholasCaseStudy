@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Here at our community garden we have...</h1>
+<p><p th:text="${totalMembers}"/> MEMBERS </p>
+<tr th:each = "entry : ${typeTreeMap}">
+    <td th:text="${entry.key}"/>
+    <td th:text="${entry.value}"/>
+</tr>
+
+<!--<p th:text="${beeHive} Beehives"></p>-->
+<!--<p th:text="${fishTank} Fish Tanks"></p>-->
+<!--<p th:text="${greenhousePlot} Greenhouse Plots"></p>-->
+<!--<p th:text="${outdoorGardenPlot} Outdoor Garden Plots"></p>-->
+<!--<p th:text="${workshop} Workshops"></p>-->
+</body>
+</html>

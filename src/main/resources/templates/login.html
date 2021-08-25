@@ -2,9 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Signika Negative', sans-serif;
+        }
+        </style>
 </head>
-<body>
-
+<body >
+    <div class="background-image-container flex center-center-items">
+        <div class="signin-form-container flex dir-col">
+            <div class="header-container"><h1>MEMBER LOGIN</h1></div>
+            <form action="login.html" class="signin-form flex dir-col">
+                <div class="entry-error flex center-center-items hidden">COMBINATION ENTERED NOT FOUND</div>
+                <div class="email-field flex dir-col flex center-center-items">
+                    <div class="input-container email-input flex">
+                        <input type="email" placeholder="EMAIL" required>
+                        <i class="fas fa-envelope"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="entry-error email-error-msg flex center-center-items hidden">PLEASE ENTER A VALID EMAIL ADDRESS</div>
+                </div>
+                <div class="password-field flex dir-col center-center-items">
+                    <div class="input-container password-input flex">
+                        <input type="password" placeholder="PASSWORD" required>
+                        <i class="fas fa-lock"></i>
+                        <i class="fas fa-exclamation-circle"></i>
+                    </div>
+                    <div class="entry-error password-error-msg flex center-center-items hidden">PLEASE ENTER A VALID PASSWORD</div>
+                    <div class="forgot-password-container"><a href="">FORGOT PASSWORD?</a></div>
+                </div>
+                <div class="submit-button-container flex center-center-items">
+                    <input type = "submit" value="LOGIN" class="submit-button">
+                </div>
+            </form>
+            <div class="not-a-member-container flex">
+                <a href="">NOT A MEMBER?</a>
+                <a href="index.html">HOME</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

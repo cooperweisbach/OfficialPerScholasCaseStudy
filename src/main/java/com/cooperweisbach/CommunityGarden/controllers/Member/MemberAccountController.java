@@ -1,5 +1,4 @@
-package com.cooperweisbach.CommunityGarden.controllers.Basic;
-
+package com.cooperweisbach.CommunityGarden.controllers.Member;
 
 import com.cooperweisbach.CommunityGarden.services.*;
 import lombok.extern.slf4j.Slf4j;
@@ -7,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @Slf4j
-public class BasicController {
+public class MemberAccountController {
 
     private MemberServices memberServices;
     private LeasableServices leasableServices;
@@ -24,7 +23,7 @@ public class BasicController {
     private ConfigurationServices configurationServices;
 
     @Autowired
-    public BasicController(MemberServices memberServices,
+    public MemberAccountController(MemberServices memberServices,
                            LeasableServices leasableServices,
                            LeaseServices leaseServices,
                            PostServices postServices,
@@ -42,19 +41,16 @@ public class BasicController {
         this.configurationServices = configurationServices;
     }
 
-    @GetMapping("/")
-    public String home(Model m){
-        long memberCount = memberServices.memberCount();
-        log.warn(String.valueOf(memberCount));
-        m.addAttribute("totalMembers", memberCount);
-        m.addAttribute("typeTreeMap", (Map<String, Long>)leasableServices.getLeasableCountsByType());
 
-//        for(Map.Entry<String, Long>   e: leasableServices.getLeasableCountsByType().entrySet()){
-//            log.warn(e.getKey() + " " + e.getValue());
-//            m.addAttribute(e.getKey(), e.getValue());
-//        }
-        return "index";
+    @GetMapping("/members/leasables")
+    public String leasables(Model m){
+        m.addAttribute("currentConfig", configurationServices.getPublishedConfiguration());
+        return "/member/leasables";
     }
 
-
+    @PostMapping("/members/leasables/rent")
+    public String rentLeasables(Model m, @RequestParam("id") Integer id){
+        log.warn("The id value returned is: "+ id);
+        return "member/rent";
+    }
 }

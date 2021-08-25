@@ -2,14 +2,24 @@
 
 let gridState = false;
 var unitScale = 5;
+
 const publishConfig = document.querySelector("#publish-configuration");
 let configurationName = document.querySelector("#configuration-name");
+const configNameInput = $("#configuration-name");
+const publishCheckBox = $("#publish-configuration");
+
 const saveConfigButton = document.querySelector("#save-configuration");
 saveConfigButton.addEventListener("click", saveConfig);
+
+// let selectForSavedConfig = $("#select-saved-configurations");
+const listConfigsSelect = document.querySelector("#select-saved-configurations");
+
 const loadConfigButton = document.querySelector("#load-saved-configuration");
 loadConfigButton.addEventListener("click", loadConfig);
+
 const addExtraButton = document.querySelector("#addExtraButton");
 addExtraButton.addEventListener("click", addExtra);
+
 const objectsInfoDiv = document.querySelector("#selectedObjectIdHeader");
 const gridSize = document.querySelector("#grid-size");
 gridSize.addEventListener("change",() => {
@@ -267,26 +277,49 @@ function addExtra(){
 function saveConfig(){
 
     let formData = new FormData();
-    let publish = publishConfig.getAttribute("value");
+    // let publish = publishConfig.getAttribute("value");
+    let publish = publishCheckBox.val();
     // let nameValue = configurationName.getAttribute("value");
-    let nameValue = $("#configuration-name").val();
+    let nameValue = configNameInput.val();
     let json = JSON.stringify(canvas.toJSON(['id','class']));
+    console.log("publish: "+ publish);
+    console.log("name: "+ nameValue);
+    if(!publish){publish=false};
     formData.append("publish", publish);
     formData.append("json", json);
     formData.append("name", nameValue);
     fetch("/api/configurations/save",{method: 'POST', body: formData})
         .then(response => response.json())
-        .then(data => { console.log(data)});
+        .then(data => {
+            console.log(data);
+            let nameAdded = false;
+            for(let child of listConfigsSelect.children){
+                if(child.getAttribute("id") == data.configurationId){
+                    nameAdded = true;
+                }
+            }
+            if(!nameAdded){
+                let optionElement = document.createElement('option');
+                optionElement.appendChild(document.createTextNode(data.configurationName));
+                optionElement.setAttribute("id", data.configurationId);
+                optionElement.setAttribute("value", data.jsonification);
+                optionElement.setAttribute("class","saved-configuration");
+                listConfigsSelect.appendChild(optionElement);
+            }
+        });
+
+
 }
 
 function loadConfig(){
+    let selectedConfig = $(".saved-configuration:checked");
+    let json = selectedConfig.val();
+    if(selectedConfig != "default"){
+        canvas.clear();
+        canvas.loadFromJSON(json);
+        configurationName.setAttribute("value", selectedConfig.innerText);
+        publishConfig.removeAttribute("checked", "checked");
+        canvas.renderAll();
+    }
 
 }
-
-// $(".updateLeasable").change(function() {
-//     var leasable = document.querySelector(".updateLeasable:checked").dataset.leasableIdentification;
-//     var formElement = document.querySelector("#myForm");
-//     var deleteButton = document.querySelector("#deleteLeasable");
-//     formElement.setAttribute("action", "/admin/leasables/update/" + leasable);
-//     deleteButton.setAttribute("formaction", "/admin/leasables/delete/" + leasable);
-// });

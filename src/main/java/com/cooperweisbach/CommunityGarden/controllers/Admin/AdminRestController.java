@@ -174,5 +174,10 @@ public class AdminRestController {
         return configurationServices.save(publish, name, json);
     }
 
+    @GetMapping("/api/configurations/load-all")
+    public List<Configuration> loadConfigurations(){
+        return configurationServices.getAllConfigurations();
+    }
+
     public String notCurrentUser() {return null;};
 }

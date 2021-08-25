@@ -42,10 +42,12 @@ public class ConfigurationServices {
     }
 
     public Configuration save(Boolean publish, String name, String json){
+        Configuration fromName = checkUniquenessOfName(name);
+        log.warn("id of the configuration being saved: " + fromName.getConfigurationId());
         if(publish){
-            resetPublishedField(checkUniquenessOfName(name));
+            resetPublishedField(fromName);
         }
-        Configuration byName = checkUniquenessOfName(name);
+        Configuration byName = fromName;
         byName.setConfigurationName(name);
         byName.setPublished(publish);
         byName.setJsonification(json);

@@ -89,9 +89,9 @@
                     <label>Publish</label>
             </span>
             <button id="save-configuration">Save</button>
-            <select>
-                <option value="default" selected>Saved Configurations</option>
-                <option th:each="configuration:${savedConfigurations}" th:text="${configuration.configurationName}" th:value="${configuration.jsonification}"></option>
+            <select id="select-saved-configurations">
+                <option id="default" value="default" selected>Saved Configurations</option>
+                <option class="saved-configuration" th:each="configuration:${savedConfigurations}" th:text="${configuration.configurationName}" th:value="${configuration.jsonification}" th:id="${configuration.getConfigurationId()}"></option>
             </select>
             <button id="load-saved-configuration">Load</button>
         </div>

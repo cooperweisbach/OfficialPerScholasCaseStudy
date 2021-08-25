@@ -25,28 +25,30 @@
   <form th:action="@{/member/member}" method="get">
     <input type="submit" value="Your Account Info">
   </form>
-  <canvas id="leasables-configuration" th:object="${currentConfig}" width="500" height="500" style="border:1px solid #000000;">
+
+  <canvas id="leasables-configuration" width="500" height="500" style="border:1px solid #000000;"></canvas>
 
     <div class="flex column beauty-padding" id="selectedObjectInfoDiv">
-      <div id="selectedObjectIdHeader">
-        <span>Selected</span>
+      <div id="selectedObjectCodeHeader">
+        <span>Selected: </span>
       </div>
-      <label for="adjustSelectedByBorder">Scale Shape Manually</label>
-      <input id="adjustSelectedByBorder" type="checkbox"/>
-      <label for="selectedObjectWidth">Width</label>
-      <div class="flex">
-        <input type="button" value="-" id="sizeMinusStepWidth">
-        <input type="type" id="selectedObjectWidth" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
-        <input type="button" value="+"id="sizePlusStepWidth">
+      <div id="selectedObjectStatusHeader">
+        <span>Status: </span>
       </div>
-      <label for="selectedObjectHeight">Height</label>
-      <div class="flex">
-        <input type="button" value="-" id="sizeMinusStepHeight">
-        <input type="type" id="selectedObjectHeight" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
-        <input type="button" value="+"id="sizePlusStepHeight">
+      <div id="selectedObjectTypeHeader">
+        <span>Type: </span>
       </div>
+      <div id="selectedObjectRentHeader">
+        <span>Rent For A Year: </span>
+      </div>
+      <div id="selectedObjectSizeHeader">
+        <span>Size: </span>
+      </div>
+      <form action="/members/leasables/rent" method="post" id="submitRentOrderForm">
+        <input hidden type="text" value="" name="id" id="hiddenIdFieldToSubmit">
+        <input type="submit" id="rentSelectedPlot" value="RENT" disabled/>
+      </form>
     </div>
-  </canvas>
 </div>
 <script>
   // let configObject = document.querySelector("#leasables-configuration").getAttribute("th:object");

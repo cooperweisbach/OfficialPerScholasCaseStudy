@@ -45,6 +45,6 @@ public class Configuration {
     @NonNull
     @NotNull
     @Column(name="published")
-    Boolean published = false;
+    Boolean published;
 
 }
