@@ -1,0 +1,104 @@
+body {
+    margin-inline: 5vw;
+    box-sizing: border-box;
+}
+
+.flex {
+    display: flex;
+}
+
+.center-center-items {
+    justify-content: center;
+    align-items: center;
+}
+
+.dir-col {
+    flex-direction: column;
+}
+
+.hidden{
+    display: none;
+
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    text-decoration:underline;
+    transition: 1s;
+}
+
+.submit-button {
+    width: 80%;
+    font-weight: bold;
+    border-top: 2px solid tomato;
+    border-bottom: 2px solid tomato;
+    border-left: 0;
+    border-right: 0;
+    background-color: tomato;
+}
+.submit-button:hover {
+    cursor: pointer;
+    /* background-color: white;
+    color: black; */
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: 0;
+    border-right: 0;
+    transition: 0.5s;
+}
+
+.background-image-container{
+    height: 100vh;
+    width: 100%;
+    background-image: url("../images/largeSignUpPage.jpg");
+    background-size: 100%;
+}
+
+.signin-form-container {
+    background-color: rgba(255, 99, 71, 0.85);
+    height: 80vh;
+    width: 70%;
+    align-items: center;
+    padding: 2vh 2vw;
+}
+
+.header-container {
+    background-color: black;
+}
+
+.header-container h1 {
+    color: white;
+}
+
+.signin-form{
+    flex:1;
+    justify-content: center;
+    padding: 2vh 0;
+}
+
+
+.forgot-password-container,
+.not-a-member-container{
+    padding: 2vh 0;
+}
+
+.signin-form div{
+    margin: 1vh 0;
+}
+
+input {
+    outline: none;
+}
+
+/* .not-a-member-container a{
+    margin-inline: 4%;
+} */
+
+.not-a-member-container {
+    flex-direction: column;
+   align-items: center;
+}

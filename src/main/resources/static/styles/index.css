@@ -107,7 +107,7 @@ body {
 }
 
 .drop-down-menu {
-    border: 3px solid balck;
+    /*border: 3px solid black;*/
     position: absolute;
     width: 300px;
     visibility:hidden;
@@ -381,7 +381,8 @@ a {
     }
 
     .span-links-container,
-    .span-signin-container {
+    .span-signin-container,
+    .span-member-links-container {
         display: none;
     }
 

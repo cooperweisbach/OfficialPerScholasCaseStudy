@@ -31,6 +31,9 @@
     <form th:action="@{/admin/payments}" method="get">
         <input type="submit" value="Payments">
     </form>
+    <form th:action="@{/members}" method="get">
+        <input type="submit" value="Member Panel">
+    </form>
 
     <div th:if="${!#lists.isEmpty(allMembers)}">
         <form id="myForm" method="post" th:action="@{/admin/users/}">
@@ -77,18 +80,6 @@
     </div>
 </div>
 
-<!--<div th:unless="${#lists.isEmpty(allMembers)}">-->
-<!--    <form th:action="@{/admin/all-users}" method="post" >-->
-<!--        <label for="users">Select User:</label>-->
-<!--        <select name="users" id="users" >-->
-<!--            <option th:each="member :${allMembers}" th:value="${member}" th:text="${member.memberId} + ' ' + ${member.firstName} + ' ' + ${member.lastName}">Member</option>-->
-<!--        </select>-->
-<!--        <input type="submit" value="Select User">-->
-<!--    </form>-->
-<!--</div>-->
-<!--<div th:unless="${selectedUser==null}">-->
-<!--    <p th:text="'You selected'+ ${selectedUser.firstName}"/>-->
-<!--</div>-->
 <script>
 
     $(".updateMember").change(function() {

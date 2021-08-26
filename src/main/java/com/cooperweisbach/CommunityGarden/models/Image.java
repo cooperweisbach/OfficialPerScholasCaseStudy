@@ -25,6 +25,7 @@ public class Image {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="image_id")
     int imageId;
+
     @NonNull
     @NotBlank
     @Column(name="image_upload_name")

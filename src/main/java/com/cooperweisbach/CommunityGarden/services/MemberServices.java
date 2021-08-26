@@ -2,10 +2,13 @@ package com.cooperweisbach.CommunityGarden.services;
 
 import com.cooperweisbach.CommunityGarden.daos.iMemberRepo;
 import com.cooperweisbach.CommunityGarden.daos.iMemberStatusRepo;
+import com.cooperweisbach.CommunityGarden.exceptions.UserAlreadyExistsException;
 import com.cooperweisbach.CommunityGarden.models.Member;
 import com.cooperweisbach.CommunityGarden.models.UserRoles;
+import com.cooperweisbach.CommunityGarden.security.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -17,11 +20,15 @@ import java.util.List;
 public class MemberServices {
 
     private iMemberRepo memberRepo;
-
+    private UserRolesServices userRolesServices;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public MemberServices(iMemberRepo memberRepo) {
+    public MemberServices(iMemberRepo memberRepo, UserRolesServices userRolesServices, PasswordEncoder passwordEncoder) {
+
         this.memberRepo = memberRepo;
+        this.userRolesServices = userRolesServices;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Member> getMembersByUserRole(UserRoles userRole){
@@ -65,5 +72,32 @@ public class MemberServices {
         }
     }
 
+    public Member getMemberByEmail(String email){
+        return memberRepo.getMemberByEmail(email);
+    }
+
+
+    public Member registerNewMember(MemberDTO newMember) throws UserAlreadyExistsException{
+        log.warn("reached registration method");
+        if(checkIfEmailExists(newMember.getEmail())){
+            throw new UserAlreadyExistsException("There is already a user with the email " + newMember.getEmail());
+        }
+
+        List<UserRoles> userRoles = userRolesServices.getUserRolesAsListFromUserRoles("ROLE_MEMBER");
+        Member persistMember = new Member();
+        persistMember.setPassword(passwordEncoder.encode(newMember.getPassword()));
+        persistMember.setFirstName(newMember.getFirstName());
+        persistMember.setLastName(newMember.getLastName());
+        persistMember.setEmail(newMember.getEmail());
+        persistMember.setPhoneNumber(newMember.getPhoneNumber());
+        persistMember.setUserRoles(userRoles);
+
+        log.warn("just before save operation");
+        return memberRepo.save(persistMember);
+    }
+
+    private boolean checkIfEmailExists(String email){
+        return memberRepo.getMemberByEmail(email) != null;
+    }
 
 }

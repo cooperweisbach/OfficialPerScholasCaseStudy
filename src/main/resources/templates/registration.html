@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/normalize.css">
+<!--    <link rel="stylesheet" href="styles/register.css">-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Signika Negative', sans-serif;
+        }
+    </style>
+</head>
+<body >
+<div class="background-image-container flex center-center-items">
+    <div class="register-form-container flex dir-col">
+        <div class="header-container"><h1>MEMBER SIGN-UP</h1></div>
+        <form th:action="@{/registration/processing}" class="signin-form flex dir-col" method="post" >
+<!--            <div class="entry-error flex center-center-items hidden">COMBINATION ENTERED NOT FOUND</div>-->
+            <div class="first-name-field flex dir-col flex center-center-items">
+                <div class="input-container first-name-input flex">
+                    <input th:field="*{newMember.firstName}" type="text" placeholder="FIRST NAME" name="first-name" id="first-name" required>
+                    <!--                        <i class="fas fa-envelope"></i>-->
+                    <!--                        <i class="fas fa-exclamation-circle"></i>-->
+                </div>
+                <div class="entry-error first-name-error-msg flex center-center-items hidden">PLEASE ENTER A VALID FIRST NAME</div>
+            </div>
+            <div class="last-name-field flex dir-col flex center-center-items">
+                <div class="input-container last-name-input flex">
+                    <input th:field="*{newMember.lastName}" type="text" placeholder="LAST NAME" name="last-name" id="last-name" required>
+                    <!--                        <i class="fas fa-envelope"></i>-->
+                    <!--                        <i class="fas fa-exclamation-circle"></i>-->
+                </div>
+                <div class="entry-error last-name-error-msg flex center-center-items hidden">PLEASE ENTER A VALID LAST NAME</div>
+            </div>
+            <div class="email-field flex dir-col flex center-center-items">
+                <div class="input-container email-input flex">
+                    <input th:field="*{newMember.email}" type="email" placeholder="EMAIL" name="email" id="email" required>
+                    <!--                        <i class="fas fa-envelope"></i>-->
+                    <!--                        <i class="fas fa-exclamation-circle"></i>-->
+                </div>
+                <div class="entry-error email-error-msg flex center-center-items hidden">PLEASE ENTER A VALID EMAIL ADDRESS</div>
+            </div>
+            <div class="phone-number-field flex dir-col flex center-center-items">
+                <div class="input-container phone-number-input flex">
+                    <input th:field="*{newMember.phoneNumber}" type="text" placeholder="PHONE NUMBER" name="phone-number" id="phone-number" required>
+                    <!--                        <i class="fas fa-envelope"></i>-->
+                    <!--                        <i class="fas fa-exclamation-circle"></i>-->
+                </div>
+                <div class="entry-error phone-number-error-msg flex center-center-items hidden">PLEASE ENTER A VALID PHONE NUMBER</div>
+            </div>
+            <div class="password-field flex dir-col center-center-items">
+                <div class="input-container password-input flex">
+                    <input type="password" th:field="*{newMember.password}" placeholder="PASSWORD" name="password" id="password" required>
+                    <!--                        <i class="fas fa-lock"></i>-->
+                    <!--                        <i class="fas fa-exclamation-circle"></i>-->
+                </div>
+                <div class="entry-error password-error-msg flex center-center-items hidden">PLEASE ENTER A VALID PASSWORD</div>
+<!--                <div class="forgot-password-container"><a href="">FORGOT PASSWORD?</a></div>-->
+            </div>
+            <div class="confirm-password-field flex dir-col center-center-items">
+                <div class="input-container password-input flex">
+                    <input type="password" th:field="${newMember.matchingPassword}" placeholder="PASSWORD" name="confirm-password" id="confirm-password" required>
+                    <!--                        <i class="fas fa-lock"></i>-->
+                    <!--                        <i class="fas fa-exclamation-circle"></i>-->
+                </div>
+                <div class="entry-error confirm-password-error-msg flex center-center-items hidden">PASSWORDS DO NOT MATCH</div>
+<!--                <div class="forgot-password-container"><a href="">FORGOT PASSWORD?</a></div>-->
+            </div>
+            <div class="submit-button-container flex center-center-items">
+                <input type = "submit" value="REGISTER" class="submit-button">
+            </div>
+        </form>
+        <div class="already-a-member-container flex">
+            <a th:href="@{/login}">ALREADY A MEMBER?</a>
+            <a th:href="@{/}">HOME</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

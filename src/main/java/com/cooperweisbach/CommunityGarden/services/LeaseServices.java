@@ -2,7 +2,7 @@ package com.cooperweisbach.CommunityGarden.services;
 
 import com.cooperweisbach.CommunityGarden.daos.iLeaseRepo;
 import com.cooperweisbach.CommunityGarden.daos.iLeaseStatusRepo;
-import com.cooperweisbach.CommunityGarden.models.Lease;
+import com.cooperweisbach.CommunityGarden.models.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,22 @@ import java.util.List;
 public class LeaseServices {
 
     private final String LEASABLE_STATUS_LEASED = "leased";
+    private final String LEASE_STATUS_ACTIVE = "active";
 
     private iLeaseRepo leaseRepo;
     private iLeaseStatusRepo leaseStatusRepo;
+    private LeasableServices leasableServices;
+    private LeasableStatusServices leasableStatusServices;
+
     @Autowired
-    public LeaseServices(iLeaseRepo leaseRepo, iLeaseStatusRepo leaseStatusRepo) {
+    public LeaseServices(iLeaseRepo leaseRepo,
+                         iLeaseStatusRepo leaseStatusRepo,
+                         LeasableServices leasableServices,
+                         LeasableStatusServices leasableStatusServices) {
         this.leaseRepo = leaseRepo;
         this.leaseStatusRepo = leaseStatusRepo;
+        this.leasableServices = leasableServices;
+        this.leasableStatusServices = leasableStatusServices;
     }
 
     public List<Lease> getAllLeases(){
@@ -64,5 +73,20 @@ public class LeaseServices {
 //            }
 //        }
         return lease;
+    }
+
+    public void createNewLease(Integer leasableRented, Member member) {
+        Leasable leasable = leasableServices.getLeasableById(leasableRented);
+        Lease newLease = new Lease();
+        newLease.setLeaseStatus(activeStatus());
+        newLease.setMember(member);
+        newLease.setLeasable(leasable);
+        save(newLease);
+        leasable.setLeasableStatus(leasableStatusServices.getLeasableStatusByLeasableStatus(LEASABLE_STATUS_LEASED));
+        leasableServices.save(leasable);
+    }
+
+    private LeaseStatus activeStatus(){
+        return leaseStatusRepo.getLeaseStatusByLeaseStatus(LEASE_STATUS_ACTIVE);
     }
 }

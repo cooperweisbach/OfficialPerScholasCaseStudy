@@ -32,6 +32,9 @@
     <form th:action="@{/admin/payments}" method="get">
         <input type="submit" value="Payments">
     </form>
+    <form th:action="@{/members}" method="get">
+        <input type="submit" value="Member Panel">
+    </form>
 
     <div th:unless="${#lists.isEmpty(allMessageThreads)}">
         <form id="myForm" method="post" th:action="@{/admin/message-threads}">

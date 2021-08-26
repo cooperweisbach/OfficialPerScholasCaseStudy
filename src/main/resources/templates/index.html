@@ -1,5 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +29,7 @@
             <nav class = "header-navigation flex only-flex-item">
                 <div class= "navigation-link-container flex only-flex-item flex-space-between">
                     <div class= "container-of-spans span-logo-container flex flex-item">
-                        <span class="span-logo-holder"><a class="logo-link" href="index.html">SCOTTSDALE<br />COMMUNITY<br />GARDEN</a></span>
+                        <span class="span-logo-holder"><a class="logo-link" th:href="@{/}">SCOTTSDALE<br />COMMUNITY<br />GARDEN</a></span>
                     </div>
                     <div class= "container-of-spans span-links-container flex flex-item">
                         <span class="span-header-link-container"><a href="">JOIN US!</a>
@@ -68,11 +75,18 @@
                                 </div>
                             </div>
 
-                        <span class="span-header-link-container"><a href="contactUs.html">CONTACT US</a>
+                        <span class="span-header-link-container"><a href="@{/contact-us}">CONTACT US</a>
                         </span>
                     </div>
-                    <div class= "container-of-spans span-signin-container flex flex-item">
-                        <span class="span-header-sign-in-container"><a href="login.html">SIGN-IN</a></span>
+                    <div sec:authorize="isAnonymous()" class= "container-of-spans span-signin-container flex flex-item">
+                        <span class="span-header-sign-in-container"><a th:href="@{/login}">SIGN-IN</a></span>
+                    </div>
+                    <div sec:authorize="isAuthenticated()" class="container-of-spans span-member-links-container flex flex-item">
+                                <span th:text="${currentUser.getFullName().toUpperCase()}" class="span-header-link-container span-hover-dropdown">
+                                    <svg class="pad-svg" width="22" height="11">
+                                        <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
+                                    </svg>
+                                </span>
                     </div>
                     <div class="flex flex-item hidden-flower-button-container center-center-items pos-relative">
                         <button class=" flex flex-item hidden-flower-button center-center-items menu-item-click">
@@ -96,7 +110,9 @@
                             </button>
                             <span id="events-links" class="hide-event-links"><a class="block" href="#">CHARITY</a><a class="block" href="#">FARMERS MARKET</a><a class="block" href="#">CALENDAR</a></span>
                             <span><a href="contactUs.html">CONTACT US</a></span>
-                            <span><a href="login.html">SIGN IN</a></span>
+                            <span sec:authorize="isAnonymous()"><a th:href="@{/login}">SIGN IN</a></span>
+                            <span sec:authorize="isAuthenticated()"><a th:href="@{/members}">MEMBERS</a></span>
+                            <span sec:authorize="isAuthenticated()"><a th:href="@{/logout}">LOGOUT</a></span>
                         </div>
                     </div>
 
@@ -182,10 +198,10 @@
     <footer>
 
     </footer>
-    <script src="javascript/slideshowHP.js"></script>
-    <script src="javascript/expandResourcesEvents.js"></script>
-    <script src="javascript/flower-button.js"></script>
-    <script src="javascript/hover-dropdowns.js"></script>
+    <script th:src="@{js/basic/slideshowHP.js}"></script>
+    <script th:src="@{js/basic/expandResourcesEvents.js}"></script>
+    <script th:src="@{js/basic/flower-button.js}"></script>
+    <script th:src="@{js/basic/hover-dropdowns.js}"></script>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
       AOS.init();

@@ -32,6 +32,9 @@
     <form th:action="@{/admin/payments}" method="get">
         <input type="submit" value="Payments">
     </form>
+    <form th:action="@{/members}" method="get">
+        <input type="submit" value="Member Panel">
+    </form>
 
     <div th:if="${!#lists.isEmpty(allLeasables)}">
         <form id="myForm" method="post" th:action="@{/admin/leasables/}">
@@ -91,7 +94,7 @@
             <button id="save-configuration">Save</button>
             <select id="select-saved-configurations">
                 <option id="default" value="default" selected>Saved Configurations</option>
-                <option class="saved-configuration" th:each="configuration:${savedConfigurations}" th:text="${configuration.configurationName}" th:value="${configuration.jsonification}" th:id="${configuration.getConfigurationId()}"></option>
+                <option class="saved-configuration" th:each="configuration:${savedConfigurations}" th:text="${configuration.configurationName}" th:name="${configuration.configurationName}" th:value="${configuration.jsonification}" th:id="${configuration.getConfigurationId()}"></option>
             </select>
             <button id="load-saved-configuration">Load</button>
         </div>

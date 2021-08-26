@@ -20,21 +20,21 @@
     <div class="background-image-container flex center-center-items">
         <div class="signin-form-container flex dir-col">
             <div class="header-container"><h1>MEMBER LOGIN</h1></div>
-            <form action="login.html" class="signin-form flex dir-col">
-                <div class="entry-error flex center-center-items hidden">COMBINATION ENTERED NOT FOUND</div>
+            <form th:action="@{/login/authenticate}" class="signin-form flex dir-col" method="post">
+                <div th:if="${param.error}" class="entry-error flex center-center-items hidden">COMBINATION ENTERED NOT FOUND</div>
                 <div class="email-field flex dir-col flex center-center-items">
                     <div class="input-container email-input flex">
-                        <input type="email" placeholder="EMAIL" required>
-                        <i class="fas fa-envelope"></i>
-                        <i class="fas fa-exclamation-circle"></i>
+                        <input type="email" placeholder="EMAIL" name="email" id="email" required>
+<!--                        <i class="fas fa-envelope"></i>-->
+<!--                        <i class="fas fa-exclamation-circle"></i>-->
                     </div>
                     <div class="entry-error email-error-msg flex center-center-items hidden">PLEASE ENTER A VALID EMAIL ADDRESS</div>
                 </div>
                 <div class="password-field flex dir-col center-center-items">
                     <div class="input-container password-input flex">
-                        <input type="password" placeholder="PASSWORD" required>
-                        <i class="fas fa-lock"></i>
-                        <i class="fas fa-exclamation-circle"></i>
+                        <input type="password" placeholder="PASSWORD" name="password" id="password" required>
+<!--                        <i class="fas fa-lock"></i>-->
+<!--                        <i class="fas fa-exclamation-circle"></i>-->
                     </div>
                     <div class="entry-error password-error-msg flex center-center-items hidden">PLEASE ENTER A VALID PASSWORD</div>
                     <div class="forgot-password-container"><a href="">FORGOT PASSWORD?</a></div>
@@ -44,8 +44,8 @@
                 </div>
             </form>
             <div class="not-a-member-container flex">
-                <a href="">NOT A MEMBER?</a>
-                <a href="index.html">HOME</a>
+                <a th:href="@{/registration}">NOT A MEMBER?</a>
+                <a th:href="@{/}">HOME</a>
             </div>
         </div>
     </div>

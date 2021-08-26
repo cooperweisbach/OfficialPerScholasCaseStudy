@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.Map;
 
 @Controller
@@ -42,8 +44,13 @@ public class BasicController {
         this.configurationServices = configurationServices;
     }
 
-    @GetMapping("/")
-    public String home(Model m){
+    @GetMapping({"/", "/index"})
+    public String home(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         long memberCount = memberServices.memberCount();
         log.warn(String.valueOf(memberCount));
         m.addAttribute("totalMembers", memberCount);
@@ -54,6 +61,16 @@ public class BasicController {
 //            m.addAttribute(e.getKey(), e.getValue());
 //        }
         return "index";
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login";
+    }
+
+    @GetMapping("/contact-us")
+    public String contactUs(){
+        return "contactUs";
     }
 
 

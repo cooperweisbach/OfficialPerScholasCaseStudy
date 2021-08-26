@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/members}" method="get">
+        <input type="submit" value="Message Board">
+    </form>
+    <form th:action="@{/members/leasables}" method="get">
+        <input type="submit" value="Leasables">
+    </form>
+    <form th:action="@{/members/leases}" method="get">
+        <input type="submit" value="Your Leases">
+    </form>
+    <form th:action="@{/members/payments}" method="get">
+        <input type="submit" value="Your Payments">
+    </form>
+    <form th:action="@{/members/history}" method="get">
+        <input type="submit" value="Your Message History">
+    </form>
+    <form th:action="@{/members/member}" method="get">
+        <input type="submit" value="Your Account Info">
+    </form>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <form th:action="@{/admin}" method="get">
+            <input type="submit" value="Admin Panel">
+        </form>
+    </div>
+</div>
+<div th:if="${!#lists.isEmpty(memberLeases)}">
+    <form id="myForm" method="post" th:action="@{/members/leases/}">
+        <table>
+            <thead>
+            <th>
+            <td>Lease ID</td>
+            <td>Lease Member</td>
+            <td>Lease Leasable</td>
+            <td>Lease Start</td>
+            <td>Lease End</td>
+            <td>Lease Status</td>
+            <td>Apply Updates</td>
+            </th>
+            </thead>
+            <tbody>
+            <tr th:each="lease:${memberLeases}" th:class="${lease.leaseId}">
+                <td th:text="${lease.leaseId}"></td>
+                <td th:text="${lease.member.firstName} + ' ' + ${lease.member.lastName}"></td>
+                <td th:text="${lease.leasable.leasableCode}"></td>
+                <td th:text="${lease.startDate}"></td>
+                <td th:text="${lease.endDate}"></td>
+                <td th:text="${lease.leaseStatus.leaseStatus}"></td>
+                <td><input type="radio" th:attr="data-lease-identification=${lease.leaseId}" name="leaseId" class="updateLease"></td>
+            </tr>
+            </tbody>
+        </table>
+        <input type="submit" class="createLease" formaction="/members/leasables" value="Create New Lease"/>
+        <input type="submit" id="deleteLease" formaction="/members/leases/" value="End Lease Early"/>
+        <input type="submit" value="Update Lease"/>
+    </form>
+</div>
+
+<div th:if="${#lists.isEmpty(memberLeases)}">
+    <form action="/members/leasables" method="post">
+        <p>You don't have any leases</p>
+        <input type="submit" class="createLease" value="Lease some plots"/>
+    </form>
+</div>
+<script>
+    $(".updateLease").change(function() {
+        var lease = document.querySelector(".updateLease:checked").dataset.leaseIdentification;
+        var formElement = document.querySelector("#myForm");
+        var deleteButton = document.querySelector("#deleteLease");
+        formElement.setAttribute("action", "/admin/leases/update/" + lease);
+        deleteButton.setAttribute("formaction", "/admin/leases/delete/" + lease);
+    });
+</script>
+
+
+</body>
+</html>

@@ -47,12 +47,12 @@ public class ConfigurationServices {
         if(publish){
             resetPublishedField(fromName);
         }
-        Configuration byName = fromName;
-        byName.setConfigurationName(name);
-        byName.setPublished(publish);
-        byName.setJsonification(json);
-        configurationRepo.save(byName);
-        return byName;
+        log.warn(String.valueOf("Id of configuration: " + fromName.getConfigurationId()));
+        fromName.setConfigurationName(name);
+        fromName.setPublished(publish);
+        fromName.setJsonification(json);
+        configurationRepo.save(fromName);
+        return fromName;
     }
 
 

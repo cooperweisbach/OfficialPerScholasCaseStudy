@@ -29,4 +29,6 @@ public class UserRolesServices {
     public List<UserRoles> getEveryUserRole() {
         return userRolesRepo.findAll();
     }
+
+    public List<UserRoles> getUserRolesAsListFromUserRoles(String userRole){return userRolesRepo.getUserRolesByUserRoleName(userRole);}
 }

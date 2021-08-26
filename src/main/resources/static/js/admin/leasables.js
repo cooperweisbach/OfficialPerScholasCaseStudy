@@ -156,7 +156,6 @@ function handleBorders(e) {
     }
 }
 
-
 function toggleGrid() {
     if(gridState){
         let grid = gridSize.value;
@@ -285,6 +284,7 @@ function saveConfig(){
     console.log("publish: "+ publish);
     console.log("name: "+ nameValue);
     if(!publish){publish=false};
+    console.log("publish: "+publish);
     formData.append("publish", publish);
     formData.append("json", json);
     formData.append("name", nameValue);
@@ -303,6 +303,7 @@ function saveConfig(){
                 optionElement.appendChild(document.createTextNode(data.configurationName));
                 optionElement.setAttribute("id", data.configurationId);
                 optionElement.setAttribute("value", data.jsonification);
+                optionElement.setAttribute("name", data.configurationName);
                 optionElement.setAttribute("class","saved-configuration");
                 listConfigsSelect.appendChild(optionElement);
             }
@@ -317,8 +318,9 @@ function loadConfig(){
     if(selectedConfig != "default"){
         canvas.clear();
         canvas.loadFromJSON(json);
-        configurationName.setAttribute("value", selectedConfig.innerText);
-        publishConfig.removeAttribute("checked", "checked");
+        configurationName.setAttribute("value", selectedConfig.name);
+        console.log("selected configuration name: " + selectedConfig.name);
+        // publishConfig.removeAttribute("checked", "checked");
         canvas.renderAll();
     }
 
