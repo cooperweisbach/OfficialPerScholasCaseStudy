@@ -82,6 +82,15 @@ public class AdminRestController {
         return memberServices.checkUniqueEmail(email);
     };
 
+    @PostMapping("/api/leasables/get-info-by-id")
+    public Leasable getSpecifiedLeasable(@Param("id") Integer id){
+        log.warn("looking for leasable: "+ id);
+        Leasable returned = leasableServices.getLeasableById(id);
+        log.warn(returned.toString());
+        return returned;
+    }
+
+
     @GetMapping("/api/leasables/get-all")
     public List<Leasable> getAllLeasables(){
         return leasableServices.getAllLeasables();

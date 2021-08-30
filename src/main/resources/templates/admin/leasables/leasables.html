@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/styles/leasables.css}"/>
+    <link rel="stylesheet" th:href="@{/styles/adminLeasable.css}"/>
     <title>Title</title>
     <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 </head>
 <body>
+
+
+
 <div>
     <form th:action="@{/admin}" method="get">
         <input type="submit" value="Dashboard">
@@ -38,9 +42,11 @@
 
     <div th:if="${!#lists.isEmpty(allLeasables)}">
         <form id="myForm" method="post" th:action="@{/admin/leasables/}">
-            <table>
+            <input type="text" placeholder="Search Leasable Codes" id="leasables-search">
+            <table id="returned-leasables-data">
                 <thead>
                 <th>
+                <td>Index</td>
                 <td>Leasable ID</td>
                 <td>Leasable Code</td>
                 <td>Leasable Type</td>
@@ -50,18 +56,58 @@
                 <td>Apply Updates</td>
                 </th>
                 </thead>
-                <tbody>
-                <tr th:each="leasable, stat :${allLeasables}" th:class="${leasable.leasableCode}">
-                    <td th:text="${leasable.leasableId}"></td>
-                    <td th:text="${leasable.leasableCode}"></td>
-                    <td th:text="${leasable.leasableType.leasableTypeName}"></td>
-                    <td th:text="${leasable.leasableSize}"></td>
-                    <td th:text="${leasable.leasableYearlyRent}"></td>
-                    <td th:text="${leasable.leasableStatus.leasableStatus}"></td>
-                    <td><input type="radio" th:attr="data-leasable-identification=${leasable.leasableId}" name="leasableId" class="updateLeasable"></td>
-                </tr>
+                <tbody id="returned-leasables-data-body">
+                    <tr th:each="leasable, stat :${allLeasables}" class="leasable-data-row" th:id="${stat.count}">
+                        <td th:text="${stat.count}"></td>
+                        <td th:text="${leasable.leasableId}"></td>
+                        <td th:text="${leasable.leasableCode}"></td>
+                        <td th:text="${leasable.leasableType.leasableTypeName}"></td>
+                        <td th:text="${leasable.leasableSize}"></td>
+                        <td th:text="${leasable.leasableYearlyRent}"></td>
+                        <td th:text="${leasable.leasableStatus.leasableStatus}"></td>
+                        <td><input type="radio" th:attr="data-leasable-identification=${leasable.leasableId}" name="leasableId" class="updateLeasable"></td>
+                        <td><button class="leasable-toggling view-button" text="view" th:id="'view-leasable-'+${leasable.leasableId}">VIEW</button></td>
+                    </tr>
                 </tbody>
             </table>
+            <div id="modal-container">
+                <div class="flex column flex-start-align-items" id="modal-content">
+                    <span id="close">&times;</span>
+                    <div id="house-leasable-info" class="flex">
+                        <div class="leasable-view-info" id="leasable-id"></div>
+                        <div class="leasable-view-info" id="leasable-code"></div>
+                        <div class="leasable-view-info" id="leasable-type"></div>
+                        <div class="leasable-view-info" id="leasable-size"></div>
+                        <div class="leasable-view-info" id="leasable-rent"></div>
+                        <div class="leasable-view-info" id="leasable-status"></div>
+                        <div class="leasable-view-info" id="leasable-creation-date"></div>
+                    </div>
+                    <div class="leasable-view-info" id="leasable-history">
+                        <table>
+                            <thead>
+                                <th></th>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="flex justify-content-center" id="update-delete-button-holder">
+                        <button class="leasable-toggling" id="update-button" text="update">UPDATE</button>
+                        <button class="leasable-toggling" id="delete-button" text="delete">DELETE</button>
+                    </div>
+                </div>
+            </div>
+            <div id="reduce-page-number-button-holder">
+                <button class="change-page-button" id="first-page-button">First</button>
+                <button class="change-page-button" id="previous-page-button">Previous</button>
+            </div>
+            <div id="pagination-button-holder">
+            </div>
+            <div id="increase-page-number-button-holder">
+                <button class="change-page-button" id="next-page-button" >Next</button>
+                <button class="change-page-button" id="last-page-button" >Last</button>
+            </div>
             <input type="submit" id="updateStatus" formaction="/admin/leasable-status/update" value="Update Statuses"/>
             <input type="submit" id="updateType" formaction="/admin/leasable-roles/update" value="Update Types"/>
             <input type="submit" id="createLeasable" formaction="/admin/leasables/create" value="Create New Leasable"/>
@@ -171,5 +217,6 @@
     </script>
     <script th:src="@{/js/fabric.min.js}" async defer></script>
     <script th:src="@{/js/admin/leasables.js}" async defer></script>
+    <script th:src="@{/js/admin/leasablesStyles.js}" async defer></script>
 </body>
 </html>
