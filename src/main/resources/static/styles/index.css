@@ -42,6 +42,9 @@ body {
     align-items: center;
 }
 
+.invisible{
+    visibility: hidden;
+}
 
 .top-level-header-container {
     height: 5rem;
@@ -122,6 +125,7 @@ body {
     justify-content: center;
 }
 
+
 .drop-down-holder{
     justify-content: center;
     flex: 1;
@@ -136,6 +140,36 @@ body {
     /* z-index: 99; */
     visibility: visible;
     transform: translateY(5rem);
+    transition: transform 0.5s ease-in;
+}
+
+#hover-driven-side-panel{
+    z-index: 99;
+    background-color: tomato;
+    position: fixed;
+    top: 5rem;
+    left: 100%;
+    height: 100vh;
+    width: 15vw;
+}
+
+#complete-side-menu-container{
+    padding: 0 2vw;
+}
+
+.side-menu-links-container{
+    padding: 2vh 1vw;
+    justify-items: center;
+    border-inline: tomato 1px solid;
+}
+.side-menu-links-container:hover {
+    border-inline-color: black;
+    transition: ease-in;
+}
+
+.show-side-menu{
+    visibility: visible;
+    transform: translateX(-100%);
     transition: transform 0.5s ease-in;
 }
 

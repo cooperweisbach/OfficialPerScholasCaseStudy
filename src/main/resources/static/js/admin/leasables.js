@@ -481,7 +481,6 @@ function nextPageFunction(){
             if(element == newCurrentPageIndex){
                 buttonList[element].setAttribute("id", "current-page");
                 return buttonList[element].getAttribute("value");
-
             }
         }
     } else {
@@ -490,7 +489,6 @@ function nextPageFunction(){
 }
 
 function lastPageFunction(){
-
     let buttonList = document.getElementsByClassName("pagination-button");
     console.log(buttonList);
     for(let i = buttonList.length-1, page = calculateNumberOfPages(); i >= 0; i--, page--) {
@@ -515,7 +513,6 @@ function goToPage(event){
     console.log(newPage);
     console.log("current Page");
     console.log(currentPageNum);
-
     let difference = parseInt(currentPageNum) - parseInt(newPage);
     console.log("difference");
     console.log(difference);
@@ -526,7 +523,6 @@ function goToPage(event){
                 previousPageFunction();
         }
     }
-
     return newPage;
 }
 
@@ -603,43 +599,67 @@ let leasableTypeView = document.querySelector("#leasable-type");
 let leasableSizeView = document.querySelector("#leasable-size");
 let leasableRentView = document.querySelector("#leasable-rent");
 let leasableStatusView = document.querySelector("#leasable-status");
-let leasableCreationDateView = document.querySelector("#leasable-creation-date");
 
-let viewButton = document.querySelector(".view-button");
-viewButton.addEventListener("click", (event) => viewModal(event));
-let updateButton = document.querySelector(".update-button");
+let tableRows = document.querySelectorAll(".leasable-data-row");
+for(let row of tableRows){
+    row.addEventListener("click", (event)=> viewModal(event));
+}
+let updateButton = document.querySelector("#update-button");
 updateButton.addEventListener("click", (event) => viewModal(event));
-let deleteButton = document.querySelector(".delete-button");
+let deleteButton = document.querySelector("#delete-button");
 deleteButton.addEventListener("click", (event) => viewModal(event));
+let closeViewButton = document.querySelector("#close");
+closeViewButton.addEventListener("click", (event) => closeView(event));
+console.log("close view button");
+console.log(closeViewButton);
+let leasableHistoryIds = document.querySelectorAll(".leasable-history-identifier");
+let webBody = document.getElementsByTagName("body");
 
 function viewModal(event){
     event.preventDefault();
+    // console.log("weblog");
+    // // console.log(webBody);
+    webBody[0].style.overflow = "hidden";
     modalContainer.style.display = "flex";
     modalContainer.style.justifyContent = "center";
     modalContainer.style.alignItems = "center";
-    console.log(event.target.id);
-    let formData = new FormData();
-    let buttonPressed = event.target.id.split("-");
-    let pressedId = buttonPressed[buttonPressed.length-1];
-    console.log(pressedId);
-    formData.append("id", buttonPressed[buttonPressed.length-1]);
-    fetch("/api/leasables/get-info-by-id", {method:'POST', body:formData})
-        .then(response => response.json())
-        .then(data => {
-            console.log("data");
-            for (let element in data) {
-                console.log(data);
-                switch(element) {
-                    case "leasableId": leasableIdView.innerHTML = "Leasable Id: " + data[element]; break;
-                    case "leasableCode": leasableCodeView.innerHTML = "Leasable Code: " + data[element]; break;
-                    case "leasableType": leasableTypeView.innerHTML = "Leasable Type: " + data[element].leasableTypeName; break;
-                    case "leasableSize": leasableSizeView.innerHTML = "Leasable Size: " + data[element]; break;
-                    case "leasableYearlyRent": leasableRentView.innerHTML = "Leasable Yearly Rent: " + data[element]; break;
-                    case "leasableStatus": leasableStatusView.innerHTML = "Leasable Size: " + data[element].leasableStatus; break;
-                    case "leasableCreationDate": leasableCreationDateView.innerHTML = "Creation Date: " + data[element]; break;
-                }
-            }
-        });
+    let rowSelectedId = event.currentTarget.id;
+    console.log("current target id");
+    console.log(event.currentTarget.id);
+    let rowSelected = document.getElementById(rowSelectedId);
+    console.log(rowSelected.children);
+    let leasableId;
+    for (let element of rowSelected.children) {
+        switch(element.id) {
+            case "leasable-id-node": leasableIdView.innerHTML = "Leasable Id: " + element.innerHTML;
+                                    leasableId = element.innerHTML; break;
+            case "leasable-code-node": leasableCodeView.innerHTML = "Leasable Code: " + element.innerHTML; break;
+            case "leasable-type-node": leasableTypeView.innerHTML = "Leasable Type: " + element.innerHTML; break;
+            case "leasable-size-node": leasableSizeView.innerHTML = "Leasable Size: " + element.innerHTML; break;
+            case "leasable-rent-node": leasableRentView.innerHTML = "Leasable Yearly Rent: " + element.innerHTML; break;
+            case "leasable-status-node": leasableStatusView.innerHTML = "Leasable Status: " + element.innerHTML; break;
+            // case "leasable-date-node": leasableCreationDateView.innerHTML = "Creation Date: " + rowSelected[element]; break;
+            default: break;
+        }
+    }
+
+    for(let leasableHistoryId of leasableHistoryIds){
+        if(leasableHistoryId.innerHTML == leasableId){
+            leasableHistoryId.parentElement.style.display="block";
+        }
+    }
+
+}
+
+
+function closeView(event){
+    event.preventDefault();
+    console.log("this function is being called");
+    modalContainer.style.display = "none";
+    webBody[0].style.overflow = "scroll";
+    for(let leasableHistoryId of leasableHistoryIds){
+        leasableHistoryId.parentElement.style.display="none";
+    }
 }
 
 function updateModal(event){

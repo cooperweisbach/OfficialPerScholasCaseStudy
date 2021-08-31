@@ -14,6 +14,14 @@
     align-items: flex-start;
 }
 
+.stretch-align-items{
+    align-items: stretch;
+}
+
+.align-items-center{
+    align-items: center;
+}
+
 .justify-content-center{
     justify-content: center;
 }
@@ -22,22 +30,110 @@
     display:grid;
 }
 
+.hide-data{
+    display:none;
+}
+
+.justify-content-space-between{
+    justify-content: space-between;
+}
+
+/*////////////////////////////////////*/
+#search-and-button-holder{
+    width:75vw;
+    height:10vh;
+    /*padding: 2vh 0;*/
+}
+
+#leasables-search{
+    width: 30vw;
+}
+
+/*///////////////////////TABLE SPECIFIC////////////////////////*/
+
+
+#returned-leasables-data-container{
+    height: 70vh;
+    overflow-y: scroll;
+    width: 70vw;
+}
+
+#returned-leasables-data{
+    width: 100%;
+}
+
+.leasable-data-row{
+    height:2vh
+}
+
+#returned-leasables-data,
+#leasable-history-table{
+    border-collapse: collapse;
+}
+
+th {
+    font-weight: bold;
+    background-color: #53B87D;
+}
+
+
+td {
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
 
 .leasable-data-row:nth-child(odd){
-    background: aliceblue;
+    background: #D9FFE9;
+}
+
+.leasable-data-row:hover,
+.leasable-data-row:focus{
+    background: coral;
+    cursor: pointer;
 }
 /*tr:nth-child(even) {background: #CCC}*/
 #returned-leasables-data{
     table-layout: fixed;
 }
 
+#leasable-history{
+    overflow-y: scroll;
+}
+
 #current-page{
     background-color: aqua;
 }
 
-.hide-data{
-    display:none;
-}
+
+
+
+
+
+/*#close{*/
+/*    */
+/*}*/
+
+/*#leasable-id,*/
+/*#leasable-code,*/
+/*#leasable-type,*/
+/*#leasable-size,*/
+/*#leasable-rent,*/
+/*#leasable-status,*/
+/*#leasable-creation-date*/
+/*{*/
+/*    flex: 1;*/
+/*}*/
+
+/*#leasable-history{*/
+/*    grid-area: history;*/
+/*}*/
+
+/*#update-button,*/
+/*#delete-button{*/
+/*    grid-area: footer;*/
+/*}*/
+
+/*/////////////////////////MODAL VIEW STYLES//////////////////////////*/
 
 #modal-container{
     position:fixed;
@@ -66,30 +162,24 @@
     width: 80%;
     height: 50vh;
 }
-/*#close{*/
-/*    */
-/*}*/
 
-#leasable-id,
-#leasable-code,
-#leasable-type,
-#leasable-size,
-#leasable-rent,
-#leasable-status,
-#leasable-creation-date
-{
-    flex: 1;
+#close{
+    color: #aaaaaa;
+    font-size: 28px;
+    font-weight: bold;
+    border: none;
 }
 
-/*#leasable-history{*/
-/*    grid-area: history;*/
-/*}*/
-
-/*#update-button,*/
-/*#delete-button{*/
-/*    grid-area: footer;*/
-/*}*/
+#close:hover,
+#close:focus{
+    color: #000;
+    cursor: pointer;
+}
 
 
 
 
+
+#leasable-history-row{
+    display: none;
+}

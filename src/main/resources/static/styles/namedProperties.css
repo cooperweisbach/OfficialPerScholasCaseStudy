@@ -1,0 +1,27 @@
+*{
+    box-sizing: border-box;
+}
+
+body {
+    height: 140vh;
+}
+.flex {
+    display: flex;
+}
+
+.block{
+    display:block;
+}
+
+.grid {
+    display: grid;
+}
+
+.only-flex-item{
+    flex:1;
+}
+
+.center-center-items{
+    justify-content: center;
+    align-items: center;
+}
