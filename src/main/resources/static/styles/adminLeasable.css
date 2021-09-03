@@ -1,42 +1,3 @@
-*{
-    box-sizing: border-box;
-}
-
-.flex{
-    display: flex;
-}
-
-.column{
-    flex-direction: column;
-}
-
-.flex-start-align-items{
-    align-items: flex-start;
-}
-
-.stretch-align-items{
-    align-items: stretch;
-}
-
-.align-items-center{
-    align-items: center;
-}
-
-.justify-content-center{
-    justify-content: center;
-}
-
-.grid{
-    display:grid;
-}
-
-.hide-data{
-    display:none;
-}
-
-.justify-content-space-between{
-    justify-content: space-between;
-}
 
 /*////////////////////////////////////*/
 #search-and-button-holder{
@@ -104,35 +65,6 @@ td {
     background-color: aqua;
 }
 
-
-
-
-
-
-/*#close{*/
-/*    */
-/*}*/
-
-/*#leasable-id,*/
-/*#leasable-code,*/
-/*#leasable-type,*/
-/*#leasable-size,*/
-/*#leasable-rent,*/
-/*#leasable-status,*/
-/*#leasable-creation-date*/
-/*{*/
-/*    flex: 1;*/
-/*}*/
-
-/*#leasable-history{*/
-/*    grid-area: history;*/
-/*}*/
-
-/*#update-button,*/
-/*#delete-button{*/
-/*    grid-area: footer;*/
-/*}*/
-
 /*/////////////////////////MODAL VIEW STYLES//////////////////////////*/
 
 #modal-container{
@@ -149,12 +81,6 @@ td {
 }
 
 #modal-content{
-    /*grid-template-rows: 1fr 3fr 4fr 2fr;*/
-    /*grid-template-columns: 1fr 3fr 3fr 1fr;*/
-    /*grid-template-areas: 'header header header header'*/
-    /*                     'info info info info'*/
-    /*                     'history history history history'*/
-    /*                     'footer footer footer footer';*/
     background-color: #fefefe;
     margin: auto;
     padding: 2% 4%;
@@ -175,9 +101,6 @@ td {
     color: #000;
     cursor: pointer;
 }
-
-
-
 
 
 #leasable-history-row{

@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 
 @Controller
 @Slf4j
@@ -65,14 +66,24 @@ public class AdminImageController {
     }
 
     @GetMapping("/admin/images")
-    public String adminGetAllImages(Model m){
+    public String adminGetAllImages(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allImages", imageServices.getAllImages());
         return "admin/images/images";
     }
 
 
     @PostMapping("/admin/images")
-    public String adminGetAllImagesPost(Model m){
+    public String adminGetAllImagesPost(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allImages", imageServices.getAllImages());
         return "admin/images/images";
     }
@@ -94,6 +105,7 @@ public class AdminImageController {
     public ModelAndView redirectToSuccessfulUpload(HttpServletRequest request,
                                                    @ModelAttribute("imageToUpload") Image imageToUpload,
                                                    @RequestParam("image") MultipartFile multipartFile) throws IOException, FileStorageException {
+
         try {    //file name clean up
 
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());

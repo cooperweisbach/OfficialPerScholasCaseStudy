@@ -42,8 +42,6 @@ a:hover {
 }
 .submit-button:hover {
     cursor: pointer;
-    /* background-color: white;
-    color: black; */
     border-top: 2px solid black;
     border-bottom: 2px solid black;
     border-left: 0;

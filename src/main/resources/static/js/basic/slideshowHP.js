@@ -7,18 +7,20 @@ console.log(prevImageButton);
 console.log(nextImageButton);
 console.log(imagesList);
 
-prevImageButton.addEventListener("click", prevImage);
+prevImageButton.addEventListener("click", (event)=> prevImage(event));
 nextImageButton.addEventListener("click", nextImage);
 
 
 function nextImage(){
-    imageList = document.getElementsByClassName("gallery-slides");
-    slideshowContainer.appendChild(imageList[0]);
+    console.log(nextImageButton);
+    imagesList = document.getElementsByClassName("gallery-slides");
+    slideshowContainer.appendChild(imagesList[0]);
 }
 
-function prevImage(){
-    imageList = document.getElementsByClassName("gallery-slides");
-    slideshowContainer.insertBefore(imageList[imageList.length-1],slideshowContainer.firstChild);
+function prevImage(event){
+    console.log(event.currentTarget);
+    imagesList = document.getElementsByClassName("gallery-slides");
+    slideshowContainer.insertBefore(imagesList[imagesList.length-1],slideshowContainer.firstChild);
 }
 
 

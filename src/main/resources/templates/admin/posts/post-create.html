@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
-
+    <div th:replace="fragments/general :: base-style"></div>
+    <div th:replace="fragments/general :: main-navigation-style"></div>
+    <div th:replace="fragments/general :: base-script"></div>
 </head>
 <body>
+<div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
+
 <h1>Post To Create</h1>
 
 <form th:action="@{/admin/posts/create-approved}" method="post" id="createLeaseForm">
@@ -22,12 +33,12 @@
         </th>
         </thead>
         <tbody id="tagContainer">
-        <tr th:each="tag:${allTags}">
-            <td>
-                <input class="postTags" th:field="*{postToCreate.postTagList}" th:value="${tag.postTagId}" type="checkbox" th:id="${tag.postTagId}" name="postTag" th:attr="data-post-tag=${tag.postTagTitle}"/>
-                <label th:for="${tag.postTagId}" th:text="${tag.postTagTitle}">Label</label>
-            </td>
-        </tr>
+<!--        <tr th:each="tag:${allTags}">-->
+<!--            <td>-->
+<!--                <input class="postTags" th:field="*{postToCreate.postTagList}" th:value="${tag.postTagId}" type="checkbox" th:id="${tag.postTagId}" name="postTag" th:attr="data-post-tag=${tag.postTagTitle}"/>-->
+<!--                <label th:for="${tag.postTagId}" th:text="${tag.postTagTitle}">Label</label>-->
+<!--            </td>-->
+<!--        </tr>-->
         <tr id="tagRow">
                 <input hidden th:field="${newTagsStringList.newPostTagTitles}" id="newTagContainer" />
         </tr>
@@ -41,21 +52,21 @@
         </tr>
         </tbody>
     </table>
-    <table>
-        <thead>
-        <th>
-        <td>Post Author</td>
-        </th>
-        </thead>
-        <tbody>
-        <tr th:each="member:${allMembers}">
-            <td>
-                <input class="postMember" th:field="*{postToCreate.member}" th:value="${member.memberId}" type="radio" th:id="${member.memberId}" name="postMember" />
-                <label th:for="${member.memberId}" th:text="${member.getFullName()}">Label</label>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <th>-->
+<!--        <td>Post Author</td>-->
+<!--        </th>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="member:${allMembers}">-->
+<!--            <td>-->
+<!--                <input class="postMember" th:field="*{postToCreate.member}" th:value="${member.memberId}" type="radio" th:id="${member.memberId}" name="postMember" />-->
+<!--                <label th:for="${member.memberId}" th:text="${member.getFullName()}">Label</label>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
     <table>
         <thead>
         <th>
@@ -91,10 +102,12 @@
     let stringList = [];
     let newTitleHolder = document.querySelector("#newTagContainer");
 
-    addTagButton.addEventListener("click", function(event){
-        event.preventDefault();
+    addTagInputBox.addEventListener("keydown", function(event){
+        // event.preventDefault();
+        console.log(event);
         let newTagValue = $("#newPostTag").val();
-        if(newTagValue != "") {
+        if(event.code == "Space") {
+            console.log("newTagValue");
             console.log(newTagValue);
             let newSpan = document.createElement("span");
             newSpan.appendChild(document.createTextNode(newTagValue));
@@ -115,10 +128,10 @@
     myForm.addEventListener("submit", function(event) {
         let submit = false;
         // postTags = document.querySelector(".postTags:checked").dataset.postTag;
-        member = document.querySelector(".postMember:checked");
+        // member = document.querySelector(".postMember:checked");
         postTitle = $("#postTitle").val();
         console.log(postTitle);
-        if(member != null && postTitle != null) {
+        if( postTitle != null) {
             console.log("passed selection validation")
             formData.append("postTitle", postTitle);
             fetch('/api/posts/check-title', {method: 'POST', body: formData})
@@ -177,5 +190,8 @@
 
     /*]]>*/
 </script>
+<div th:replace="fragments/general :: main-navigation-script"></div>
 </body>
 </html>
+
+

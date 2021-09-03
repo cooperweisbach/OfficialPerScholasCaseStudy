@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <link th:fragment="base-style" rel="stylesheet" th:href="@{/styles/normalize.css}">
+    <link th:fragment="base-style" rel="stylesheet" th:href="@{/styles/namedProperties.css}">
+    <link th:fragment="admin-data-style" rel="stylesheet" th:href="@{/styles/admin-model-styles.css}">
+    <link th:fragment="admin-nav-style" rel="stylesheet" th:href="@{/styles/admin-panel-nav.css}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:fragment="base-style" rel="preconnect" href="https://fonts.googleapis.com">
+    <link th:fragment="base-style" rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link th:fragment="base-style" href="https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
+    <style th:fragment="base-style" >
+        body {
+            font-family: 'Signika Negative', sans-serif;
+        }
+    </style>
+    <script th:fragment="base-script" th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+</head>
+<body>
+
+    <div th:fragment="search-and-button-holder-fragment(searchableAttribute, createUrl, modelName, statusUrl, typeUrl, rolesUrl, configurationUrl)" id="search-and-button-holder" class="flex justify-content-space-between align-items-center">
+        <input type="text" th:placeholder="'Search '+ ${searchableAttribute}" id="models-search">
+        <div>
+            <input type="submit" id="createModel" th:formaction="${createUrl}" th:value="'Create New '+ ${modelName}"/>
+            <input th:if="${statusUrl != ''}" type="submit" id="updateStatus" th:formaction="${statusUrl}" value="Update Statuses"/>
+            <input th:if="${typeUrl != ''}" type="submit" id="updateType" th:formaction="${typeUrl}" value="Update Types"/>
+            <input th:if="${rolesUrl != ''}" type="submit" id="updateRoles" th:formaction="${rolesUrl}" value="Update Roles"/>
+            <input th:if="${configurationUrl != ''}" type="submit" id="configurations" value="Configurations" />
+        </div>
+    </div>
+
+<script th:fragment="admin-model-scripts" th:src="@{/js/admin/admin-model-scripts.js}"></script>
+</body>
+</html>

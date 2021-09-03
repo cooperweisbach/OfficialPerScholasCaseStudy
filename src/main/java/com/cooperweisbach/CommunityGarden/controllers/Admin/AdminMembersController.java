@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.Map;
 
 @Controller
@@ -55,7 +56,12 @@ public class AdminMembersController {
 
     //Gets us each and every user
     @GetMapping("/admin/users")
-    public String adminGetAllUsersGet(Model m){
+    public String adminGetAllUsersGet(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
 //        m.addAttribute("user", new Member());
         m.addAttribute("allMembers", memberServices.getAllMembers());
         m.addAttribute("memberStatuses", memberStatusServices.getEveryMemberStatus());
@@ -64,7 +70,12 @@ public class AdminMembersController {
     }
 
     @PostMapping("/admin/users")
-    public String adminGetAllUsersPost(Model m){
+    public String adminGetAllUsersPost(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
 //        m.addAttribute("user", new Member());
         m.addAttribute("allMembers", memberServices.getAllMembers());
         return "admin/members/members";

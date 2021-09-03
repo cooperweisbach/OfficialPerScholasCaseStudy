@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.Entity;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -13,13 +14,10 @@ import javax.persistence.Entity;
 @Slf4j
 @FieldDefaults(level=AccessLevel.PRIVATE)
 public class PostTagContainer {
-    private PostTag[] newPostTagList = new PostTag[10];
-    private String[] newPostTagTitles = new String[10];
+    private ArrayList<PostTag> newPostTagList = new ArrayList<>();
+    private ArrayList<String> newPostTagTitles = new ArrayList<>();
 
     public PostTagContainer() {
-        for(PostTag pt: newPostTagList){
-            pt = new PostTag();
-        }
     }
 
     public int getNumberOfAddedTags(){
@@ -32,7 +30,7 @@ public class PostTagContainer {
         return counter;
     }
 
-    public void addNewElement(int position, String newElementName){
-        newPostTagList[position] = new PostTag(newElementName);
+    public void addNewElement(String newElementName){
+        newPostTagList.add(new PostTag(newElementName));
     }
 }

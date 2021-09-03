@@ -1,6 +1,7 @@
 package com.cooperweisbach.CommunityGarden.controllers.Basic;
 
 
+import com.cooperweisbach.CommunityGarden.models.Post;
 import com.cooperweisbach.CommunityGarden.services.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class BasicController {
             m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
         }
         long memberCount = memberServices.memberCount();
-        log.warn(String.valueOf(memberCount));
+        Post latestPost = postServices.getLatestPublishedPost();
         m.addAttribute("totalMembers", memberCount);
         m.addAttribute("typeTreeMap", (Map<String, Long>)leasableServices.getLeasableCountsByType());
 
@@ -60,6 +61,10 @@ public class BasicController {
 //            log.warn(e.getKey() + " " + e.getValue());
 //            m.addAttribute(e.getKey(), e.getValue());
 //        }
+        if(latestPost != null) {
+            log.warn(latestPost.toString());
+            m.addAttribute("latestPost", latestPost);
+        }
         return "index";
     }
 
@@ -69,9 +74,13 @@ public class BasicController {
     }
 
     @GetMapping("/contact-us")
-    public String contactUs(){
+    public String contactUs(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         return "contactUs";
     }
-
 
 }

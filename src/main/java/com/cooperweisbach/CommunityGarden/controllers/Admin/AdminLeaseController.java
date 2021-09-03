@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @Controller
 @Slf4j
@@ -82,13 +83,23 @@ public class AdminLeaseController {
 
     //Gets us each and every lease
     @GetMapping("/admin/leases")
-    public String adminGetAllLeases(Model m){
+    public String adminGetAllLeases(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allLeases", leaseServices.getAllLeases());
         return "admin/leases/leases";
     }
 
     @PostMapping("/admin/leases")
-    public String adminGetAllLeasesPost(Model m){
+    public String adminGetAllLeasesPost(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allLeases", leaseServices.getAllLeases());
         return "admin/leases/leases";
     }

@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+
 @Controller
 @Slf4j
 public class AdminController {
@@ -48,7 +51,13 @@ public class AdminController {
     ////////////////////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/admin")
-    public String admin(Model m){
+    public String admin(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
+
         return "admin/admin";
     }
 

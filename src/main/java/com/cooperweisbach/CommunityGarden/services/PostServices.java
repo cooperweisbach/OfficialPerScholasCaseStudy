@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -56,4 +57,12 @@ public class PostServices {
     public Post getPostById(int id){return postRepo.getById(id);}
 
     public void deletePostById(int id){postRepo.deleteByPostId(id);}
+
+    public Post getLatestPublishedPost(){
+        if(postRepo.getAllByPostStatus_PostStatus("published").isPresent()){
+            return postRepo.getAllByPostStatus_PostStatus("published").stream().max(Comparator.comparing(Post::getPostId)).get();
+        } else{
+            return null;
+        }
+    }
 }

@@ -4,6 +4,8 @@ import com.cooperweisbach.CommunityGarden.models.Leasable;
 import com.cooperweisbach.CommunityGarden.models.LeasableStatus;
 import com.cooperweisbach.CommunityGarden.models.LeasableType;
 import com.cooperweisbach.CommunityGarden.services.LeasableServices;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -18,6 +20,6 @@ public interface iLeasableRepo extends JpaRepository<Leasable, Integer> {
     List<Leasable> findAll();
     List<Leasable> removeByLeasableCode(String leasableCode);
     Long countLeasableByLeasableType_LeasableTypeName(String leasableTypeName);
-
+    Page<Leasable> findAll(Pageable page);
     void deleteByLeasableId(Integer integer);
 }

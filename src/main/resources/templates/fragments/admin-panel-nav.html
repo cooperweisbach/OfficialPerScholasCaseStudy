@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <link th:fragment="base-style" rel="stylesheet" th:href="@{/styles/normalize.css}">
+    <link th:fragment="base-style" rel="stylesheet" th:href="@{/styles/namedProperties.css}">
+    <link th:fragment="admin-data-style" rel="stylesheet" th:href="@{/styles/admin-model-styles.css}">
+    <link th:fragment="admin-nav-style" rel="stylesheet" th:href="@{/styles/admin-panel-nav.css}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:fragment="base-style" rel="preconnect" href="https://fonts.googleapis.com">
+    <link th:fragment="base-style" rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link th:fragment="base-style" href="https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
+    <style th:fragment="base-style" >
+        body {
+            font-family: 'Signika Negative', sans-serif;
+        }
+    </style>
+    <script th:fragment="base-script" th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+</head>
+<body>
+
+<div id="external-admin-panel-container" th:fragment="admin-panel-nav(currentModelId, currentModelName)">
+    <div class="flex flex-vertical flex-start-align-items" id="internal-admin-panel-container">
+        <div id="current-admin-page-header">
+            <span id="current-admin-page-span" th:id="${currentModelId}" th:text="${currentModelName}"></span>
+        </div>
+        <div class="flex">
+            <div id="dashboardContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin" >DASHBOARD</a></div>
+            <div id="membersContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/members">MEMBERS</a></div>
+            <div id="leasablesContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/leasables">LEASABLES</a></div>
+            <div id="leasesContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/leases">LEASES</a></div>
+            <div id="postsContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/posts">POSTS</a></div>
+            <div id="messageThreadsContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/message-threads">MESSAGE THREADS</a></div>
+            <div id="imagesContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/images">IMAGES</a></div>
+            <div id="paymentsContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/payments">PAYMENTS</a></div>
+        </div>
+    </div>
+</div>
+
+<script th:fragment="admin-model-scripts" th:src="@{/js/admin/admin-model-scripts.js}"></script>
+</body>
+</html>

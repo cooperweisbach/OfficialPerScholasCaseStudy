@@ -1,13 +1,134 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/namedProperties.css">
+    <link rel="stylesheet" href="/styles/normalize.css">
+    <link rel="stylesheet" href="/styles/namedProperties.css">
+    <link rel="stylesheet" href="/styles/headerNav.css">
     <meta charset="UTF-8">
     <title>Generic</title>
 </head>
 <body>
+<div class="top-level-header-container flex">
+    <div class ="sub-level-header-container flex only-flex-item beauty-margin">
+        <nav class = "header-navigation flex only-flex-item">
+            <div class= "navigation-link-container flex only-flex-item flex-space-between">
+                <div class= "container-of-spans span-logo-container flex flex-item">
+                    <span class="span-logo-holder"><a class="logo-link" th:href="@{/}">SCOTTSDALE<br />COMMUNITY<br />GARDEN</a></span>
+                </div>
+                <div class= "container-of-spans span-links-container flex flex-item">
+                        <span class="span-header-link-container"><a href="">JOIN US!</a>
+                        </span>
+                    <span class="span-header-link-container"><a href="">ABOUT</a>
+                        </span>
+
+                    <div class="flex drop-down-holder" id="resources-drop-down-holder">
+                                <span class="span-header-link-container span-hover-dropdown">RESOURCES
+                                    <svg class="pad-svg" width="22" height="11">
+                                        <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
+                                    </svg>
+                                </span>
+                        <div class="flex flex-vertical drop-down-menu" id="resources-drop-down-menu">
+                            <div class="link-div-container flex">
+                                <img id="pencil-icon" class="icon" src="images/icon-blog.png" alt="pencil icon"><a href="">BLOG</a>
+                            </div>
+                            <div class="link-div-container flex">
+                                <img id="sun-icon" class="icon" src="images/icon-weather.png" alt="sun icon"><a href="">WEATHER, CLIMATE, ENERGY</a>
+                            </div>
+                            <div class="link-div-container flex">
+                                <img id="brain-icon" class="icon" src="images/icon-class.png" alt=""><a href="">CLASSES</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex drop-down-holder" id="events-drop-down-holder">
+                                <span class="span-header-link-container span-hover-dropdown">EVENTS
+                                    <svg class="pad-svg" width="22" height="11">
+                                        <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
+                                    </svg>
+                                </span>
+                        <div class="flex flex-vertical drop-down-menu" id="events-drop-down-menu">
+                            <div class="link-div-container flex">
+                                <img class="icon" src="images/icon-charity.png" alt="pencil icon"><a href="">CHARITY</a>
+                            </div>
+                            <div class="link-div-container flex">
+                                <img  class="icon" src="images/icon-market.png" alt="sun icon"><a href="">FARMER'S MARKET</a>
+                            </div>
+                            <div class="link-div-container flex">
+                                <img  class="icon" src="images/icon-calendar.png" alt=""><a href="">CALENDAR</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <span class="span-header-link-container"><a href="@{/contact-us}">CONTACT US</a>
+                        </span>
+                </div>
+                <div sec:authorize="isAnonymous()" class= "container-of-spans span-signin-container flex flex-item">
+                    <span class="span-header-sign-in-container"><a th:href="@{/login}">SIGN-IN</a></span>
+                </div>
+                <div sec:authorize="isAuthenticated()" class="container-of-spans span-member-links-container flex flex-item">
+                                <span th:text="${currentUser.getFullName().toUpperCase()}" class="span-header-link-container span-hover-dropdown">
+                                    <svg class="pad-svg" width="22" height="11">
+                                        <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
+                                    </svg>
+                                </span>
+                    <div class="flex flex-vertical invisible" id="hover-driven-side-panel">
+                        <div class="flex flex-vertical" id="complete-side-menu-container">
+                            <div class="container-of-spans side-menu-links-container"><span><a href="/members">MESSAGE BOARD</a></span></div>
+                            <div class="container-of-spans side-menu-links-container"><span><a href="/members/leasables">LEASABLES</a></span></div>
+                            <div class="container-of-spans side-menu-links-container"><span><a href="/members/member" >ACCOUNT</a></span></div>
+                            <div class="container-of-spans side-menu-links-container"><span sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin">ADMIN</a></span></div>
+                            <div class="container-of-spans side-menu-links-container"><span sec:authorize="isAuthenticated()"><a href="/logout">LOGOUT</a></span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-item hidden-flower-button-container center-center-items pos-relative">
+                    <button class=" flex flex-item hidden-flower-button center-center-items menu-item-click">
+                        <svg viewbox= "0 0 48 48"   class="flower-button-svg center-center-items">
+                            <path id="flower-button" d="M 24 18 L 24 30 C 32 30 32 18 24 18 M 24 18 L 24 30 C 16 30 16 18 24 18 M 24 24 C 0 0 24 0 24 24 M 24 24 C 0 24 0 0 24 24 M 24 24 C 48 0 24 0 24 24 M 24 24 C 48 24 48 0 24 24 M 24 24 C 0 48 0 24 24 24 M 24 24 C 24 48 0 48 24 24 M 24 24 C 48 48 48 24 24 24 M 24 24 C 24 48 48 48 24 24" stroke="black" stroke-width="1" fill="none" />
+                        </svg>
+                    </button>
+                    <div class= "hidden-menu-container flex flex-item pos-absolute flex-vertical align-items-center">
+                        <span class="block"><a href="#">JOIN US!</a></span>
+                        <span class="block"><a href="#">ABOUT</a></span>
+                        <button id="resources-button">RESOURCES
+                            <svg class="pad-svg" width="22" height="11">
+                                <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
+                            </svg>
+                        </button>
+                        <span id="resources-links" class="hide-resource-links"><a class="block" href="#">BLOG</a><a class="block" href="#">WEATHER, CLIMATE, ENERGY</a><a class="block" href="#">CLASSES</a></span>
+                        <button id="events-button">EVENTS
+                            <svg class="pad-svg" width="22" height="11">
+                                <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
+                            </svg>
+                        </button>
+                        <span id="events-links" class="hide-event-links"><a class="block" href="#">CHARITY</a><a class="block" href="#">FARMERS MARKET</a><a class="block" href="#">CALENDAR</a></span>
+                        <span><a href="contactUs.html">CONTACT US</a></span>
+                        <span sec:authorize="isAnonymous()"><a th:href="@{/login}">SIGN IN</a></span>
+                        <span sec:authorize="isAuthenticated()"><a th:href="@{/members}">MEMBERS</a></span>
+                        <span sec:authorize="isAuthenticated()"><a th:href="@{/logout}">LOGOUT</a></span>
+                    </div>
+                </div>
+
+            </div>
+        </nav>
+    </div>
+</div>
+
+
 <h1>Oops, generic error...</h1>
 <a href="/">Go back home</a>
+
+<script th:src="@{js/side-member-panel.js}"></script>
+<script th:src="@{js/basic/expandResourcesEvents.js}"></script>
+<script th:src="@{js/basic/flower-button.js}"></script>
+<script th:src="@{js/basic/hover-dropdowns.js}"></script>
 </body>
 </html>

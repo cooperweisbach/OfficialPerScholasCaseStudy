@@ -8,6 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
+
 @Controller
 @Slf4j
 public class AdminPaymentController {
@@ -44,13 +47,23 @@ public class AdminPaymentController {
     }
 
     @GetMapping("/admin/payments")
-    public String adminGetAllPayments(Model m){
+    public String adminGetAllPayments(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allPayments", paymentServices.getAllPayments());
         return "admin/payments/payments";
     }
 
     @PostMapping("/admin/payments")
-    public String adminGetAllPaymentsPost(Model m){
+    public String adminGetAllPaymentsPost(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allPayments", paymentServices.getAllPayments());
         return "admin/payments/payments";
     }

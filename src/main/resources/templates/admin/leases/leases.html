@@ -6,11 +6,15 @@
   http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
   http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
+    <div th:replace="fragments/general :: base-style"></div>
+    <div th:replace="fragments/general :: main-navigation-style"></div>
+    <div th:replace="fragments/general :: base-script"></div>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 </head>
 <body>
+<div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
+
 <div>
     <form th:action="@{/admin}" method="get">
         <input type="submit" value="Dashboard">
@@ -95,6 +99,6 @@
         deleteButton.setAttribute("formaction", "/admin/leases/delete/" + lease);
     });
 </script>
-
+<div th:replace="fragments/general :: main-navigation-script"></div>
 </body>
 </html>

@@ -13,10 +13,11 @@ public interface iPostRepo extends JpaRepository<Post, Integer> {
     Optional<Post> getAllByMember(Member member);
     List<Post> findFirstBy();
     List<Post> getAllByPostTagList_PostTagTitle(String postTagTitle);
-
+    Optional<Post> getAllByPostStatus_PostStatus(String postStatus);
     void deleteByPostId(Integer integer);
     Post findByPostTitle(String title);
     Post findByPostId(int id);
+
 
 }
 

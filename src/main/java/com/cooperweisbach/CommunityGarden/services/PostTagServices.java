@@ -28,18 +28,18 @@ public class PostTagServices {
         return postTagRepo.findAll();
     }
 
-    public Post savePostTagsFromList(String[] ofPostTags){
+    public Post savePostTagsFromList(ArrayList<String> ofPostTags){
         List<PostTag> successfullyAdded = new ArrayList<>();
         List<String> currentlyAvailable = postTagRepo.findAll().stream().map(postTag -> postTag.getPostTagTitle().toLowerCase()).collect(Collectors.toList());
-        log.warn(String.valueOf(ofPostTags.length));
+        log.warn(String.valueOf(ofPostTags.size()));
         for(String pt: ofPostTags){
             log.warn(pt);
+            PostTag tag = new PostTag(pt);
             if(!currentlyAvailable.contains(pt.toLowerCase())){
-                PostTag tag = new PostTag(pt);
                 log.warn(tag.getPostTagTitle());
                 postTagRepo.save(tag);
-                successfullyAdded.add(tag);
             }
+            successfullyAdded.add(tag);
         }
         Post returnPost = new Post();
         returnPost.setPostTagList(successfullyAdded);

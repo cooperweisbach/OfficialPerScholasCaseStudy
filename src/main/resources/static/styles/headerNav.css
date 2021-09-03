@@ -1,0 +1,260 @@
+.beauty-margin{
+    padding: 0 4vw;
+}
+
+.top-level-header-container {
+    height: 5rem;
+    width: 100%;
+    background: tomato;
+    position: fixed;
+    top:0;
+    left:0;
+}
+
+.sub-level-header-container {
+    display: flex;
+    height: 5rem;
+    align-items: center;
+    overflow: hidden;
+}
+
+.navigation-link-container {
+    height:5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.hidden-main {
+    display: none;
+}
+
+.container-of-spans {
+    display: flex;
+}
+
+.span-links-container{
+    display: flex;
+}
+
+.span-header-link-container {
+    padding-inline: 1rem;
+}
+
+.span-hover-dropdown{
+    cursor: default;
+}
+
+.span-header-link-container a{
+    display: inline-block;
+    padding-top: 10%;
+    padding-bottom: 10%;
+}
+.span-header-link-container,
+.span-logo-holder,
+.span-header-sign-in-container{
+    border-top: 0.2rem solid tomato;
+    border-bottom: 0.2rem solid tomato;
+    display: flex;
+    align-items: center;
+}
+
+.span-header-sign-in-container:hover,
+.span-header-link-container:hover{
+    border-top: 0.2rem solid black;
+    border-bottom: 0.2rem solid black;
+    transition: ease 1s;
+}
+
+.drop-down-menu {
+    /*border: 3px solid black;*/
+    position: absolute;
+    width: 300px;
+    visibility:hidden;
+    transform: translateY(-200%);
+    transition: transform 0.5s ease-in;
+    background-color: tomato;
+}
+
+.link-div-container{
+    flex: 1;
+    padding: 6px 0;
+    justify-content: center;
+}
+
+
+.drop-down-holder{
+    justify-content: center;
+    flex: 1;
+}
+
+.icon{
+    height: 20px;
+    padding: 0 3%;
+}
+
+.show-dropdown-menu{
+    /* z-index: 99; */
+    visibility: visible;
+    transform: translateY(5rem);
+    transition: transform 0.5s ease-in;
+}
+
+#hover-driven-side-panel{
+    z-index: 99;
+    background-color: tomato;
+    position: fixed;
+    top: 5rem;
+    left: 100%;
+    height: 100vh;
+    width: 15vw;
+}
+
+#complete-side-menu-container{
+    padding: 0 2vw;
+}
+
+.side-menu-links-container{
+    padding: 2vh 1vw;
+    justify-items: center;
+    border-inline: tomato 1px solid;
+}
+.side-menu-links-container:hover {
+    border-inline-color: black;
+    transition: ease-in;
+}
+
+.show-side-menu{
+    visibility: visible;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease-in;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+
+.logo-link {
+    color: white;
+}
+
+.hidden-flower-button-container {
+    display: none;
+}
+
+.span-logo-holder {
+    background-color: black;
+    z-index: 100;
+}
+
+.hidden-menu-container{
+    position:fixed;
+    background: rgb(253, 135, 114);
+    z-index: 99;
+    min-height: 500px;
+    height: calc(100vh - 5rem);
+    width: 100%;
+    top:0;
+    /* top:calc((100vh - 5rem)*-1); */
+    left:0;
+    /* justify-content: center; */
+    display: flex;
+    flex-direction: column;
+    /* text-align: center; */
+    padding:10% 0;
+    transform: translateY(calc(-100%));
+    transition: transform 0.5s;
+}
+
+.showMenu {
+    transform: translateY(5rem);
+    /* transition: transform 0.2s; */
+}
+
+.hidden-menu-container span{
+    margin: 2% 0;
+}
+
+.hidden-menu-container button{
+    background-color: rgb(253, 135, 114);
+    margin: 2% 0;
+    border: none;
+    border-bottom: 1px solid rgb(253, 135, 114);
+    cursor: pointer;
+}
+
+.hidden-menu-container button:hover{
+    background-color: rgb(253, 135, 114);
+    margin: 2% 0;
+    border-bottom: 1px solid black;
+    transition: 1s;
+}
+
+.button-link-holder{
+    border: 2px solid rgb(253, 135, 114);
+}
+.button-link-holder:hover {
+    border-bottom: 2px solid black;
+}
+
+.hide-event-links,
+.hide-resource-links{
+    display: none;
+}
+
+
+@media (max-width:800px) {
+    .hidden-flower-button-container {
+        display: flex;
+        justify-content: flex-end;
+        flex:1;
+        align-items: center;
+
+    }
+
+    .hidden-flower-button {
+        border: 1.5px solid black;
+        background-color: transparent;
+        background-image: none;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        padding: 0;
+        z-index: 100;
+    }
+
+    .hidden-flower-button:hover {
+        cursor: pointer;
+        background-color: white;
+        /* border-radius: 12%; */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flower-button-svg {
+        padding: 0;
+        margin: 0;
+        width:50px;
+    }
+
+    .span-links-container,
+    .span-signin-container,
+    .span-member-links-container {
+        display: none;
+    }
+
+    svg:hover path{
+        transform-origin: 50% 50%;
+        animation: spin 2s linear infinite;
+
+    }
+
+    @keyframes spin{
+
+        0%{ transform: rotate(0deg);}  /* 0s */
+        100%{transform: rotate(360deg);}   /*  */
+
+    }
+
+}

@@ -1,5 +1,6 @@
 package com.cooperweisbach.CommunityGarden.controllers.Admin;
 
+import com.cooperweisbach.CommunityGarden.models.Member;
 import com.cooperweisbach.CommunityGarden.models.Post;
 import com.cooperweisbach.CommunityGarden.models.PostTag;
 import com.cooperweisbach.CommunityGarden.models.PostTagContainer;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -62,13 +64,23 @@ public class AdminPostController {
 
 
     @GetMapping("/admin/posts")
-    public String adminGetAllPostsGet(Model m){
+    public String adminGetAllPostsGet(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allPosts", postServices.getAllPosts());
         return "admin/posts/posts";
     }
 
     @PostMapping("/admin/posts")
-    public String adminGetAllPostsPost(Model m){
+    public String adminGetAllPostsPost(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allPosts", postServices.getAllPosts());
         return "admin/posts/posts";
     }
@@ -113,13 +125,18 @@ public class AdminPostController {
     }
 
     @PostMapping("/admin/posts/create")
-    public String createUserPage(Model model){
-        model.addAttribute("postToCreate", new Post());
-//        model.addAttribute("newTagsContainer", new PostTagContainer());
+    public String createUserPage(Model model,HttpServletRequest request){
+
+        Member currentUser = memberServices.getMemberByEmail(request.getUserPrincipal().getName());
+        if(currentUser != null){
+            model.addAttribute("currentUser", currentUser);
+        }
+        Post postToCreate = new Post();
+        postToCreate.setMember(currentUser);
+        model.addAttribute("postToCreate", postToCreate);
         model.addAttribute("newTagsStringList", new PostTagContainer());
-        model.addAttribute("allMembers", memberServices.getAllMembers());
         model.addAttribute("postStatuses", postStatusServices.findAll());
-        model.addAttribute("allTags", postTagServices.findAll());
+//        model.addAttribute("allTags", postTagServices.findAll());
         return "/admin/posts/post-create";
     }
 
@@ -131,12 +148,9 @@ public class AdminPostController {
 
         Post newPost = postTagServices.savePostTagsFromList(newTagsStringList.getNewPostTagTitles());
 //        for(PostTag pt: newPost.getPostTagList())
-        if(postToCreate.getPostTagList() == null)
-            postToCreate.setPostTagList(newPost.getPostTagList());
-        else {
-            postToCreate.getPostTagList().addAll(newPost.getPostTagList());
-            postToCreate.setPostTagList(postToCreate.getPostTagList());
-        }
+//        if(postToCreate.getPostTagList() == null)
+        postToCreate.setPostTagList(newPost.getPostTagList());
+        postToCreate.setMember(memberServices.getMemberByEmail(request.getUserPrincipal().getName()));
         postServices.save(postToCreate);
         request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.FOUND);
         return new ModelAndView("redirect:/admin/posts");

@@ -1,12 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/namedProperties.css">
-<!--    <link rel="stylesheet" href="styles/register.css">-->
+    <link rel="stylesheet" href="/styles/normalize.css">
+    <link rel="stylesheet" href="/styles/namedProperties.css">
+<!--    <link rel="stylesheet" href="/styles/headerNav.css">-->
+    <link rel="stylesheet" href="/styles/register.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
@@ -17,11 +26,11 @@
         }
     </style>
 </head>
-<body >
+<body>
 <div class="background-image-container flex center-center-items">
     <div class="register-form-container flex dir-col">
-        <div class="header-container"><h1>MEMBER SIGN-UP</h1></div>
-        <form th:action="@{/registration/processing}" class="signin-form flex dir-col" method="post" >
+        <div class="header-container"><h1>MEMBER REGISTRATION</h1></div>
+        <form th:action="@{/registration/processing}" class="register-form flex dir-col" method="post" >
 <!--            <div class="entry-error flex center-center-items hidden">COMBINATION ENTERED NOT FOUND</div>-->
             <div class="first-name-field flex dir-col flex center-center-items">
                 <div class="input-container first-name-input flex">
@@ -66,7 +75,7 @@
             </div>
             <div class="confirm-password-field flex dir-col center-center-items">
                 <div class="input-container password-input flex">
-                    <input type="password" th:field="${newMember.matchingPassword}" placeholder="PASSWORD" name="confirm-password" id="confirm-password" required>
+                    <input type="password" th:field="${newMember.matchingPassword}" placeholder="CONFIRM PASSWORD" name="confirm-password" id="confirm-password" required>
                     <!--                        <i class="fas fa-lock"></i>-->
                     <!--                        <i class="fas fa-exclamation-circle"></i>-->
                 </div>

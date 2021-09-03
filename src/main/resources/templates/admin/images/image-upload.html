@@ -1,12 +1,22 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
-
+    <div th:replace="fragments/general :: base-style"></div>
+    <div th:replace="fragments/general :: main-navigation-style"></div>
+    <div th:replace="fragments/general :: base-script"></div>
 </head>
 <body>
+<div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
 <h1>Image To Upload</h1>
 
 <form th:action="@{/admin/images/upload-approved}" method="post" id="uploadImageForm" th:object="${imageToUpload}" enctype="multipart/form-data">
@@ -65,5 +75,6 @@
 //    });
 
 </script>
+<div th:replace="fragments/general :: main-navigation-script"></div>
 </body>
 </html>

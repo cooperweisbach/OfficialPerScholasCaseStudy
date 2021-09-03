@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @Controller
 @Slf4j
@@ -56,13 +57,23 @@ public class AdminMessageThreadController {
     }
 
     @GetMapping("/admin/message-threads")
-    public String adminGetAllMessageThreads(Model m){
+    public String adminGetAllMessageThreads(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allMessageThreads", messageThreadServices.getAllMessageThreads());
         return "admin/message-threads/message-threads";
     }
 
     @PostMapping("/admin/message-threads")
-    public String adminGetAllMessageThreadsPost(Model m){
+    public String adminGetAllMessageThreadsPost(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allMessageThreads", messageThreadServices.getAllMessageThreads());
         return "admin/message-threads/message-threads";
     }

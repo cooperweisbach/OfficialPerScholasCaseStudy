@@ -1,0 +1,28 @@
+#external-admin-panel-container{
+
+}
+#current-admin-page-header{
+
+}
+
+#current-admin-page-span{
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.admin-page-link-container{
+    padding: 2vh 2vw;
+    justify-items: center;
+    align-items: center;
+    border: tomato 1px solid;
+    background-color: #aaaaaa;
+}
+
+.admin-page-link-container:hover{
+    padding: 4vh 4vw;
+    transition: 1s ease-in;
+}
+
+.admin-page-link{
+    font-weight: bold;
+}

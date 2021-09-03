@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/namedProperties.css">
+    <div th:replace="fragments/general :: base-style"></div>
+    <div th:replace="fragments/general :: main-navigation-style"></div>
+    <div th:replace="fragments/general :: base-script"></div>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
 <h1>Oops, we've encountered a problem on our end...</h1>
 <a href="/">Go back home</a>
+<div th:replace="fragments/general :: main-navigation-script"></div>
 </body>
 </html>

@@ -2,9 +2,9 @@
     box-sizing: border-box;
 }
 
-body {
-    height: 140vh;
-}
+/*body {*/
+/*    height: 140vh;*/
+/*}*/
 .flex {
     display: flex;
 }
@@ -17,6 +17,7 @@ body {
     display: grid;
 }
 
+
 .only-flex-item{
     flex:1;
 }
@@ -24,4 +25,63 @@ body {
 .center-center-items{
     justify-content: center;
     align-items: center;
+}
+
+
+.pos-relative{
+    position: relative;
+}
+
+.flex-vertical{
+    flex-direction:column;
+}
+.column{
+    flex-direction: column;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.invisible{
+    visibility: hidden;
+}
+
+.flex-start-align-items{
+    align-items: flex-start;
+}
+
+.stretch-align-items{
+    align-items: stretch;
+}
+
+.justify-content-center{
+    justify-content: center;
+}
+
+.justify-content-space-between{
+    justify-content: space-between;
+}
+
+
+
+.hide-data{
+    display:none;
+}
+
+.grow{
+    flex:1;
+}
+
+
+.beauty-padding{
+    padding: 0 10px;
+}
+
+.hiddenAddPlotNotifications {
+    visibility: hidden;
+}
+
+.avoidHeaderNav{
+    margin-top: 5rem;
 }

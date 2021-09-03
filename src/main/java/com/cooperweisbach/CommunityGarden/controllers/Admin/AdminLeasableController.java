@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @Controller
 @Slf4j
@@ -64,7 +65,13 @@ public class AdminLeasableController {
 
     //Gets us each and every leasable
     @GetMapping("/admin/leasables")
-    public String adminGetAllLeasables(Model m){
+    public String adminGetAllLeasables(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
+        m.addAttribute("numberOfLeasables", leasableServices.count());
         m.addAttribute("allLeasables", leasableServices.getAllLeasables());
         m.addAttribute("newConfig", new Configuration());
         m.addAttribute("savedConfigurations", configurationServices.getAllConfigurations());
@@ -73,7 +80,12 @@ public class AdminLeasableController {
     }
 
     @PostMapping("/admin/leasables")
-    public String adminGetAllLeasablesPost(Model m){
+    public String adminGetAllLeasablesPost(Model m, HttpServletRequest request){
+        Principal principal = request.getUserPrincipal();
+        if(principal != null){
+            log.warn(principal.getName());
+            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+        }
         m.addAttribute("allLeasables", leasableServices.getAllLeasables());
         m.addAttribute("newConfig", new Configuration());
         m.addAttribute("savedConfigurations", configurationServices.getAllConfigurations());

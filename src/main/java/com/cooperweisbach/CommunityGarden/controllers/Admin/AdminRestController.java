@@ -6,6 +6,7 @@ import com.cooperweisbach.CommunityGarden.models.*;
 import com.cooperweisbach.CommunityGarden.services.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
@@ -90,6 +91,18 @@ public class AdminRestController {
         return returned;
     }
 
+    @GetMapping("/api/leasables/count")
+    public long getLeasablesCount(){return leasableServices.count();}
+
+    @PostMapping("/api/leasables/get-page")
+    public Page<Leasable> getLeasablesOnPage(@Param("pageNum") Integer pageNum, @Param("numOfResults") Integer numOfResults){
+        return leasableServices.getLeasablesInRange(pageNum, numOfResults);
+    }
+
+    @PostMapping("/api/leasables/get-first-page")
+    public Page<Leasable> getFirstLeasablePage(@Param("numberOfResults") Integer numberOfResults){
+        return leasableServices.getLeasablesInRange(0, numberOfResults);
+    }
 
     @GetMapping("/api/leasables/get-all")
     public List<Leasable> getAllLeasables(){
@@ -155,9 +168,9 @@ public class AdminRestController {
 
 
     @PostMapping("/api/posts/add-new-tags")
-    public Post addNewPostTags(@Param("postTags") String[] postTags){
+    public Post addNewPostTags(@Param("postTags") ArrayList<String> postTags){
         log.warn("Reached post tags");
-        log.warn(String.valueOf(postTags.length));
+        log.warn(String.valueOf(postTags.size()));
         return postTagServices.savePostTagsFromList(postTags);
     }
 
