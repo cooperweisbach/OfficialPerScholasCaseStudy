@@ -60,7 +60,7 @@ public class Member {
     // leases over time.
     //Uni-Directional(Owner)
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="member_status")
     MemberStatus memberStatus;
 
@@ -76,7 +76,7 @@ public class Member {
     //This is the case because the element with the Join Table annotation is declaring the join table from its POV
     //Here, the join column is a member_id while the inverse join column is role_id.
     //Cascade All
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "member_role",
             joinColumns = { @JoinColumn(name = "member_id") },
@@ -85,8 +85,8 @@ public class Member {
     List<UserRoles> userRoles;
 
 
-    @OneToMany(mappedBy = "member", cascade=CascadeType.ALL, orphanRemoval = true)
-    List<Lease> leases;
+//    @OneToMany(mappedBy = "member", cascade=CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+//    List<Lease> leases;
 
 
     public String convertUserRolesListToString(){

@@ -39,7 +39,8 @@ public class  Lease {
     // Mapping for leases to members. In this instance, many leases can belong to one member.
     // For example, member 1 may have 2 garden plots and a beehive each with their own lease.
     //Uni-Directional(Owner)
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
     @JoinColumn(name ="member")
     Member member;
 

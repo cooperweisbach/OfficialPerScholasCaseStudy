@@ -12,13 +12,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Leasables</title>
-    <link rel="stylesheet" th:href="@{/styles/adminLeasable.css}"/>
     <div th:replace="fragments/general :: base-style"></div>
     <div th:replace="fragments/general :: main-navigation-style"></div>
     <div th:replace="fragments/general :: base-script"></div>
     <div th:replace="fragments/admin-model-data :: admin-data-style"></div>
-    <div th:replace="fragments/admin-model-data :: admin-nav-style"></div>
-
+    <div th:replace="fragments/admin-panel-nav :: admin-nav-style"></div>
+    <div th:replace="fragments/admin-leasables-config-modal :: admin-leasables-config-modal-styles"></div>
 </head>
 <body>
 <div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
@@ -31,275 +30,36 @@
         <div layout:fragment="search-and-options">
                <div th:replace="fragments/admin-search-options :: search-and-button-holder-fragment
             (searchableAttribute='Leasable Code',
-             createUrl = '/admin/leasables/create',
+             createModal = 'true',
               modelName='Leasable',
-               statusUrl='/admin/leasable-status/update',
-                typeUrl='/admin/leasable-type/update', rolesUrl='', configurationUrl='yes')">
+               statusModal='true',
+                typeModal='true', rolesModal='false', configurationModal='true')">
                </div>
         </div>
         <div layout:fragment="model-data">
-            <div th:replace="fragments/admin-leasables-data :: leasables-data
-            (allModelInstances=${allLeasables}, leaseHistory=${leaseHistory})"></div>
+            <div th:replace="fragments/admin-leasables-pagination :: leasables-data
+            (allModelInstances=${allLeasables})"></div>
 
-
-<!--        <div th:replace="fragments/admin-model-data :: model-data-visuals(headers=~{ ::#model-headers},-->
-<!-- attributes=~{ ::#returned-models-data-body},-->
-<!--  allModelInstances=${allLeasables},-->
-<!--   modelName='Leasable',-->
-<!--    searchableAttribute='Leasable Code',-->
-<!--     createUrl='/admin/leasables/create',-->
-<!--      statusUrl='/admin/leasable-status/update',-->
-<!--       typeUrl='/admin/leasable-roles/update',-->
-<!--        rolesUrl='', extraInfo='', selectedModelInfo=~{ ::#house-model-info},-->
-<!--        extraInfoHeaders=~{ ::#model-history-header},-->
-<!--        extraInfoBody=~{::#model-history-data-body})">-->
-<!--            <thead id="model-headers">-->
-<!--                <tr>-->
-<!--                    <th>Index</th>-->
-<!--                    <th>Leasable ID</th>-->
-<!--                    <th>Leasable Code</th>-->
-<!--                    <th>Leasable Type</th>-->
-<!--                    <th>Leasable Size</th>-->
-<!--                    <th>Leasable Rent</th>-->
-<!--                    <th>Leasable Status</th>-->
-<!--                    <th>Creation Date</th>-->
-<!--                </tr>-->
-<!--            </thead>-->
-<!--            <tbody id="returned-models-data-body">-->
-<!--                <tr th:each="model, stat :${allLeasables}" class="model-data-row" th:id="${stat.count}">-->
-<!--                    <td class="model-index-table" th:text="${stat.count}"></td>-->
-<!--                    <td class="model-id-table" th:text="${model.leasableId}"></td>-->
-<!--                    <td class="model-code-table" th:text="${model.leasableCode}"></td>-->
-<!--                    <td class="model-type-table" th:text="${model.leasableType.leasableTypeName}"></td>-->
-<!--                    <td class="model-size-table" th:text="${model.leasableSize}"></td>-->
-<!--                    <td class="model-rent-table" th:text="${model.leasableYearlyRent}"></td>-->
-<!--                    <td class="model-status-table" th:text="${model.leasableStatus.leasableStatus}"></td>-->
-<!--                    <td class="model-date-table" th:text="${model.leasableCreationDate}"></td>-->
-<!--                </tr>-->
-<!--            </tbody>-->
-
-<!--        <div id="house-model-info" class="flex justify-content-center grow">-->
-<!--            <div class="model-view-info model-id" id="model-id-modal"></div>-->
-<!--            <div class="model-view-info model-code" id="model-code-modal"></div>-->
-<!--            <div class="model-view-info model-type" id="model-type-modal"></div>-->
-<!--            <div class="model-view-info model-size" id="model-size-modal"></div>-->
-<!--            <div class="model-view-info model-rent" id="model-rent-modal"></div>-->
-<!--            <div class="model-view-info model-status" id="model-status-modal"></div>-->
-<!--        </div>-->
-
-<!--            <thead id="model-history-header" class="flex justify-content-center">-->
-<!--            <tr>-->
-<!--                <th>Lease Id</th>-->
-<!--                <th>Start Date</th>-->
-<!--                <th>End Date</th>-->
-<!--                <th>Status</th>-->
-<!--                <th>Member</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody id="model-history-data-body" class="flex justify-content-center">-->
-<!--                <tr id="model-history-row" th:each="lease, stat:${leaseHistory}">-->
-<!--                    <td th:text="${lease.leaseId}"></td>-->
-<!--                    <td th:text="${lease.startDate}"></td>-->
-<!--                    <td th:text="${lease.endDate}"></td>-->
-<!--                    <td th:text="${lease.leaseStatus.leaseStatus}"></td>-->
-<!--                    <td th:text="${lease.member.getFullName()}"></td>-->
-<!--                    <td class="leasable-history-identifier" hidden th:text="${lease.leasable.leasableId}"></td>-->
-<!--                </tr>-->
-<!--            </tbody>-->
-
-<!--        </div>-->
         </div>
-<!--        <div layout:fragment="modal">-->
-<!--            <div th:replace="fragments/admin-modal :: leasables-modal"></div>-->
-<!--        </div>-->
-<!--        <div layout:fragment="data-filtering">-->
 
-<!--        </div>-->
-<!--        <div layout:fragment="pagination">-->
-
-<!--        </div>-->
-
-
-
-
-
-
-
-
-
-<!--        <div id="search-and-button-holder" class="flex justify-content-space-between align-items-center">-->
-<!--            <input type="text" placeholder="Search Leasable Codes" id="leasables-search">-->
-<!--            <div>-->
-<!--                <input type="submit" id="createLeasable" formaction="/admin/leasables/create" value="Create New Leasable"/>-->
-<!--                <input type="submit" id="updateStatus" formaction="/admin/leasable-status/update" value="Update Statuses"/>-->
-<!--                <input type="submit" id="updateType" formaction="/admin/leasable-roles/update" value="Update Types"/>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div class="flex justify-content-center">-->
-<!--            <div class="flex justify-content-center" id="returned-leasables-data-container">-->
-<!--                <table id="returned-leasables-data">-->
-<!--                    <thead id="leasables-header">-->
-<!--                        <tr>-->
-<!--                            <th>Index</th>-->
-<!--                            <th>Leasable ID</th>-->
-<!--                            <th>Leasable Code</th>-->
-<!--                            <th>Leasable Type</th>-->
-<!--                            <th>Leasable Size</th>-->
-<!--                            <th>Leasable Rent</th>-->
-<!--                            <th>Leasable Status</th>-->
-<!--                            <th>Creation Date</th>-->
-<!--                        </tr>-->
-<!--                    </thead>-->
-<!--                    <tbody id="returned-leasables-data-body">-->
-<!--                            <tr th:each="leasable, stat :${allLeasables}" class="leasable-data-row" th:id="${stat.count}">-->
-<!--                                <td id="leasable-index-node" th:text="${stat.count}"></td>-->
-<!--                                <td id="leasable-id-node" th:text="${leasable.leasableId}"></td>-->
-<!--                                <td id="leasable-code-node" th:text="${leasable.leasableCode}"></td>-->
-<!--                                <td id="leasable-type-node" th:text="${leasable.leasableType.leasableTypeName}"></td>-->
-<!--                                <td id="leasable-size-node" th:text="${leasable.leasableSize}"></td>-->
-<!--                                <td id="leasable-rent-node" th:text="${leasable.leasableYearlyRent}"></td>-->
-<!--                                <td id="leasable-status-node" th:text="${leasable.leasableStatus.leasableStatus}"></td>-->
-<!--                                <td id="leasable-date-node" th:text="${leasable.leasableCreationDate}"></td>-->
-<!--                            </tr>-->
-<!--                    </tbody>-->
-<!--                </table>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--        <div id="modal-container">-->
-<!--            <div class="flex flex-vertical stretch-align-items" id="modal-content">-->
-<!--                <div><button id="close">&times;</button></div>-->
-<!--                <div id="house-model-info" class="flex justify-content-center grow">-->
-<!--                    <div class="model-view-info model-id" id="model-id-modal"></div>-->
-<!--                    <div class="model-view-info model-code" id="model-code-modal"></div>-->
-<!--                    <div class="model-view-info model-type" id="model-type-modal"></div>-->
-<!--                    <div class="model-view-info model-size" id="model-size-modal"></div>-->
-<!--                    <div class="model-view-info model-rent" id="model-rent-modal"></div>-->
-<!--                    <div class="model-view-info model-status" id="model-status-modal"></div>-->
-<!--                </div>-->
-<!--                <div  class="model-view-info flex justify-content-center grow flex-vertical" id="leasable-history">-->
-<!--                    <table class="flex flex-vertical align-items-center" id="model-history-table">-->
-
-
-<!--                    </table>-->
-<!--                </div>-->
-<!--                <div class="flex justify-content-center" id="update-delete-button-holder">-->
-<!--                    <button class="model-toggling" id="update-button" text="update">UPDATE</button>-->
-<!--                    <button class="model-toggling" id="delete-button" text="delete">DELETE</button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <div class="flex justify-content-center">-->
-<!--            <div id="reduce-page-number-button-holder">-->
-<!--                <button class="change-page-button" id="first-page-button">First</button>-->
-<!--                <button class="change-page-button" id="previous-page-button">Previous</button>-->
-<!--            </div>-->
-<!--            <div id="pagination-button-holder">-->
-<!--            </div>-->
-<!--            <div id="increase-page-number-button-holder">-->
-<!--                <button class="change-page-button" id="next-page-button" >Next</button>-->
-<!--                <button class="change-page-button" id="last-page-button" >Last</button>-->
-<!--            </div>-->
-<!--            <div id="number-of-results">-->
-<!--                <select>-->
-<!--                    <option>10</option>-->
-<!--                    <option>20</option>-->
-<!--                    <option>30</option>-->
-<!--                    <option>40</option>-->
-<!--                    <option>50</option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--        </div>-->
-
-        <div th:if="${#lists.isEmpty(allLeasables)}">
-            <p>No results</p>
-        </div>
+    </div>
+    <div th:if="${#lists.isEmpty(allLeasables)}">
+        <p>No results</p>
     </div>
 
+    <div th:replace="fragments/admin-leasables-config-modal :: leasablesConfigurationModal
+    (newConfig=${newConfig},
+     savedConfigurations=${savedConfigurations},
+      allLeasables=${allLeasables})"></div>
 
-    <div class="flex justify-content-center" id="configuration-builder-container">
-        <div class="flex flex-vertical beauty-padding grow" id="leftSideCanvasControls">
-<!--            <form class="flex flex-vertical beauty-padding grow" id="saveConfigurationForm" action="/admin/leasables/leasables" method="post" th:object="${newConfiguration}">-->
-<!--                <label for="this-configuration-name">Name of Configuration:</label>-->
-<!--                <input type='text' id="this-configuration-name" th:field="*{configurationName}"/>-->
-<!--                <span>-->
-<!--                        <input type="checkbox"/>-->
-<!--                        <label>Publish</label>-->
-<!--                    </span>-->
-<!--                <input type="submit" id="submit-this-configuration" value="Save"/>-->
-<!--            </form>-->
-            <input hidden value="0" th:field="${newConfig.configurationId}" id="configuration-id"/>
-            <label for="configuration-name">Name of Configuration:</label>
-            <input type='text' id="configuration-name" th:field="*{newConfig.configurationName}"/>
-            <span>
-                    <input type="checkbox" id="publish-configuration" th:field="*{newConfig.published}"/>
-                    <label>Publish</label>
-            </span>
-            <button id="save-configuration">Save</button>
-            <select id="select-saved-configurations">
-                <option id="default" value="default" selected>Saved Configurations</option>
-                <option class="saved-configuration" th:each="configuration:${savedConfigurations}" th:text="${configuration.configurationName}" th:name="${configuration.configurationName}" th:value="${configuration.jsonification}" th:id="${configuration.getConfigurationId()}"></option>
-            </select>
-            <button id="load-saved-configuration">Load</button>
-        </div>
-        <div class="flex flex-vertical beauty-padding grow">
-            <div class="flex grow" id="aboveCanvasControls">
-                <button id="toggleGrid">Grid Toggle</button>
-                <select id="plotSelector">
-                    <option class="plotOption" id="defaultSelectPlotOption" value="Default">Plots To Add</option>
-                    <option th:each="leasable:${allLeasables}" class="plotOption" th:id="${leasable.leasableCode}" th:value="${leasable.leasableCode}" th:text="${leasable.leasableCode} "></option>
-                </select>
-                <button id="addPlotButton">Add Selected Plot</button>
-                <button id="deletePlotButton">Delete Selected</button>
-                <span class="hiddenAddPlotNotifications" id="noPlotSelectedOnAdd">Please select a plot to add</span>
-                <span class="hiddenAddPlotNotifications" id="noPlotsToSelectOnAdd">No more plots to add, please create a new leasable</span>
-            </div>
-            <canvas id="myCanvas" style="border:1px solid #000000;">
-
-            </canvas>
-        </div>
-        <div class="flex flex-vertical beauty-padding grow" id="rightSideCanvasControls">
-            <label for="grid-size">Grid Size:</label>
-            <input type="number" id="grid-size" min="10" value="20" step="5"/>
-            <label>Additional Elements</label>
-            <select>
-                <option class="extraOption" id="defaultExtraOption" value="Default">Add Element</option>
-                <option class="extraOption" id="extraRectArea" value="1">Rect Area</option>
-                <option class="extraOption" id="extraCircleArea" value="2">Circle Area</option>
-                <option class="extraOption" id="extraTextbox" value="3">Textbox</option>
-                <option class="extraOption" id="extraDottedLine" value="4">Dotted Line</option>
-
-            </select>
-            <button id="addExtraButton">Add Extra</button>
-
-            <div class="flex flex-vertical beauty-padding" id="selectedObjectInfoDiv">
-                <div id="selectedObjectIdHeader">
-                    <span>Selected</span>
-                </div>
-                <label for="adjustSelectedByBorder">Scale Shape Manually</label>
-                <input id="adjustSelectedByBorder" type="checkbox"/>
-                <label for="selectedObjectWidth">Width</label>
-                <div class="flex">
-                    <input type="button" value="-" id="sizeMinusStepWidth">
-                        <input type="type" id="selectedObjectWidth" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
-                    <input type="button" value="+"id="sizePlusStepWidth">
-                </div>
-                <label for="selectedObjectHeight">Height</label>
-                <div class="flex">
-                    <input type="button" value="-" id="sizeMinusStepHeight">
-                        <input type="type" id="selectedObjectHeight" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
-                    <input type="button" value="+"id="sizePlusStepHeight">
-                </div>
-            </div>
-        </div>
-    </div>
     <div th:replace="fragments/general :: main-footer"></div>
+
 </div>
     <script th:src="@{/js/fabric.min.js}"></script>
-<!--    <script th:src="@{/js/admin/leasables.js}" async defer></script>-->
-    <script th:src="@{/js/admin/leasablesStyles.js}" async defer></script>
-    <script th:src="@{/js/admin/admin-data-pagination.js}"></script>
     <div th:replace="fragments/general :: main-navigation-script"></div>
-    <div th:replace="fragments/admin-model-data :: admin-model-scripts"></div>
+    <div th:replace="fragments/admin-search-options :: admin-search-options"></div>
+    <div th:replace="fragments/general :: general-admin-pagination-script" ></div>
+    <div th:replace="fragments/admin-leasables-pagination :: admin-leasables-pagination"></div>
+    <div th:replace="fragments/admin-leasables-config-modal :: admin-leasables-config-modal-script"></div>
 </body>
 </html>

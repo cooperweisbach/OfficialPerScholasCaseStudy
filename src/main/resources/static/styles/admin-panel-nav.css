@@ -1,28 +1,27 @@
 #external-admin-panel-container{
-
+padding: 1vh 12.5vw 0 12.5vw;
 }
 #current-admin-page-header{
-
-}
-
-#current-admin-page-span{
     font-size: xx-large;
     font-weight: bold;
 }
 
 .admin-page-link-container{
-    padding: 2vh 2vw;
     justify-items: center;
     align-items: center;
-    border: tomato 1px solid;
+    border: black 1px solid;
     background-color: #aaaaaa;
+    margin-inline: 2px;
+    font-size: medium;
 }
 
-.admin-page-link-container:hover{
-    padding: 4vh 4vw;
-    transition: 1s ease-in;
-}
+#dashboardContainer:hover,
+#leasablesContainer:hover,
+#membersContainer:hover,
+#leasesContainer:hover,
+#postsContainer:hover,
+#messageThreadsContainer:hover,
+#imagesContainer:hover,
+#paymentsContainer:hover{
 
-.admin-page-link{
-    font-weight: bold;
 }

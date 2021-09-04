@@ -27,17 +27,17 @@
 </head>
 <body>
 
-    <div th:fragment="search-and-button-holder-fragment(searchableAttribute, createUrl, modelName, statusUrl, typeUrl, rolesUrl, configurationUrl)" id="search-and-button-holder" class="flex justify-content-space-between align-items-center">
+    <div th:fragment="search-and-button-holder-fragment(searchableAttribute, createModal, modelName, statusModal, typeModal, rolesModal, configurationModal)" id="search-and-button-holder" class="flex justify-content-space-between align-items-center">
         <input type="text" th:placeholder="'Search '+ ${searchableAttribute}" id="models-search">
         <div>
-            <input type="submit" id="createModel" th:formaction="${createUrl}" th:value="'Create New '+ ${modelName}"/>
-            <input th:if="${statusUrl != ''}" type="submit" id="updateStatus" th:formaction="${statusUrl}" value="Update Statuses"/>
-            <input th:if="${typeUrl != ''}" type="submit" id="updateType" th:formaction="${typeUrl}" value="Update Types"/>
-            <input th:if="${rolesUrl != ''}" type="submit" id="updateRoles" th:formaction="${rolesUrl}" value="Update Roles"/>
-            <input th:if="${configurationUrl != ''}" type="submit" id="configurations" value="Configurations" />
+            <input type="submit"  class="model-various-modals" id="create-model-modal" th:value="'Create New '+ ${modelName}"/>
+            <input th:if="${statusModal != 'false'}" type="submit" class="model-various-modals" id="update-status-modal" value="Update Statuses"/>
+            <input th:if="${typeModal != 'false'}" type="submit" class="model-various-modals" id="update-type-modal" value="Update Types"/>
+            <input th:if="${rolesModal != 'false'}" type="submit" class="model-various-modals" id="update-roles-modal" value="Update Roles"/>
+            <input th:if="${configurationModal != 'false'}" type="submit" class="model-various-modals" id="view-config-modal" value="Configurations" />
         </div>
     </div>
 
-<script th:fragment="admin-model-scripts" th:src="@{/js/admin/admin-model-scripts.js}"></script>
+<script th:fragment="admin-search-options" th:src="@{/js/admin/admin-search-options.js}"></script>
 </body>
 </html>

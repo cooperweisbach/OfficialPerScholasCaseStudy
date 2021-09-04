@@ -27,14 +27,14 @@
 </head>
 <body>
 
-<div id="external-admin-panel-container" th:fragment="admin-panel-nav(currentModelId, currentModelName)">
+<div class="flex" id="external-admin-panel-container" th:fragment="admin-panel-nav(currentModelId, currentModelName)">
     <div class="flex flex-vertical flex-start-align-items" id="internal-admin-panel-container">
         <div id="current-admin-page-header">
             <span id="current-admin-page-span" th:id="${currentModelId}" th:text="${currentModelName}"></span>
         </div>
         <div class="flex">
             <div id="dashboardContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin" >DASHBOARD</a></div>
-            <div id="membersContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/members">MEMBERS</a></div>
+            <div id="membersContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/users">MEMBERS</a></div>
             <div id="leasablesContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/leasables">LEASABLES</a></div>
             <div id="leasesContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/leases">LEASES</a></div>
             <div id="postsContainer" class="admin-page-link-container" ><a class="admin-page-link" href="/admin/posts">POSTS</a></div>

@@ -109,13 +109,13 @@ public class MemberAccountController {
         return new ModelAndView("redirect:/members/leases");
     }
 
-    @GetMapping("/members/leases")
-    public String viewLeases(HttpServletRequest request, Model model){
-        Principal principal = request.getUserPrincipal();
-        Member member = memberServices.getMemberByEmail(principal.getName());
-        model.addAttribute("memberLeases", member.getLeases());
-        return "member/leases";
-    }
+//    @GetMapping("/members/leases")
+//    public String viewLeases(HttpServletRequest request, Model model){
+//        Principal principal = request.getUserPrincipal();
+//        Member member = memberServices.getMemberByEmail(principal.getName());
+//        model.addAttribute("memberLeases", member.getLeases());
+//        return "member/leases";
+//    }
 
     @GetMapping("/registration")
     public String register(Model model){

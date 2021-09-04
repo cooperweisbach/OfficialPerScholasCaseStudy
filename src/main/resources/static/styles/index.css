@@ -4,10 +4,6 @@ body{
     height: 140vh;
 }
 
-.beauty-margin{
-    padding: 0 4vw;
-}
-
 #first-section-container::before{
     content: "";
     background-image: url("../images/drawnGarden1.jpg");

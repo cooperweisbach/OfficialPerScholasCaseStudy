@@ -6,105 +6,51 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
   http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
-  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorate="~{layouts/admin-data-layout.html}">
 
 <head>
     <div th:replace="fragments/general :: base-style"></div>
     <div th:replace="fragments/general :: main-navigation-style"></div>
     <div th:replace="fragments/general :: base-script"></div>
+    <div th:replace="fragments/admin-model-data :: admin-data-style"></div>
+    <div th:replace="fragments/admin-panel-nav :: admin-nav-style"></div>
     <meta charset="UTF-8">
-    <title>Title</title>
-
+    <title>Admin - Members</title>
 </head>
 <body>
 <div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
 
-<div>
-    <form th:action="@{/admin}" method="get">
-        <input type="submit" value="Dashboard">
-    </form>
-    <form th:action="@{/admin/users}" method="get">
-        <input type="submit" value="Members">
-    </form>
-    <form th:action="@{/admin/leasables}" method="get">
-        <input type="submit" value="Leasables">
-    </form>
-    <form th:action="@{/admin/leases}" method="get">
-        <input type="submit" value="Leases">
-    </form>
-    <form th:action="@{/admin/posts}" method="get">
-        <input type="submit" value="Posts">
-    </form>
-    <form th:action="@{/admin/message-threads}" method="get">
-        <input type="submit" value="Message Threads">
-    </form>
-    <form th:action="@{/admin/images}" method="get">
-        <input type="submit" value="Images">
-    </form>
-    <form th:action="@{/admin/payments}" method="get">
-        <input type="submit" value="Payments">
-    </form>
-    <form th:action="@{/members}" method="get">
-        <input type="submit" value="Member Panel">
-    </form>
+<div class="avoidHeaderNav">
+    <div th:replace="fragments/admin-panel-nav :: admin-panel-nav(currentModelId='members', currentModelName='MEMBERS')"></div>
+    <div class="flex flex-vertical align-items-center"  th:if="${!#lists.isEmpty(allMembers)}">
 
-    <div th:if="${!#lists.isEmpty(allMembers)}">
-        <form id="myForm" method="post" th:action="@{/admin/users/}">
-            <table>
-                <thead>
-                <th>
-                <td>Member ID</td>
-                <td>First Name</td>
-                <td>Last Name</td>
-                <td>Email</td>
-                <td>User Role</td>
-                <td>Member Status</td>
-                <td>Apply Updates</td>
-                </th>
-                </thead>
-                <tbody>
-                <tr th:each="member, stat :${allMembers}" th:class="${member.firstName} + ' ' + ${member.lastName}">
-                    <td th:text="${member.memberId}"></td>
-                    <td th:text="${member.firstName}"></td>
-                    <td th:text="${member.lastName}"></td>
-                    <td th:text="${member.email}"></td>
-                    <td th:text="${member.convertUserRolesListToString()}"></td>
-                    <td th:text="${member.memberStatus}"></td>
-                    <td><input type="radio" th:attr="data-member-identification=${member.memberId}" name="memberId" class="updateMember"></td>
-                </tr>
-                </tbody>
-            </table>
-            <input type="submit" id="updateStatus" formaction="/admin/user-status/update" value="Update Statuses"/>
-            <input type="submit" id="updateRoles" formaction="/admin/user-roles/update" value="Update Roles"/>
-            <input type="submit" class="createUser" formaction="/admin/users/create" value="Create New Member"/>
-            <input type="submit" id="deleteUser" formaction="/admin/users/" value="Delete Member"/>
-            <input type="submit" value="Update Member"/>
-        </form>
+        <div layout:fragment="search-and-options">
+            <div th:replace="fragments/admin-search-options :: search-and-button-holder-fragment
+            (searchableAttribute='Member Name',
+             createModal = 'true',
+              modelName='Member',
+               statusModal='true',
+                typeModal='false', rolesModal='true', configurationModal='false')">
+            </div>
+        </div>
 
-<!--            <span>Filter Members</span>-->
-<!--            <form>-->
-<!--                <input type="submit" value="Update"/>-->
-<!--            </form>-->
-<!--        </div>-->
+        <div layout:fragment="model-data">
+            <div th:replace="fragments/admin-members-pagination :: members-data
+            (allModelInstances=${allMembers})"></div>
+        </div>
     </div>
     <div th:if="${#lists.isEmpty(allMembers)}">
         <p>No results</p>
-        <input type="submit" class="createUser" formaction="/admin/users/create" value="Create New Member"/>
     </div>
+
+    <div th:replace="fragments/general :: main-footer"></div>
+
 </div>
 
-<script>
-
-    $(".updateMember").change(function() {
-      var member = document.querySelector(".updateMember:checked").dataset.memberIdentification;
-      console.log(member);
-      var formElement = document.querySelector("#myForm");
-      var deleteButton = document.querySelector("#deleteUser");
-      formElement.setAttribute("action", "/admin/users/update/" + member);
-      deleteButton.setAttribute("formaction", "/admin/users/delete/" + member);
-    });
-
-</script>
 <div th:replace="fragments/general :: main-navigation-script"></div>
+<div th:replace="fragments/admin-search-options :: admin-search-options"></div>
+<div th:replace="fragments/general :: general-admin-pagination-script" ></div>
+<div th:replace="fragments/admin-members-pagination :: admin-members-pagination"></div>
 </body>
 </html>

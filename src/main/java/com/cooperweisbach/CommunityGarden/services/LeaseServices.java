@@ -89,4 +89,12 @@ public class LeaseServices {
     private LeaseStatus activeStatus(){
         return leaseStatusRepo.getLeaseStatusByLeaseStatus(LEASE_STATUS_ACTIVE);
     }
+
+    public List<Lease> findLeasesByLeasableId(Integer leasableId) {
+        return leaseRepo.findAllByLeasable_LeasableId(leasableId);
+    }
+
+    public List<Lease> findLeasesByMemberId(Integer memberId) {
+        return leaseRepo.findAllByMember_MemberId(memberId);
+    }
 }

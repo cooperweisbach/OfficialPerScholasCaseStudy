@@ -8,6 +8,9 @@ import com.cooperweisbach.CommunityGarden.models.UserRoles;
 import com.cooperweisbach.CommunityGarden.security.MemberDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -100,4 +103,10 @@ public class MemberServices {
         return memberRepo.getMemberByEmail(email) != null;
     }
 
+    public Page<Member> getMembersInRange(int pageNum, int resultSize) {
+        log.warn("get members in range");
+        log.warn(String.valueOf(pageNum));
+        log.warn(String.valueOf(resultSize));
+        return memberRepo.findAll(PageRequest.of(pageNum, resultSize));
+    }
 }

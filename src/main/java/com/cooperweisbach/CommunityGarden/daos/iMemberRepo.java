@@ -3,6 +3,9 @@ package com.cooperweisbach.CommunityGarden.daos;
 import com.cooperweisbach.CommunityGarden.models.Member;
 import com.cooperweisbach.CommunityGarden.models.UserRoles;
 import org.hibernate.internal.util.type.PrimitiveWrapperHelper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -16,4 +19,5 @@ public interface iMemberRepo extends JpaRepository<Member, Integer> {
     List<Member> getMemberByUserRoles(UserRoles userRoles);
     void deleteByMemberId(Integer integer);
     Member getMemberByEmail(String email);
+    Page<Member> findAll(Pageable page);
 }

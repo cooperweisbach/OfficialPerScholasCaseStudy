@@ -52,7 +52,7 @@ td {
     background: coral;
     cursor: pointer;
 }
-/*tr:nth-child(even) {background: #CCC}*/
+
 #returned-models-data{
     table-layout: fixed;
 }
@@ -67,7 +67,7 @@ td {
 
 /*/////////////////////////MODAL VIEW STYLES//////////////////////////*/
 
-#modal-container{
+#model-modal-container{
     position:fixed;
     left:0;
     top:0;
@@ -80,7 +80,7 @@ td {
     padding:100px;
 }
 
-#modal-content{
+#model-modal-content{
     background-color: #fefefe;
     margin: auto;
     padding: 2% 4%;
@@ -100,9 +100,4 @@ td {
 #close:focus{
     color: #000;
     cursor: pointer;
-}
-
-
-#model-history-row{
-    display: none;
 }

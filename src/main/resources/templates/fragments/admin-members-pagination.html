@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+    <div th:replace="fragments/general :: base-style"></div>
+    <div th:replace="fragments/general :: base-script"></div>
+    <div th:replace="fragments/admin-model-data :: admin-data-style"></div>
+    <meta charset="UTF-8">
+    <title>Members Data</title>
+</head>
+<body>
+<div th:fragment="members-data(allModelInstances)">
+    <div class="flex flex-vertical align-items-center" th:if="${!#lists.isEmpty(allModelInstances)}">
+        <div  class="flex justify-content-center">
+            <div class="flex justify-content-center" id="returned-models-data-container">
+                <table id="returned-models-data">
+                    <thead id="model-headers">
+                    <tr>
+                        <th>MEMBER ID</th>
+                        <th>EMAIL</th>
+                        <th>PHONE #</th>
+                        <th>JOINED</th>
+                        <th>STATUS</th>
+                        <th>ROLES</th>
+                        <th>NAME</th>
+                    </tr>
+                    </thead>
+                    <!--                        <tbody id="returned-models-data-body">-->
+                    <!--                            <tr th:each="model, stat :${allModelInstances}" class="model-data-row" th:id="${stat.count}">-->
+                    <!--                                <td id="model-index-table" th:text="${stat.count}"></td>-->
+                    <!--                                <td id="model-id-table"  th:text="${model.leasableId}"></td>-->
+                    <!--                                <td id="model-code-table" th:text="${model.leasableCode}"></td>-->
+                    <!--                                <td id="model-type-table" th:text="${model.leasableType.leasableTypeName}"></td>-->
+                    <!--                                <td id="model-size-table" th:text="${model.leasableSize}"></td>-->
+                    <!--                                <td id="model-rent-table" th:text="${model.leasableYearlyRent}"></td>-->
+                    <!--                                <td id="model-status-table" th:text="${model.leasableStatus.leasableStatus}"></td>-->
+                    <!--                                <td id="model-date-table" th:text="${model.leasableCreationDate}"></td>-->
+                    <!--                            </tr>-->
+                    <!--                        </tbody>-->
+                    <tbody id="returned-models-data-body">
+                    <!--                            <tr class="model-data-row" >-->
+                    <!--                                <td class="model-index-table" ></td>-->
+                    <!--                                <td class="model-id-table" ></td>-->
+                    <!--                                <td class="model-code-table" ></td>-->
+                    <!--                                <td class="model-type-table" ></td>-->
+                    <!--                                <td class="model-size-table" ></td>-->
+                    <!--                                <td class="model-rent-table" ></td>-->
+                    <!--                                <td class="model-status-table" ></td>-->
+                    <!--                                <td class="model-date-table" ></td>-->
+                    <!--                            </tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div id="model-modal-container">
+            <div class="flex flex-vertical stretch-align-items" id="model-modal-content">
+                <div><button class="modal-close-button">&times;</button></div>
+                <div id="house-model-info" class="flex justify-content-center grow">
+                    <div class="model-view-info model-id" id="model-id-modal"></div>
+                    <div class="model-view-info model-name" id="model-name-modal"></div>
+                    <div class="model-view-info model-email" id="model-email-modal"></div>
+                    <div class="model-view-info model-phone" id="model-phone-modal"></div>
+                    <div class="model-view-info model-status" id="model-status-modal"></div>
+                    <div class="model-view-info model-joined" id="model-joined-modal"></div>
+                    <div class="model-view-info model-roles" id="model-roles-modal"></div>
+                </div>
+                <div class="model-view-info flex grow justify-content-center" id="model-history">
+                    <table class="flex flex-vertical" id="model-history-table">
+                        <thead  id="model-history-header" class="flex">
+                        <tr>
+                            <th>LEASE ID</th>
+                            <th>START DATE</th>
+                            <th>END DATE</th>
+                            <th>LEASABLE</th>
+                        </tr>
+                        </thead>
+                        <tbody  id="model-history-data-body" class="flex justify-content-space-between">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-content-center" id="update-delete-button-holder">
+                    <button class="model-toggling" id="modal-update-button" text="update">UPDATE</button>
+                    <button class="model-toggling" id="modal-delete-button" text="delete">DELETE</button>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="flex justify-content-center">
+            <div id="reduce-page-number-button-holder">
+                <button class="change-page-button" id="first-page-button">First</button>
+                <button class="change-page-button" id="previous-page-button">Previous</button>
+            </div>
+            <div id="central-button-holder">
+                <div id="pagination-button-holder">
+                </div>
+            </div>
+            <div id="increase-page-number-button-holder">
+                <button class="change-page-button" id="next-page-button" >Next</button>
+                <button class="change-page-button" id="last-page-button" >Last</button>
+            </div>
+            <div id="number-of-results">
+                <select id="select-number-of-results">
+                    <option class="number-of-results" id="ten-results">10</option>
+                    <option class="number-of-results" id="twenty-results" selected>20</option>
+                    <option class="number-of-results" id="thirty-results">30</option>
+                    <option class="number-of-results" id="forty-results">40</option>
+                    <option class="number-of-results" id="fifty-results">50</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/general :: general-admin-pagination-script" ></div>
+<script th:fragment="admin-members-pagination" th:src="@{/js/admin/admin-members-pagination.js}"></script>
+</body>
+</html>

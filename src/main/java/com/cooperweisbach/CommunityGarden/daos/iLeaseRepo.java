@@ -16,4 +16,6 @@ public interface iLeaseRepo extends JpaRepository<Lease, Integer> {
 
     List<Lease> findAllByLeasable_LeasableCode(String leasableCode);
 
+    List<Lease> findAllByLeasable_LeasableId(Integer leasableId);
+
 }

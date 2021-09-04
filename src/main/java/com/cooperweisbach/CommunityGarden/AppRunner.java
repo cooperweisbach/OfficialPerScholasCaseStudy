@@ -121,20 +121,26 @@ public class AppRunner implements CommandLineRunner {
         Member member = new Member("Cooper", "W", "test1@gmail.com", "1234567890", "$2a$04$9DCAsuRa7w38vZJJnAZkXOa22mDaYPom0/kutj69ov3Wqoeg58e/6");
         memberRepo.save(member);
         member.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_ADMIN"));
+        member.setMemberStatus(memberStatusRepo.getById(1));
         Member member1 = new Member("John", "S", "test2@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member1);
+        member1.setMemberStatus(memberStatusRepo.getById(1));
         member1.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_ADMIN"));
         Member member2 = new Member("Mary Ann", "D", "test3@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member2);
         member2.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
+        member2.setMemberStatus(memberStatusRepo.getById(1));
         Member member3 = new Member("Derek", "Q", "test4@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member3);
+        member3.setMemberStatus(memberStatusRepo.getById(1));
         member3.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
         Member member4 = new Member("Susan", "T", "test5@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member4);
+        member4.setMemberStatus(memberStatusRepo.getById(1));
         member4.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
         Member member5 = new Member("Graham", "Z", "test6@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member5);
+        member5.setMemberStatus(memberStatusRepo.getById(1));
         member5.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
 
         //Adding leasables

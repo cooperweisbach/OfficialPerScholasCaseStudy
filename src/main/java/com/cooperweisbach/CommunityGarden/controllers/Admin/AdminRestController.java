@@ -7,6 +7,7 @@ import com.cooperweisbach.CommunityGarden.services.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,15 @@ public class AdminRestController {
         this.messageThreadServices = messageThreadServices;
         this.configurationServices = configurationServices;
     }
+
+    @PostMapping("/api/users/get-page")
+    public Page<Member> getMembersOnPage(@Param("pageNum") Integer pageNum, @Param("numOfResults") Integer numOfResults){
+        log.warn("controller");
+        log.warn(pageNum.toString());
+        log.warn(numOfResults.toString());
+        return memberServices.getMembersInRange(pageNum, numOfResults);
+    }
+
 
     @GetMapping("/api/users/{userRole}")
     public List<Member> getUsers(@PathVariable(name ="userRole")String userRoleName) throws UserRoleNotFoundException {
@@ -128,6 +138,15 @@ public class AdminRestController {
         return leasableServices.checkUniqueCode(code);
     };
 
+    @PostMapping("/api/leases/member-id")
+    public List<Lease> getLeasesByMemberId(@Param("memberId") Integer memberId){
+        return leaseServices.findLeasesByMemberId(memberId);
+    }
+
+    @PostMapping("/api/leases/leasable-id")
+    public List<Lease> getLeasesByLeasableId(@Param("leasableId") Integer leasableId){
+        return leaseServices.findLeasesByLeasableId(leasableId);
+    }
 
     @PostMapping("/api/leases/check-leasable-id")
     public Lease checkUniqueLeasableId(@Param("id") Integer id, @Param("leasable") String leasable){
