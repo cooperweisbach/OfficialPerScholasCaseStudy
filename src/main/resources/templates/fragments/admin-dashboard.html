@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link th:fragment="admin-dashboard-styles" rel="stylesheet" th:href="@{/styles/admin-dashboard-styles}">
+    <link th:fragment="admin-dashboard-styles" rel="stylesheet" th:href="@{/styles/admin-dashboard-styles.css}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<div th:fragment="admin-dashboard">
-
+<div class="flex flex-wrap-wrap" th:fragment="admin-dashboard">
+    <div class="chart" id="members-line-series"></div>
+    <div class="chart" id="leasables-column"></div>
+<!--    <div class="chart" id="current-revenue"></div>-->
+<!--    <div class="chart" id="leases-by-member"></div>-->
+<!--    <div class="chart" id="contact-us-notifications"></div>-->
+    <div class="chart" id="rented-vs-unrented-pie"></div>
 </div>
 
-<script th:fragment="admin-dashboard-script" th:srec="@{/js/admin/admin-dashboard-script.js}"></script>
+<script th:fragment="js-charting-script" th:src="@{https://code.jscharting.com/latest/jscharting.js}"></script>
+<script th:fragment="admin-dashboard-script" th:src="@{/js/admin/admin-dashboard-script.js}"></script>
 </body>
 </html>

@@ -6,82 +6,52 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
   http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
-  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorate="~{layouts/admin-data-layout.html}">
 
 <head>
     <div th:replace="fragments/general :: base-style"></div>
     <div th:replace="fragments/general :: main-navigation-style"></div>
     <div th:replace="fragments/general :: base-script"></div>
+    <div th:replace="fragments/admin-model-data :: admin-data-style"></div>
+    <div th:replace="fragments/admin-panel-nav :: admin-nav-style"></div>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Message Threads</title>
 </head>
 <body>
 <div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
 
-<div>
-    <form th:action="@{/admin}" method="get">
-        <input type="submit" value="Dashboard">
-    </form>
-    <form th:action="@{/admin/users}" method="get">
-        <input type="submit" value="Members">
-    </form>
-    <form th:action="@{/admin/leasables}" method="get">
-        <input type="submit" value="Leasables">
-    </form>
-    <form th:action="@{/admin/leases}" method="get">
-        <input type="submit" value="Leases">
-    </form>
-    <form th:action="@{/admin/posts}" method="get">
-        <input type="submit" value="Posts">
-    </form>
-    <form th:action="@{/admin/message-threads}" method="get">
-        <input type="submit" value="Message Threads">
-    </form>
-    <form th:action="@{/admin/images}" method="get">
-        <input type="submit" value="Images">
-    </form>
-    <form th:action="@{/admin/payments}" method="get">
-        <input type="submit" value="Payments">
-    </form>
-    <form th:action="@{/members}" method="get">
-        <input type="submit" value="Member Panel">
-    </form>
+<div class="avoidHeaderNav">
+    <div th:replace="fragments/admin-panel-nav :: admin-panel-nav(currentModelId='messageThreads', currentModelName='MESSAGE THREADS')"></div>
 
-    <div th:unless="${#lists.isEmpty(allMessageThreads)}">
-        <form id="myForm" method="post" th:action="@{/admin/message-threads}">
-        <table th:each="messageThread :${allMessageThreads}">
-            <tr>
-                <td th:text="${messageThread.messageThreadId}"></td>
-                <td th:text="${messageThread.messageThreadName}"></td>
-                <td th:text="${messageThread.messageThreadCreation}"></td>
-                <td th:text="${messageThread.messageThreadStatus.messageThreadStatus}"></td>
-                <td><input type="radio" th:attr="data-message-thread-identification=${messageThread.messageThreadId}" name="messageThreadId" class="updateMessageThread"></td>
-            </tr>
-        </table>
-        <input type="submit" id="updateStatus" formaction="/admin/message-threads-status/update" value="Update Statuses"/>
-        <input type="submit" id="createMessageThread" formaction="/admin/message-threads/create" value="Create New Message Thread"/>
-        <input type="submit" id="deleteMessageThread" formaction="/admin/message-threads/" value="Delete Message Thread"/>
-        <input type="submit" value="Update Message Thread"/>
-        </form>
+        <div layout:fragment="search-and-options">
+            <div th:replace="fragments/admin-search-options :: search-and-button-holder-fragment
+            (searchableAttribute='Thread Name',
+             createModal = 'true',
+              modelName='Message Thread',
+               statusModal='true',
+                typeModal='false', rolesModal='false', configurationModal='false')">
+            </div>
+        </div>
+
+    <div class="flex flex-vertical align-items-center"  th:if="${!#lists.isEmpty(allMessageThreads)}">
+
+        <div layout:fragment="model-data">
+            <div th:replace="fragments/admin-message-threads-pagination :: message-threads-data
+            (allModelInstances=${allMessageThreads})"></div>
+        </div>
     </div>
-    <div th:if="${#lists.isEmpty(allMessageThreads)}">
-        <form method="post">
+    <div th:unless="${!#lists.isEmpty(allMessageThreads)}">
             <p>No results</p>
-            <input type="submit" class="createMessageThread" formaction="/admin/message-threads/create" value="Create New Message Thread"/>
-        </form>
     </div>
+
+    <div th:replace="fragments/general :: main-footer"></div>
 
 </div>
-<script>
-    $(".updateMessageThread").change(function() {
-        let messageThread = document.querySelector(".updateMessageThread:checked").dataset.messageThreadIdentification;
-        console.log(messageThread);
-        let formElement = document.querySelector("#myForm");
-        let deleteButton = document.querySelector("#deleteMessageThread");
-        formElement.setAttribute("action", "/admin/message-threads/update/" + messageThread);
-        deleteButton.setAttribute("formaction", "/admin/message-threads/delete/" + messageThread);
-    });
-</script>
+
 <div th:replace="fragments/general :: main-navigation-script"></div>
+<div th:replace="fragments/admin-search-options :: admin-search-options"></div>
+<div th:replace="fragments/general :: general-admin-pagination-script" ></div>
+<div th:replace="fragments/admin-message-threads-pagination :: admin-message-threads-pagination"></div>
 </body>
 </html>

@@ -4,6 +4,8 @@ import com.cooperweisbach.CommunityGarden.daos.iMessageThreadRepo;
 import com.cooperweisbach.CommunityGarden.models.MessageThread;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -54,6 +56,10 @@ public class MessageThreadServices {
             return byId;
         }
 
+    }
+
+    public Page<MessageThread> getMessageThreadsInRange(Integer pageNum, Integer numOfResults) {
+        return messageThreadRepo.findAll(PageRequest.of(pageNum, numOfResults));
     }
 }
 

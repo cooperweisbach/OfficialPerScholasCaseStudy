@@ -237,3 +237,33 @@ function showHistoryLeases(data) {
         modelHistoryDataBody.appendChild(newRow);
     }
 }
+
+
+//Search leasables
+//
+// let searchBar = document.querySelector("#models-search");
+// searchBar.addEventListener("keydown", (event)=> searchLeasables(event));
+//
+// function searchLeasables(event){
+//     console.log(event);
+//     let input = searchBar.value.toLowerCase();
+//     if(input.length != 0){
+//         console.log("value does not have a length of zero");
+//         for (let row of allRows) {
+//             console.log(row);
+//             // if (row.children[2].innerHTML.toLowerCase().includes(input)) {
+//             //     if (row.classList.contains("hide-data")) {
+//             //         row.classList.remove("hide-data");
+//             //     }
+//             // } else {
+//             //     if (!row.classList.contains("hide-data")) {
+//             //         row.classList.add("hide-data");
+//             //     }
+//             // }
+//         }
+//     }else{
+//         // getLeasablesData(1, paginationResultsSize, true);
+//
+//     }
+//
+// }

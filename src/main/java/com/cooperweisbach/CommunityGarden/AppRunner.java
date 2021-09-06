@@ -10,10 +10,8 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -135,36 +133,68 @@ public class AppRunner implements CommandLineRunner {
         defaultProf2.setImageType(imageTypes2);
 
         //Adding members
+        SimpleDateFormat sdf = new SimpleDateFormat("mm-dd-yyyy");
         Member member = new Member("Cooper", "W", "test1@gmail.com", "1234567890", "$2a$04$9DCAsuRa7w38vZJJnAZkXOa22mDaYPom0/kutj69ov3Wqoeg58e/6");
         memberRepo.save(member);
         member.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_ADMIN"));
         member.setMemberStatus(memberStatusRepo.getById(1));
         member.setProfilePic(imageRepo.getById(1));
+        member.setJoinedDate(sdf.parse("11-02-2020"));
         Member member1 = new Member("John", "S", "test2@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         member1.setProfilePic(imageRepo.getById(1));
         memberRepo.save(member1);
         member1.setMemberStatus(memberStatusRepo.getById(1));
         member1.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_ADMIN"));
+        member1.setJoinedDate(sdf.parse("12-01-2020"));
         Member member2 = new Member("Mary Ann", "D", "test3@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member2);
         member2.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
         member2.setMemberStatus(memberStatusRepo.getById(1));
         member2.setProfilePic(imageRepo.getById(1));
+        member2.setJoinedDate(sdf.parse("01-02-2021"));
         Member member3 = new Member("Derek", "Q", "test4@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member3);
         member3.setMemberStatus(memberStatusRepo.getById(1));
         member3.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
         member3.setProfilePic(imageRepo.getById(1));
+        member3.setJoinedDate(sdf.parse("02-13-2021"));
         Member member4 = new Member("Susan", "T", "test5@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member4);
         member4.setMemberStatus(memberStatusRepo.getById(1));
         member4.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
         member4.setProfilePic(imageRepo.getById(1));
+        member4.setJoinedDate(sdf.parse("03-1-2021"));
         Member member5 = new Member("Graham", "Z", "test6@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member5);
         member5.setMemberStatus(memberStatusRepo.getById(1));
         member5.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
         member5.setProfilePic(imageRepo.getById(1));
+        member5.setJoinedDate(sdf.parse("03-1-2021"));
+        Member member6 = new Member("Graham", "Z", "test7@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
+        memberRepo.save(member6);
+        member6.setMemberStatus(memberStatusRepo.getById(1));
+        member6.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
+        member6.setProfilePic(imageRepo.getById(1));
+        member6.setJoinedDate(sdf.parse("04-1-2021"));
+        Member member7 = new Member("Graham", "Z", "test8@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
+        memberRepo.save(member7);
+        member7.setMemberStatus(memberStatusRepo.getById(1));
+        member7.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
+        member7.setProfilePic(imageRepo.getById(1));
+        member7.setJoinedDate(sdf.parse("08-1-2021"));
+        Member member8 = new Member("Graham", "Z", "test9@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
+        memberRepo.save(member8);
+        member8.setMemberStatus(memberStatusRepo.getById(1));
+        member8.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
+        member8.setProfilePic(imageRepo.getById(1));
+        member8.setJoinedDate(sdf.parse("09-1-2021"));
+        Member member9 = new Member("Graham", "Z", "test10@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
+        memberRepo.save(member9);
+        member9.setMemberStatus(memberStatusRepo.getById(1));
+        member9.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
+        member9.setProfilePic(imageRepo.getById(1));
+
+
 
         //Adding leasables
         Leasable leasable;

@@ -94,7 +94,10 @@ public class AdminRestController {
         email = myEmails[myEmails.length-1];
         log.warn(email);
         return memberServices.checkUniqueEmail(email);
-    };
+    }
+
+    @GetMapping("/api/users/get-all")
+    public List<Member> getAllMembers(){return memberServices.getAllMembers();}
 
     @PostMapping("/api/leasables/get-info-by-id")
     public Leasable getSpecifiedLeasable(@Param("id") Integer id){
@@ -208,6 +211,12 @@ public class AdminRestController {
         log.warn("Reached post tags");
         log.warn(String.valueOf(postTags.size()));
         return postTagServices.savePostTagsFromList(postTags);
+    }
+
+
+    @PostMapping("/api/message-threads/get-page")
+    public Page<MessageThread> getMessageThreadByPage(@Param("pageNum") Integer pageNum, @Param("numOfResults") Integer numOfResults){
+        return messageThreadServices.getMessageThreadsInRange(pageNum, numOfResults);
     }
 
 
