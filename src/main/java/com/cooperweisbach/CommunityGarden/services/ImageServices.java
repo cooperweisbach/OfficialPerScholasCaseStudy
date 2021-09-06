@@ -4,6 +4,8 @@ import com.cooperweisbach.CommunityGarden.daos.iImageRepo;
 import com.cooperweisbach.CommunityGarden.models.Image;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -35,4 +37,7 @@ public class ImageServices {
         imageRepo.deleteById(id);
     }
 
+    public Page<Image> getResultsInRange(Integer pageNum, Integer numOfResults) {
+        return imageRepo.findAll(PageRequest.of(pageNum, numOfResults));
+    }
 }

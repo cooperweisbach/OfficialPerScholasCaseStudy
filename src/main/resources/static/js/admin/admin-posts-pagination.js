@@ -1,27 +1,27 @@
 $( function()
     {
-        getLeasesData(1, paginationResultsSize, true);
+        getPostsData(1, paginationResultsSize, true);
     }
 );
 
-function getLeasesData(pageNum, paginationResultsSize, initialize){
+function getPostsData(pageNum, paginationResultsSize, initialize){
     let formData = new FormData();
     formData.append("numOfResults", parseInt(paginationResultsSize));
     formData.append("pageNum", pageNum-1);
-    fetch('/api/leases/get-page', {method: 'POST', body: formData})
+    fetch('/api/posts/get-page', {method: 'POST', body: formData})
         .then(response => response.json())
         .then(data => {
-            showDataLeases(pageNum, data.content);
+            showDataPosts(pageNum, data.content);
             numberOfPages = data.totalPages;
             totalInstances = data.totalElements;
             if(initialize){
-                addLeasesDataPaginationButtons(numberOfPages);
+                addPostsDataPaginationButtons(numberOfPages);
             }
         });
 }
 
 
-function addLeasesDataPaginationButtons(numberOfPages){
+function addPostsDataPaginationButtons(numberOfPages){
     let maxIndex = 5;
     if(numberOfPages < 5){
         maxIndex = numberOfPages;
@@ -34,7 +34,7 @@ function addLeasesDataPaginationButtons(numberOfPages){
         if(i == 1){
             newButton.setAttribute("id", "current-page");
         }
-        newButton.addEventListener("click", (event) => getLeasesData(goToPage(event), paginationResultsSize, false));
+        newButton.addEventListener("click", (event) => getPostsData(goToPage(event), paginationResultsSize, false));
         paginationButtonHolder.appendChild(newButton);
     }
 }
@@ -44,23 +44,23 @@ function changePage(event){
     let buttonList = document.getElementsByClassName("pagination-button");
     console.log(event.target);
     switch(event.target.id){
-        case "first-page-button":resetData(); getLeasesData(firstPageFunction(), paginationResultsSize, false);
+        case "first-page-button":resetData(); getPostsData(firstPageFunction(), paginationResultsSize, false);
             break;
         case "previous-page-button": {
             if(getCurrentPageNumber() != 1) {
                 resetData();
-                getLeasesData(previousPageFunction(), paginationResultsSize, false);
+                getPostsData(previousPageFunction(), paginationResultsSize, false);
             }
             break;
         }
         case"next-page-button": {
             if (getCurrentPageNumber() != buttonList.length) {
                 resetData();
-                getLeasesData(nextPageFunction(), paginationResultsSize, false);
+                getPostsData(nextPageFunction(), paginationResultsSize, false);
             }
             break;
         }
-        case "last-page-button": resetData(); getLeasesData(lastPageFunction(), paginationResultsSize, false);
+        case "last-page-button": resetData(); getPostsData(lastPageFunction(), paginationResultsSize, false);
             break;
         default: break;
     }
@@ -68,7 +68,9 @@ function changePage(event){
 }
 
 
-function showDataLeases(pageNum, data){
+function showDataPosts(pageNum, data){
+    console.log("this was called");
+    console.log(data);
     let counter = 1;
     let result;
     let newRow;
@@ -83,7 +85,7 @@ function showDataLeases(pageNum, data){
         counter++;
         for(attribute in result){
             switch(attribute){
-                case 'leaseId': {
+                case 'postId': {
                     text = document.createTextNode(result[attribute]);
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
@@ -91,44 +93,76 @@ function showDataLeases(pageNum, data){
                     dataPoint.setAttribute('class', 'model-id-table');
                     break;
                 }
-                case 'startDate':{
-                    text = document.createTextNode(result[attribute]);
+                case 'creationDate':{
+                    let val = result[attribute];
+                    if(val != null)
+                        text = document.createTextNode(val);
+                    else{
+                        text = document.createTextNode("none");
+                    }
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
-                    dataPoint.setAttribute('class', 'model-start-table');
+                    dataPoint.setAttribute('class', 'model-creation-table');
                     break;
                 }
-                case 'endDate':{
-                    text = document.createTextNode(result[attribute]);
+                case 'postDate':{
+                    let val = result[attribute];
+                    if(val != null)
+                        text = document.createTextNode(val);
+                    else{
+                        text = document.createTextNode("none");
+                    }
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
-                    dataPoint.setAttribute('class', 'model-end-table');
+                    dataPoint.setAttribute('class', 'model-publish-table');
                     break;
                 }
                 case 'member':{
-                    text = document.createTextNode(result[attribute].firstName + ' '+ result[attribute].lastName);
+                    text = document.createTextNode(result[attribute].firstName + ' ' + result[attribute].lastName);
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
                     dataPoint.setAttribute('class', 'model-member-table');
                     break;
                 }
-                case 'leaseStatus':{
-                    text = document.createTextNode(result[attribute].leaseStatus);
+                case 'postStatus':{
+                    let val = result[attribute].postStatus;
+                    if(val != null)
+                        text = document.createTextNode(val);
+                    else{
+                        text = document.createTextNode("none");
+                    }
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
                     dataPoint.setAttribute('class', 'model-status-table');
                     break;
                 }
-                case 'leasable':{
-                    text = document.createTextNode(result[attribute].leasableCode);
+                case 'postTagList':{
+                    let val = result[attribute];
+                    if(val.length != 0)
+                        text = document.createTextNode(result[attribute].map(postTag => {
+                            return postTag.postTagTitle;
+                        }));
+                    else{
+                        text = document.createTextNode("none");
+                    }
+                    console.log("tag list");
+                    console.log(text);
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
-                    dataPoint.setAttribute('class', 'model-leasable-table');
+                    dataPoint.setAttribute('class', 'model-tags-table');
+                    break;
+                }
+                case 'postTitle':{
+                    text = document.createTextNode(result[attribute]);
+                    dataPoint = document.createElement('td');
+                    dataPoint.appendChild(text);
+                    newRow.appendChild(dataPoint);
+                    dataPoint.setAttribute('class', 'model-title-table');
                     break;
                 }
                 default: break;
@@ -143,11 +177,12 @@ function showDataLeases(pageNum, data){
 //Modal views
 //Specific internal modal ids
 let modelIdView = document.querySelector("#model-id-modal");
-let modelStartView = document.querySelector("#model-start-modal");
-let modelEndView = document.querySelector("#model-end-modal");
+let modelPublishView = document.querySelector("#model-published-modal");
+let modelCreationView = document.querySelector("#model-created-modal");
 let modelMemberView = document.querySelector("#model-member-modal");
 let modelStatusView = document.querySelector("#model-status-modal");
-let modelLeasableView = document.querySelector("#model-leasable-modal");
+let modelTagsView = document.querySelector("#model-tags-modal");
+let modelTitleView = document.querySelector("#model-title-modal");
 
 function viewLeaseModal(event){
     event.preventDefault();
@@ -157,16 +192,17 @@ function viewLeaseModal(event){
     modalContainer.style.alignItems = "center";
     let rowSelectedId = event.currentTarget.id;
     let rowSelected = document.getElementById(rowSelectedId);
-    let leasableId;
+    let postId;
     for (let element of rowSelected.children) {
         switch(element.classList[0]) {
             case "model-id-table": modelIdView.innerHTML = "Id: " + element.innerHTML;
-                leaseId = element.innerHTML; break;
-            case "model-start-table": modelStartView.innerHTML = "Start: " + element.innerHTML; break;
-            case "model-end-table": modelEndView.innerHTML = "End: " + element.innerHTML; break;
-            case "model-member-table": modelMemberView.innerHTML = "Member: " + element.innerHTML; break;
-            case "model-leasable-table": modelLeasableView.innerHTML = "Leasable: " + element.innerHTML; break;
+                postId = element.innerHTML; break;
+            case "model-creation-table": modelCreationView.innerHTML = "Created: " + element.innerHTML; break;
+            case "model-publish-table": modelPublishView.innerHTML = "Published: " + element.innerHTML; break;
+            case "model-title-table": modelTitleView.innerHTML = "Title: " + element.innerHTML; break;
+            case "model-tags-table": modelTagsView.innerHTML = "Tags: " + element.innerHTML; break;
             case "model-status-table": modelStatusView.innerHTML = "Status: " + element.innerHTML; break;
+            case "model-member-table": modelMemberView.innerHTML = "Member: " + element.innerHTML; break;
             default: break;
         }
     }

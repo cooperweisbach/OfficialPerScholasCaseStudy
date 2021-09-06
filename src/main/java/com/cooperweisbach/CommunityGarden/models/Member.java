@@ -1,5 +1,8 @@
 package com.cooperweisbach.CommunityGarden.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level=AccessLevel.PRIVATE)
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "memberId")
 public class Member {
 
     @Id
@@ -70,18 +76,20 @@ public class Member {
     //Uni-Directional(Owner)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="profile_pic")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Image profilePic;
 
     //This is the owning/parent element in this manytomany relationship between Members and UserRoles
     //This is the case because the element with the Join Table annotation is declaring the join table from its POV
     //Here, the join column is a member_id while the inverse join column is role_id.
     //Cascade All
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "member_role",
             joinColumns = { @JoinColumn(name = "member_id") },
             inverseJoinColumns = { @JoinColumn(name = "role_id") }
     )
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     List<UserRoles> userRoles;
 
 

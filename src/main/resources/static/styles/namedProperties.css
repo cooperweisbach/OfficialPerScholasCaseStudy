@@ -85,3 +85,9 @@
 .avoidHeaderNav{
     margin-top: 5rem;
 }
+
+.stored-image{
+    height: 55px;
+    object-fit: cover;
+    border-radius: 50%;
+}

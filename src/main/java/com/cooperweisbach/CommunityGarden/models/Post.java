@@ -1,6 +1,9 @@
 package com.cooperweisbach.CommunityGarden.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +21,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level=AccessLevel.PRIVATE)
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "postId")
 public class Post {
 
     //Resources
@@ -52,6 +58,7 @@ public class Post {
     //Uni-Directional(Owner)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="post_status")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     PostStatus postStatus;
 
     //Mapping for member to profile pics.
@@ -60,6 +67,7 @@ public class Post {
     //Uni-Directional(Owner)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="member")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Member member;
 
     //This is the owning/parent element in this manytomany relationship between Posts and PostTags
@@ -71,6 +79,7 @@ public class Post {
                     joinColumns= {@JoinColumn(name="post_id")},
                     inverseJoinColumns = {@JoinColumn(name="post_tag_id")}
             )
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     List<PostTag> postTagList;
 
 }

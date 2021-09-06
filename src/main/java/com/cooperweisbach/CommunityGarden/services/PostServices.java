@@ -5,6 +5,8 @@ import com.cooperweisbach.CommunityGarden.models.Post;
 import com.cooperweisbach.CommunityGarden.models.PostTag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -64,5 +66,9 @@ public class PostServices {
         } else{
             return null;
         }
+    }
+
+    public Page<Post> getPostsInRange(Integer pageNum, Integer numOfResults) {
+        return postRepo.findAll(PageRequest.of(pageNum, numOfResults)); 
     }
 }

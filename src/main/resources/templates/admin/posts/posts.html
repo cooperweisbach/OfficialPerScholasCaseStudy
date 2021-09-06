@@ -6,103 +6,49 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
   http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
-  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorate="~{layouts/admin-data-layout.html}">
 
 <head>
     <div th:replace="fragments/general :: base-style"></div>
-    <div th:replace="fragments/general :: main-navigation-style"></div>
     <div th:replace="fragments/general :: base-script"></div>
+    <div th:replace="fragments/general :: main-navigation-style"></div>
+    <div th:replace="fragments/admin-model-data :: admin-data-style"></div>
+    <div th:replace="fragments/admin-panel-nav :: admin-nav-style"></div>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Admin - Posts</title>
 </head>
 <body>
 <div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
 
-<div>
-    <form th:action="@{/admin}" method="get">
-        <input type="submit" value="Dashboard">
-    </form>
-    <form th:action="@{/admin/users}" method="get">
-        <input type="submit" value="Members">
-    </form>
-    <form th:action="@{/admin/leasables}" method="get">
-        <input type="submit" value="Leasables">
-    </form>
-    <form th:action="@{/admin/leases}" method="get">
-        <input type="submit" value="Leases">
-    </form>
-    <form th:action="@{/admin/posts}" method="get">
-        <input type="submit" value="Posts">
-    </form>
-    <form th:action="@{/admin/message-threads}" method="get">
-        <input type="submit" value="Message Threads">
-    </form>
-    <form th:action="@{/admin/images}" method="get">
-        <input type="submit" value="Images">
-    </form>
-    <form th:action="@{/admin/payments}" method="get">
-        <input type="submit" value="Payments">
-    </form>
-    <form th:action="@{/members}" method="get">
-        <input type="submit" value="Member Panel">
-    </form>
+<div class="avoidHeaderNav">
+    <div th:replace="fragments/admin-panel-nav :: admin-panel-nav(currentModelId='posts', currentModelName='POSTS')"></div>
+    <div class="flex flex-vertical align-items-center" th:if="${!#lists.isEmpty(allPosts)}">
+        <div layout:fragment="search-and-options">
+            <div th:replace="fragments/admin-search-options :: search-and-button-holder-fragment
+            (searchableAttribute='Post Title',
+             createModal = 'true',
+              modelName='Post',
+               statusModal='true',
+                typeModal='false', rolesModal='false', configurationModal='false')">
+            </div>
+        </div>
 
-    <div th:if="${!#lists.isEmpty(allPosts)}">
-        <form id="myForm" method="post" th:action="@{/admin/posts/}">
-            <table>
-                <thead>
-                <th>
-                <td>Post ID</td>
-                <td>Title</td>
-                <td>Member</td>
-                <td>Creation Date</td>
-                <td>Publish Date</td>
-                <td>Post Tags</td>
-                <td>Post Status</td>
-                <td>Apply Updates</td>
-                </th>
-                </thead>
-                <tbody>
-                <tr th:each="post, stat :${allPosts}" class="postList">
-                    <td th:text="${post.postId}"></td>
-                    <td th:text="${post.postTitle}"></td>
-                    <td th:text="${post.member.getFullName()}"></td>
-                    <td th:text="${post.creationDate}"></td>
-                    <td th:text="${post.postDate}"></td>
-                    <td th:text="${post.postTagList}"></td>
-                    <td th:text="${post.postStatus}"></td>
-                    <td><input type="radio" th:attr="data-post-identification=${post.postId}" name="postId" class="updatePost"></td>
-                </tr>
-                </tbody>
-            </table>
-            <input type="submit" id="updateStatus" formaction="/admin/post-status/update" value="Update Statuses"/>
-            <input type="submit" id="updateTags" formaction="/admin/post-tags/update" value="Update Tags"/>
-            <input type="submit" class="createPost" formaction="/admin/posts/create" value="Create New Post"/>
-            <input type="submit" id="deletePost" formaction="/admin/posts/" value="Delete Post"/>
-            <input type="submit" value="Update Post"/>
-        </form>
+        <div layout:fragment="model-data">
+            <div th:replace="fragments/admin-posts-pagination :: posts-data(allModelInstances=${allPosts})"></div>
+        </div>
 
     </div>
     <div th:if="${#lists.isEmpty(allPosts)}">
-        <form method="post">
             <p>No results</p>
-            <input type="submit" class="createPost" formaction="/admin/posts/create" value="Create New Post"/>
-        </form>
     </div>
+
+    <div th:replace="fragments/general :: main-footer"></div>
+
 </div>
-
-<script>
-
-    $(".updatePost").change(function() {
-        var post = document.querySelector(".updatePost:checked").dataset.postIdentification;
-        console.log(post);
-        var formElement = document.querySelector("#myForm");
-        var deleteButton = document.querySelector("#deletePost");
-        formElement.setAttribute("action", "/admin/posts/update/" + post);
-        deleteButton.setAttribute("formaction", "/admin/posts/delete/" + post);
-    });
-
-</script>
 <div th:replace="fragments/general :: main-navigation-script"></div>
+<div th:replace="fragments/admin-search-options :: admin-search-options"></div>
+<div th:replace="fragments/general :: general-admin-pagination-script" ></div>
+<div th:replace="fragments/admin-posts-pagination :: admin-posts-pagination"></div>
 </body>
 </html>

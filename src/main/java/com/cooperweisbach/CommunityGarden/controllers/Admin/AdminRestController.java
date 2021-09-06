@@ -28,6 +28,7 @@ public class AdminRestController {
     private PostServices postServices;
     private MessageThreadServices messageThreadServices;
     private ConfigurationServices configurationServices;
+    private ImageServices imageServices;
 
     @Autowired
     public AdminRestController(MemberServices memberServices,
@@ -37,7 +38,8 @@ public class AdminRestController {
                                PostTagServices postTagServices,
                                PostServices postServices,
                                MessageThreadServices messageThreadServices,
-                               ConfigurationServices configurationServices) {
+                               ConfigurationServices configurationServices,
+                               ImageServices imageServices) {
         this.memberServices = memberServices;
         this.userRolesServices = userRolesServices;
         this.leasableServices = leasableServices;
@@ -46,6 +48,7 @@ public class AdminRestController {
         this.postServices = postServices;
         this.messageThreadServices = messageThreadServices;
         this.configurationServices = configurationServices;
+        this.imageServices = imageServices;
     }
 
     @PostMapping("/api/users/get-page")
@@ -148,6 +151,14 @@ public class AdminRestController {
         return leaseServices.findLeasesByLeasableId(leasableId);
     }
 
+    @PostMapping("/api/leases/get-page")
+    public Page<Lease> getLeasesByPage(@Param("pageNum") Integer pageNum, @Param("numOfResults") Integer numOfResults){
+        Page<Lease> page = leaseServices.findLeasesInRange(pageNum, numOfResults);
+        log.warn("pageeeee");
+        log.warn(page.toString());
+        return page;
+    }
+
     @PostMapping("/api/leases/check-leasable-id")
     public Lease checkUniqueLeasableId(@Param("id") Integer id, @Param("leasable") String leasable){
         log.warn("Integer for ID:" + id);
@@ -167,6 +178,12 @@ public class AdminRestController {
         log.warn(leasable);
         return leaseServices.checkUniqueLeasable(leasable);
     };
+
+
+    @PostMapping("/api/posts/get-page")
+    public Page<Post> getPostsByPage(@Param("pageNum") Integer pageNum, @Param("numOfResults") Integer numOfResults){
+        return postServices.getPostsInRange(pageNum, numOfResults);
+    }
 
     @PostMapping("/api/posts/check-title")
     public Post checkUniquePostTitle(@Param("postTitle") String postTitle){
@@ -221,4 +238,9 @@ public class AdminRestController {
     }
 
     public String notCurrentUser() {return null;};
+
+    @PostMapping("/api/images/get-page")
+    public Page<Image> getImagesByPage(@Param("pageNum") Integer pageNum, @Param("numOfResults") Integer numOfResults){
+        return imageServices.getResultsInRange(pageNum, numOfResults);
+    }
 }

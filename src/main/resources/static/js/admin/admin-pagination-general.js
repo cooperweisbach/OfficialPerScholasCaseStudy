@@ -21,6 +21,14 @@ let modelHistoryDataBody = document.querySelector("#model-history-data-body");
 let modelHistoryTable = document.querySelector("#model-history-table");
 let modalContainer = document.querySelector("#model-modal-container");
 
+let updateButton = document.querySelector("#modal-update-button");
+updateButton.addEventListener("click", (event) => viewLeasableModal(event));
+let deleteButton = document.querySelector("#modal-delete-button");
+deleteButton.addEventListener("click", (event) => viewLeasableModal(event));
+let closeViewButton = document.querySelector(".modal-close-button");
+closeViewButton.addEventListener("click", (event) => closeView(event));
+let webBody = document.getElementsByTagName("body");
+
 function resetData(){
     returnedModelsDataBody.remove();
     returnedModelsDataBody = document.createElement("tbody");
@@ -183,3 +191,9 @@ function resetHistory(){
     modelHistoryDataBody.setAttribute('class', 'flex flex-vertical');
 }
 
+function closeView(event){
+    event.preventDefault();
+    console.log("this function is being called");
+    modalContainer.style.display = "none";
+    webBody[0].style.overflow = "scroll";
+}

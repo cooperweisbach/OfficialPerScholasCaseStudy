@@ -1,6 +1,9 @@
 package com.cooperweisbach.CommunityGarden.models;
 
 import com.cooperweisbach.CommunityGarden.services.LeaseStatusServices;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +45,7 @@ public class  Lease {
 
     @ManyToOne(cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
     @JoinColumn(name ="member")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Member member;
 
     // Mapping for leases to their status. In this instance, many leases can belong to one status.
@@ -49,6 +53,7 @@ public class  Lease {
     //Uni-Directional(Owner)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="lease_status")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     LeaseStatus leaseStatus;
 
     //Mapping for leases to leasables, where leasables are the leasable entities
@@ -57,7 +62,7 @@ public class  Lease {
     //Uni-Directional(Owner)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="leasable_id")
-//    @JoinColumn(name="LeasableId", referencedColumnName = "LeaseId")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Leasable leasable;
 
 

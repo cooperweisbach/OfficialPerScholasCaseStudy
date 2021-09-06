@@ -1,6 +1,8 @@
 package com.cooperweisbach.CommunityGarden.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -53,5 +55,9 @@ public class Image {
     )
     @JoinColumn(name="image_type")
     List<ImageType> imageType;
+
+    public String getUploadPath(){
+        return "/images/" + imageType.get(0).getImageType() + "/" + imageUploadName;
+    }
 
 }

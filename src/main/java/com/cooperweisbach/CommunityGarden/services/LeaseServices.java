@@ -5,6 +5,8 @@ import com.cooperweisbach.CommunityGarden.daos.iLeaseStatusRepo;
 import com.cooperweisbach.CommunityGarden.models.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -96,5 +98,11 @@ public class LeaseServices {
 
     public List<Lease> findLeasesByMemberId(Integer memberId) {
         return leaseRepo.findAllByMember_MemberId(memberId);
+    }
+
+    public Page<Lease> findLeasesInRange(Integer pageNum, Integer numOfResults) {
+        Page<Lease> page = leaseRepo.findAll(PageRequest.of(pageNum, numOfResults));
+        log.warn(page.toString());
+        return page;
     }
 }

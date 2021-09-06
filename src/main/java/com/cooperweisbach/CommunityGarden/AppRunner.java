@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -114,15 +116,32 @@ public class AppRunner implements CommandLineRunner {
         imageTypeRepo.save(new ImageType("postImage"));
         imageTypeRepo.save(new ImageType("slideShowHP"));
         imageTypeRepo.save(new ImageType("gallery"));
+        postTagRepo.save(new PostTag("gardening"));
+        postTagRepo.save(new PostTag("beekeeping"));
+        postTagRepo.save(new PostTag("greenhouse"));
+        postTagRepo.save(new PostTag("arizonaVeggies"));
 
 
+        //Adding default profile pic
+        Image defaultProf = new Image("default.png");
+        imageRepo.save(defaultProf);
+        List<ImageType> imageTypes = new ArrayList<>();
+        imageTypes.add(imageTypeRepo.getById(1));
+        defaultProf.setImageType(imageTypes);
+        Image defaultProf2 = new Image("gitHubProfile.jpg");
+        imageRepo.save(defaultProf2);
+        List<ImageType> imageTypes2 = new ArrayList<>();
+        imageTypes2.add(imageTypeRepo.getById(1));
+        defaultProf2.setImageType(imageTypes2);
 
         //Adding members
         Member member = new Member("Cooper", "W", "test1@gmail.com", "1234567890", "$2a$04$9DCAsuRa7w38vZJJnAZkXOa22mDaYPom0/kutj69ov3Wqoeg58e/6");
         memberRepo.save(member);
         member.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_ADMIN"));
         member.setMemberStatus(memberStatusRepo.getById(1));
+        member.setProfilePic(imageRepo.getById(1));
         Member member1 = new Member("John", "S", "test2@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
+        member1.setProfilePic(imageRepo.getById(1));
         memberRepo.save(member1);
         member1.setMemberStatus(memberStatusRepo.getById(1));
         member1.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_ADMIN"));
@@ -130,18 +149,22 @@ public class AppRunner implements CommandLineRunner {
         memberRepo.save(member2);
         member2.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
         member2.setMemberStatus(memberStatusRepo.getById(1));
+        member2.setProfilePic(imageRepo.getById(1));
         Member member3 = new Member("Derek", "Q", "test4@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member3);
         member3.setMemberStatus(memberStatusRepo.getById(1));
         member3.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
+        member3.setProfilePic(imageRepo.getById(1));
         Member member4 = new Member("Susan", "T", "test5@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member4);
         member4.setMemberStatus(memberStatusRepo.getById(1));
         member4.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
+        member4.setProfilePic(imageRepo.getById(1));
         Member member5 = new Member("Graham", "Z", "test6@gmail.com", "1234567890", "$2a$04$BnWzlg2HUJCZWzJK15fr3.dzuKJ/tyOdwvojpGzDpmL5Yg5sqa9WW");
         memberRepo.save(member5);
         member5.setMemberStatus(memberStatusRepo.getById(1));
         member5.setUserRoles(userRolesRepo.getUserRolesByUserRoleName("ROLE_MEMBER"));
+        member5.setProfilePic(imageRepo.getById(1));
 
         //Adding leasables
         Leasable leasable;
@@ -238,7 +261,16 @@ public class AppRunner implements CommandLineRunner {
         //
         //{"version":"4.5.0","objects":[{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":142.43,"top":150.4,"width":20,"height":20,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"OP1"},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":168.33,"top":150.4,"width":20,"height":20,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"W1"},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":142.43,"top":177.29,"width":20,"height":20,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"FT1"},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":168.33,"top":177.29,"width":20,"height":20,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"BH1"},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":142.43,"top":214.14,"width":20,"height":20,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"GH1"},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":169.32,"top":214.14,"width":20,"height":20,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"OP2"},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":142.43,"top":241.04,"width":20,"height":20,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"FT2"},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":169.32,"top":240.04,"width":20,"height":20,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"id":"W2"},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":135.46,"top":143.43,"width":20,"height":20,"fill":"transparent","stroke":"grey","strokeWidth":0.5,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":3.02,"scaleY":6.15,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"class":"extraRect"},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":135.46,"top":-1,"width":20,"height":20,"fill":"transparent","stroke":"grey","strokeWidth":0.5,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":18.22,"scaleY":3.51,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"class":"extraRect"},{"type":"textbox","version":"4.5.0","originX":"left","originY":"top","left":253.98,"top":22.91,"width":168.72,"height":22.6,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"text":"PARKING LOT A","fontSize":20,"fontWeight":"normal","fontFamily":"Times New Roman","fontStyle":"normal","lineHeight":1.16,"underline":false,"overline":false,"linethrough":false,"textAlign":"left","textBackgroundColor":"","charSpacing":0,"path":null,"direction":"ltr","minWidth":20,"splitByGrapheme":false,"class":"extraText","styles":{}},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":-2.99,"top":371.51,"width":20,"height":20,"fill":"transparent","stroke":"grey","strokeWidth":0.5,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":6.56,"scaleY":6.56,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"class":"extraRect"},{"type":"textbox","version":"4.5.0","originX":"left","originY":"top","left":21.91,"top":416.33,"width":65.57,"height":48.82,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"text":"SOLAR FARM","fontSize":20,"fontWeight":"normal","fontFamily":"Times New Roman","fontStyle":"normal","lineHeight":1.16,"underline":false,"overline":false,"linethrough":false,"textAlign":"left","textBackgroundColor":"","charSpacing":0,"path":null,"direction":"ltr","minWidth":20,"splitByGrapheme":false,"class":"extraText","styles":{}},{"type":"line","version":"4.5.0","originX":"left","originY":"top","left":202.01,"top":143.41,"width":100,"height":0,"fill":"rgb(0,0,0)","stroke":"black","strokeWidth":1,"strokeDashArray":[1,1],"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1.26,"scaleY":4.99,"angle":89.5,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"class":"extraLine","x1":-50,"x2":50,"y1":0,"y2":0},{"type":"rect","version":"4.5.0","originX":"left","originY":"top","left":203.19,"top":143.43,"width":20,"height":20,"fill":"transparent","stroke":"grey","strokeWidth":0.5,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":true,"strokeMiterLimit":4,"scaleX":14.89,"scaleY":6.3,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"rx":0,"ry":0,"class":"extraRect"},{"type":"textbox","version":"4.5.0","originX":"left","originY":"top","left":318.73,"top":175.3,"width":81.11,"height":75.03,"fill":"rgb(0,0,0)","stroke":null,"strokeWidth":1,"strokeDashArray":null,"strokeLineCap":"butt","strokeDashOffset":0,"strokeLineJoin":"miter","strokeUniform":false,"strokeMiterLimit":4,"scaleX":1,"scaleY":1,"angle":0,"flipX":false,"flipY":false,"opacity":1,"shadow":null,"visible":true,"backgroundColor":"","fillRule":"nonzero","paintFirst":"fill","globalCompositeOperation":"source-over","skewX":0,"skewY":0,"text":"PLOTS COMING SOON","fontSize":20,"fontWeight":"normal","fontFamily":"Times New Roman","fontStyle":"normal","lineHeight":1.16,"underline":false,"overline":false,"linethrough":false,"textAlign":"left","textBackgroundColor":"","charSpacing":0,"path":null,"direction":"ltr","minWidth":20,"splitByGrapheme":false,"class":"extraText","styles":{}}]}
 
+        Post post1 = new Post("Title", "Content");
+        postRepo.save(post1);
+        post1.setPostStatus(postStatusRepo.getById(1));
+        ArrayList<PostTag> tags = new ArrayList<>();
+        tags.add(postTagRepo.getById(1));
+        tags.add(postTagRepo.getById(2));
+        post1.setPostTagList(tags);
+        post1.setMember(member);
     }
+
 
 
 }

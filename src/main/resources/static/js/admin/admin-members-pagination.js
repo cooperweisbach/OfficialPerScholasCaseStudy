@@ -82,7 +82,9 @@ function showDataMembers(pageNum, data){
     let attribute;
     let text;
     let dataPoint;
-    let name;
+    let imgSRC;
+    let img;
+    let images= new Map();
     for(result of data){
         newRow = document.createElement('tr');
         newRow.setAttribute('class', 'model-data-row');
@@ -99,15 +101,24 @@ function showDataMembers(pageNum, data){
                     dataPoint.setAttribute('class', 'model-id-table');
                     break;
                 }
-                // case 'firstName':{
-                //     name = result[attribute];
-                //     // text = document.createTextNode(result[attribute]);
-                //     // dataPoint = document.createElement('td');
-                //     // dataPoint.appendChild(text);
-                //     // newRow.appendChild(dataPoint);
-                //     // dataPoint.setAttribute('class', 'model-name-table');
-                //     break;
-                // }
+                case 'profilePic':{
+                    img = document.createElement('img');
+                    console.log(result[attribute]);
+                    try{
+                        console.log(images);
+                        imgSRC = result[attribute].uploadPath;
+                        images.set(imgSRC.imageId, imgSRC.uploadPath);
+                    }catch(exception){
+                        imgSRC = images.get(result[attribute]);
+                    }
+                    img.setAttribute('src', imgSRC);
+                    img.classList.add("stored-image");
+                    dataPoint = document.createElement('td');
+                    dataPoint.appendChild(img);
+                    newRow.appendChild(dataPoint);
+                    dataPoint.setAttribute('class', 'model-image-table');
+                    break;
+                }
                 case 'fullName':{
                     text = document.createTextNode(result[attribute]);
                     dataPoint = document.createElement('td');
@@ -169,6 +180,7 @@ function showDataMembers(pageNum, data){
 
 
 //Modal views
+//Specific internal modal ids
 let modelIdView = document.querySelector("#model-id-modal");
 let modelNameView = document.querySelector("#model-name-modal");
 let modelTypeView = document.querySelector("#model-type-modal");
@@ -177,15 +189,6 @@ let modelPhoneView = document.querySelector("#model-phone-modal");
 let modelStatusView = document.querySelector("#model-status-modal");
 let modelEmailView = document.querySelector("#model-email-modal");
 
-let updateButton = document.querySelector("#modal-update-button");
-updateButton.addEventListener("click", (event) => viewMemberModal(event));
-let deleteButton = document.querySelector("#modal-delete-button");
-deleteButton.addEventListener("click", (event) => viewMemberModal(event));
-let closeViewButton = document.querySelector(".modal-close-button");
-closeViewButton.addEventListener("click", (event) => closeView(event));
-
-let modelHistoryIds = document.querySelectorAll(".model-history-identifier");
-let webBody = document.getElementsByTagName("body");
 
 function viewMemberModal(event){
     event.preventDefault();

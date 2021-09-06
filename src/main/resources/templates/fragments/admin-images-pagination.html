@@ -1,68 +1,64 @@
 <!DOCTYPE html>
-<html lang="en"
-xmlns:th="http://www.thymeleaf.org"
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
-http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
-http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
-
+<html lang="en">
 <head>
     <div th:replace="fragments/general :: base-style"></div>
     <div th:replace="fragments/general :: base-script"></div>
     <div th:replace="fragments/admin-model-data :: admin-data-style"></div>
     <meta charset="UTF-8">
-    <title>Leases Data</title>
+    <title>Title</title>
 </head>
 <body>
-<div th:fragment="leases-data(allModelInstances)">
+<div th:fragment="images-data(allModelInstances)">
     <div class="flex flex-vertical align-items-center" th:if="${!#lists.isEmpty(allModelInstances)}">
         <div  class="flex justify-content-center">
             <div class="flex justify-content-center" id="returned-models-data-container">
                 <table id="returned-models-data">
                     <thead id="model-headers">
-                        <tr>
-                            <th>LEASE ID</th>
-                            <th>LEASE START</th>
-                            <th>LEASE END</th>
-                            <th>LEASE STATUS</th>
-                            <th>MEMBER</th>
-                            <th>LEASABLE</th>
-                        </tr>
+                    <tr>
+                        <th>IMAGE ID</th>
+                        <th>IMAGE NAME</th>
+                        <th>IMAGE TYPE</th>
+                        <th>DESCRIPTION</th>
+                        <th>UPLOAD DATE</th>
+                        <th>IMAGE</th>
+                    </tr>
                     </thead>
+
                     <tbody id="returned-models-data-body">
+
                     </tbody>
                 </table>
             </div>
         </div>
+
 
         <div id="model-modal-container">
             <div class="flex flex-vertical stretch-align-items" id="model-modal-content">
                 <div><button class="modal-close-button">&times;</button></div>
                 <div id="house-model-info" class="flex justify-content-center grow">
                     <div class="model-view-info model-id" id="model-id-modal"></div>
-                    <div class="model-view-info model-start" id="model-start-modal"></div>
-                    <div class="model-view-info model-end" id="model-end-modal"></div>
-                    <div class="model-view-info model-member" id="model-member-modal"></div>
-                    <div class="model-view-info model-leasable" id="model-leasable-modal"></div>
-                    <div class="model-view-info model-status" id="model-status-modal"></div>
+                    <div class="model-view-info model-name" id="model-name-modal"></div>
+                    <div class="model-view-info model-type" id="model-type-modal"></div>
+                    <label for="model-image-modal">Image: </label>
+                    <img class="model-view-info model-actual" id="model-image-modal">
+                    <div class="model-view-info model-description" id="model-description-modal"></div>
+                    <div class="model-view-info model-uploaded" id="model-uploaded-modal"></div>
                 </div>
-                <div class="model-view-info flex grow justify-content-center" id="model-history">
-                    <table class="flex flex-vertical" id="model-history-table">
-                        <thead  id="model-history-header" class="flex">
-                        <tr>
-<!--                            <th>LEASABLE ID</th>-->
-<!--                            <th>LEASABLE CODE</th>-->
-<!--                            <th>LEASABLE STATUS</th>-->
-<!--                            <th>LEASABLE TYPE</th>-->
-                        </tr>
-                        </thead>
-                        <tbody  id="model-history-data-body" class="flex justify-content-space-between">
+<!--                <div class="model-view-info flex grow justify-content-center" id="model-history">-->
+<!--                    <table class="flex flex-vertical" id="model-history-table">-->
+<!--                        <thead  id="model-history-header" class="flex">-->
+<!--                        <tr>-->
+<!--                            <th>LEASE ID</th>-->
+<!--                            <th>START DATE</th>-->
+<!--                            <th>END DATE</th>-->
+<!--                            <th>MEMBER</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody  id="model-history-data-body" class="flex justify-content-space-between">-->
 
-                        </tbody>
-                    </table>
-                </div>
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
                 <div class="flex justify-content-center" id="update-delete-button-holder">
                     <button class="model-toggling" id="modal-update-button" text="update">UPDATE</button>
                     <button class="model-toggling" id="modal-delete-button" text="delete">DELETE</button>
@@ -97,6 +93,6 @@ http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.o
         </div>
     </div>
 </div>
-<script th:fragment="admin-leases-pagination" th:src="@{/js/admin/admin-leases-pagination.js}"></script>
+<script th:fragment="admin-images-pagination" th:src="@{/js/admin/admin-images-pagination.js}"></script>
 </body>
 </html>

@@ -1,27 +1,29 @@
 $( function()
     {
-        getLeasesData(1, paginationResultsSize, true);
+        getImagesData(1, paginationResultsSize, true);
     }
 );
 
-function getLeasesData(pageNum, paginationResultsSize, initialize){
+function getImagesData(pageNum, paginationResultsSize, initialize){
     let formData = new FormData();
     formData.append("numOfResults", parseInt(paginationResultsSize));
     formData.append("pageNum", pageNum-1);
-    fetch('/api/leases/get-page', {method: 'POST', body: formData})
+    fetch('/api/images/get-page', {method: 'POST', body: formData})
         .then(response => response.json())
         .then(data => {
-            showDataLeases(pageNum, data.content);
+            console.log("at data");
+            console.log(data);
+            showDataImages(pageNum, data.content);
             numberOfPages = data.totalPages;
             totalInstances = data.totalElements;
             if(initialize){
-                addLeasesDataPaginationButtons(numberOfPages);
+                addImagesDataPaginationButtons(numberOfPages);
             }
         });
 }
 
 
-function addLeasesDataPaginationButtons(numberOfPages){
+function addImagesDataPaginationButtons(numberOfPages){
     let maxIndex = 5;
     if(numberOfPages < 5){
         maxIndex = numberOfPages;
@@ -34,7 +36,7 @@ function addLeasesDataPaginationButtons(numberOfPages){
         if(i == 1){
             newButton.setAttribute("id", "current-page");
         }
-        newButton.addEventListener("click", (event) => getLeasesData(goToPage(event), paginationResultsSize, false));
+        newButton.addEventListener("click", (event) => getImagesData(goToPage(event), paginationResultsSize, false));
         paginationButtonHolder.appendChild(newButton);
     }
 }
@@ -44,46 +46,48 @@ function changePage(event){
     let buttonList = document.getElementsByClassName("pagination-button");
     console.log(event.target);
     switch(event.target.id){
-        case "first-page-button":resetData(); getLeasesData(firstPageFunction(), paginationResultsSize, false);
+        case "first-page-button":resetData(); getImagesData(firstPageFunction(), paginationResultsSize, false);
             break;
         case "previous-page-button": {
             if(getCurrentPageNumber() != 1) {
                 resetData();
-                getLeasesData(previousPageFunction(), paginationResultsSize, false);
+                getImagesData(previousPageFunction(), paginationResultsSize, false);
             }
             break;
         }
         case"next-page-button": {
             if (getCurrentPageNumber() != buttonList.length) {
                 resetData();
-                getLeasesData(nextPageFunction(), paginationResultsSize, false);
+                getImagesData(nextPageFunction(), paginationResultsSize, false);
             }
             break;
         }
-        case "last-page-button": resetData(); getLeasesData(lastPageFunction(), paginationResultsSize, false);
+        case "last-page-button": resetData(); getImagesData(lastPageFunction(), paginationResultsSize, false);
             break;
         default: break;
     }
 
 }
 
-
-function showDataLeases(pageNum, data){
+function showDataImages(pageNum, data){
     let counter = 1;
     let result;
     let newRow;
     let attribute;
     let text;
     let dataPoint;
+    let image;
+    let imgSRC;
     for(result of data){
+        console.log(result);
         newRow = document.createElement('tr');
         newRow.setAttribute('class', 'model-data-row');
         newRow.setAttribute('id', (counter).toString()+"-data-row");
-        newRow.addEventListener('click', (event)=>viewLeaseModal(event));
+        newRow.addEventListener('click', (event)=>viewLeasableModal(event));
         counter++;
         for(attribute in result){
             switch(attribute){
-                case 'leaseId': {
+                case 'imageId': {
                     text = document.createTextNode(result[attribute]);
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
@@ -91,44 +95,47 @@ function showDataLeases(pageNum, data){
                     dataPoint.setAttribute('class', 'model-id-table');
                     break;
                 }
-                case 'startDate':{
+                case 'imageUploadName':{
                     text = document.createTextNode(result[attribute]);
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
-                    dataPoint.setAttribute('class', 'model-start-table');
+                    dataPoint.setAttribute('class', 'model-name-table');
                     break;
                 }
-                case 'endDate':{
+                case 'uploadPath':{
+                    imgSRC = result[attribute];
+                    image = document.createElement('img');
+                    image.setAttribute('src', imgSRC);
+                    image.classList.add("stored-image");
+                    dataPoint = document.createElement('td');
+                    dataPoint.appendChild(image);
+                    newRow.appendChild(dataPoint);
+                    dataPoint.setAttribute('class', 'model-image-table');
+                    break;
+                }
+                case 'uploadDate':{
                     text = document.createTextNode(result[attribute]);
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
-                    dataPoint.setAttribute('class', 'model-end-table');
+                    dataPoint.setAttribute('class', 'model-uploaded-table');
                     break;
                 }
-                case 'member':{
-                    text = document.createTextNode(result[attribute].firstName + ' '+ result[attribute].lastName);
+                case 'imageDescription':{
+                    text = document.createTextNode(result[attribute]);
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
-                    dataPoint.setAttribute('class', 'model-member-table');
+                    dataPoint.setAttribute('class', 'model-description-table');
                     break;
                 }
-                case 'leaseStatus':{
-                    text = document.createTextNode(result[attribute].leaseStatus);
+                case 'imageType':{
+                    text = document.createTextNode(result[attribute].imageType);
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
-                    dataPoint.setAttribute('class', 'model-status-table');
-                    break;
-                }
-                case 'leasable':{
-                    text = document.createTextNode(result[attribute].leasableCode);
-                    dataPoint = document.createElement('td');
-                    dataPoint.appendChild(text);
-                    newRow.appendChild(dataPoint);
-                    dataPoint.setAttribute('class', 'model-leasable-table');
+                    dataPoint.setAttribute('class', 'model-type-table');
                     break;
                 }
                 default: break;
@@ -143,13 +150,13 @@ function showDataLeases(pageNum, data){
 //Modal views
 //Specific internal modal ids
 let modelIdView = document.querySelector("#model-id-modal");
-let modelStartView = document.querySelector("#model-start-modal");
-let modelEndView = document.querySelector("#model-end-modal");
-let modelMemberView = document.querySelector("#model-member-modal");
-let modelStatusView = document.querySelector("#model-status-modal");
-let modelLeasableView = document.querySelector("#model-leasable-modal");
+let modelUploadedView = document.querySelector("#model-uploaded-modal");
+let modelTypeView = document.querySelector("#model-type-modal");
+let modelImageView = document.querySelector("#model-image-modal");
+let modelDescriptionView = document.querySelector("#model-description-modal");
+let modelNameView = document.querySelector("#model-name-modal");
 
-function viewLeaseModal(event){
+function viewLeasableModal(event){
     event.preventDefault();
     webBody[0].style.overflow = "hidden";
     modalContainer.style.display = "flex";
@@ -157,27 +164,28 @@ function viewLeaseModal(event){
     modalContainer.style.alignItems = "center";
     let rowSelectedId = event.currentTarget.id;
     let rowSelected = document.getElementById(rowSelectedId);
-    let leasableId;
+    let imageId;
     for (let element of rowSelected.children) {
         switch(element.classList[0]) {
             case "model-id-table": modelIdView.innerHTML = "Id: " + element.innerHTML;
-                leaseId = element.innerHTML; break;
-            case "model-start-table": modelStartView.innerHTML = "Start: " + element.innerHTML; break;
-            case "model-end-table": modelEndView.innerHTML = "End: " + element.innerHTML; break;
-            case "model-member-table": modelMemberView.innerHTML = "Member: " + element.innerHTML; break;
-            case "model-leasable-table": modelLeasableView.innerHTML = "Leasable: " + element.innerHTML; break;
-            case "model-status-table": modelStatusView.innerHTML = "Status: " + element.innerHTML; break;
+                imageId = element.innerHTML; break;
+            case "model-image-table": modelImageView.setAttribute('src', element.getAttribute('src')); break;
+            case "model-type-table": modelTypeView.innerHTML = "Type: " + element.innerHTML; break;
+            case "model-description-table": modelDescriptionView.innerHTML = "Image Description: " + element.innerHTML; break;
+            case "model-uploaded-table": modelUploadedView.innerHTML = "Upload Date: " + element.innerHTML; break;
+            case "model-name-table": modelNameView.innerHTML = "Image Name: " + element.innerHTML; break;
             default: break;
         }
     }
 
     // let formData = new FormData();
-    // formData.append('leaseId', leasableId);
-    // fetch('/api/leasables/lease-id', {method: "POST", body: formData})
+    // formData.append('imageId', imageId);
+    // fetch('/api/leases/image-id', {method: "POST", body: formData})
     //     .then(response => response.json())
     //     .then(data =>
-    //         showHistoryLeasables(data));
+    //         showHistoryLeases(data));
 }
+
 
 function updateModal(event){
     event.preventDefault();
@@ -189,8 +197,8 @@ function deleteModal(event){
 
 }
 
-//
-// function showHistoryLeasables(data) {
+
+// function showHistoryLeases(data) {
 //     resetHistory();
 //     let result;
 //     let newRow;

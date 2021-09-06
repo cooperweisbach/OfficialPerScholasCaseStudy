@@ -26,6 +26,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -97,7 +100,7 @@ public class AdminImageController {
         return "/admin/images/image-upload";
     }
 
-    @Value("${app.upload.dir}")
+   @Value("${app.upload.dir}")
     public String uploadDir;
 
     //https://www.codejava.net/frameworks/spring-boot/spring-boot-file-upload-tutorial
@@ -107,12 +110,20 @@ public class AdminImageController {
                                                    @RequestParam("image") MultipartFile multipartFile) throws IOException, FileStorageException {
 
         try {    //file name clean up
+            List<String> locationsToSave = imageToUpload.getImageType().stream().map(imageType -> imageType.getImageType()).collect(Collectors.toList());
+
 
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             //location of the file on the disk
-            Path copyLocation = Paths.get(uploadDir + File.separator + fileName);
-            //Saving file to location and setting what happens in case of duplicate file name
-            Files.copy(multipartFile.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
+            for(String location: locationsToSave){
+                Path current = Paths.get(uploadDir + File.separator + location);
+                if (!Files.exists(current)) {
+                    Files.createDirectories(current);
+                }
+                Path copyLocation = Paths.get(current + File.separator + fileName);
+                  //Saving file to location and setting what happens in case of duplicate file name
+                Files.copy(multipartFile.getInputStream(), copyLocation, StandardCopyOption.REPLACE_EXISTING);
+            }
             imageToUpload.setImageUploadName(fileName);
             imageServices.save(imageToUpload);
         } catch(Exception e) {
@@ -120,7 +131,7 @@ public class AdminImageController {
             throw new FileStorageException("Could not store file " + multipartFile.getOriginalFilename() + ". Please try again.");
         }
         log.warn("Saved image " + imageToUpload.getImageId() + " with image name " + multipartFile.getOriginalFilename());
-//        String uploadDir = "images/";
+//        String uploadDir = "/images/";
 //        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.FOUND);
         return new ModelAndView("redirect:/admin/images");

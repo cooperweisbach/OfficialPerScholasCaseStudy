@@ -6,115 +6,49 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
   http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
-  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      layout:decorate="~{layouts/admin-data-layout.html}">
 
 <head>
     <div th:replace="fragments/general :: base-style"></div>
     <div th:replace="fragments/general :: main-navigation-style"></div>
     <div th:replace="fragments/general :: base-script"></div>
+    <div th:replace="fragments/admin-model-data :: admin-data-style"></div>
+    <div th:replace="fragments/admin-panel-nav :: admin-nav-style"></div>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Images</title>
 </head>
 <body>
-
 <div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
 
-<div>
-    <form th:action="@{/admin}" method="get">
-        <input type="submit" value="Dashboard">
-    </form>
-    <form th:action="@{/admin/users}" method="get">
-        <input type="submit" value="Members">
-    </form>
-    <form th:action="@{/admin/leasables}" method="get">
-        <input type="submit" value="Leasables">
-    </form>
-    <form th:action="@{/admin/leases}" method="get">
-        <input type="submit" value="Leases">
-    </form>
-    <form th:action="@{/admin/posts}" method="get">
-        <input type="submit" value="Posts">
-    </form>
-    <form th:action="@{/admin/message-threads}" method="get">
-        <input type="submit" value="Message Threads">
-    </form>
-    <form th:action="@{/admin/images}" method="get">
-        <input type="submit" value="Images">
-    </form>
-    <form th:action="@{/admin/payments}" method="get">
-        <input type="submit" value="Payments">
-    </form>
-    <form th:action="@{/members}" method="get">
-        <input type="submit" value="Member Panel">
-    </form>
+<div class="avoidHeaderNav">
+    <div th:replace="fragments/admin-panel-nav :: admin-panel-nav(currentModelId='leasables', currentModelName='LEASABLES')"></div>
 
-    <div th:if="${!#lists.isEmpty(allImages)}">
-        <form id="myForm" method="post" th:action="@{/admin/images/}">
-            <table>
-                <thead>
-                <th>
-                <td>Image ID</td>
-                <td>Image Name</td>
-                <td>Upload Date</td>
-                <td>Type</td>
-                <td>Apply Updates</td>
-                </th>
-                </thead>
-                <tbody>
-                <tr th:each="image, stat :${allImages}" th:class="${image.imageUploadName}">
-                    <td th:text="${image.imageId}"></td>
-                    <td th:text="${image.imageUploadName}"></td>
-                    <td th:text="${image.uploadDate}"></td>
-                    <td th:text="${image.imageType}"></td>
-<!--                    <td><img th:src="@{image.imageUploadName}" /></td>-->
-                    <td><input type="radio" th:attr="data-member-identification=${image.imageId}" name="imageId" class="updateImage"></td>
-                </tr>
-                </tbody>
-            </table>
-            <input type="submit" id="updateTypes" formaction="/admin/image-type/update" value="Update Types"/>
-            <input type="submit" class="uploadImage" formaction="/admin/images/upload" value="Upload New Image"/>
-            <input type="submit" id="deleteImage" formaction="/admin/images/" value="Delete Image"/>
-            <input type="submit" value="Update Image"/>
-        </form>
-
-        <!--            <span>Filter Images</span>-->
-        <!--            <form>-->
-        <!--                <input type="submit" value="Update"/>-->
-        <!--            </form>-->
-        <!--        </div>-->
+    <div class="flex flex-vertical align-items-center" th:if="${!#lists.isEmpty(allImages)}">
+        <div layout:fragment="search-and-options">
+            <div th:replace="fragments/admin-search-options :: search-and-button-holder-fragment
+            (searchableAttribute='Image Names',
+             createModal = 'true',
+              modelName='Images',
+               statusModal='false',
+                typeModal='true', rolesModal='false', configurationModal='false')">
+            </div>
+        </div>
+        <div layout:fragment="model-data">
+            <div th:replace="fragments/admin-images-pagination :: images-data
+            (allModelInstances=${allImages})"></div>
+        </div>
     </div>
     <div th:if="${#lists.isEmpty(allImages)}">
-        <form action="/admin/images" method="post">
-            <p>No results</p>
-            <input type="submit" class="uploadImage" formaction="/admin/images/upload" value="Upload New Image"/>
-        </form>
+        <p>No results</p>
     </div>
+
+    <div th:replace="fragments/general :: main-footer"></div>
 </div>
 
-<!--<div th:unless="${#lists.isEmpty(allImages)}">-->
-<!--    <form th:action="@{/admin/all-images}" method="post" >-->
-<!--        <label for="images">Select Image:</label>-->
-<!--        <select name="images" id="images" >-->
-<!--            <option th:each="member :${allImages}" th:value="${member}" th:text="${member.memberId} + ' ' + ${member.firstName} + ' ' + ${member.lastName}">Image</option>-->
-<!--        </select>-->
-<!--        <input type="submit" value="Select Image">-->
-<!--    </form>-->
-<!--</div>-->
-<!--<div th:unless="${selectedImage==null}">-->
-<!--    <p th:text="'You selected'+ ${selectedImage.firstName}"/>-->
-<!--</div>-->
-<script>
-
-    $(".updateImage").change(function() {
-        var member = document.querySelector(".updateImage:checked").dataset.memberIdentification;
-        console.log(member);
-        var formElement = document.querySelector("#myForm");
-        var deleteButton = document.querySelector("#deleteImage");
-        formElement.setAttribute("action", "/admin/images/update/" + member);
-        deleteButton.setAttribute("formaction", "/admin/images/delete/" + member);
-    });
-
-</script>
 <div th:replace="fragments/general :: main-navigation-script"></div>
+<div th:replace="fragments/admin-search-options :: admin-search-options"></div>
+<div th:replace="fragments/general :: general-admin-pagination-script" ></div>
+<div th:replace="fragments/admin-images-pagination :: admin-images-pagination"></div>
 </body>
 </html>

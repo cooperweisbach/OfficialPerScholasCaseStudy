@@ -4,9 +4,6 @@ $( function()
 }
     );
 
-
-
-
 function getLeasablesData(pageNum, paginationResultsSize, initialize){
     let formData = new FormData();
     formData.append("numOfResults", parseInt(paginationResultsSize));
@@ -71,134 +68,7 @@ function changePage(event){
     }
 
 }
-//
-// function firstPageFunction(){
-//     let buttonList = document.getElementsByClassName("pagination-button");
-//     console.log(buttonList);
-//     for(let i = 0; i < buttonList.length; i++) {
-//         console.log(buttonList[i])
-//         if(i != 0){
-//             buttonList[i].setAttribute("id", "");
-//         }
-//         else {
-//             buttonList[i].setAttribute("id", "current-page");
-//         }
-//         buttonList[i].setAttribute("value", (i+1).toString());
-//         buttonList[i].innerHTML = (i+1).toString();
-//     }
-//     return 1;
-// }
-// function previousPageFunction(){
-//     let buttonList = document.getElementsByClassName("pagination-button");
-//     let currentPageElement = document.getElementById("current-page");
-//     let currentPageValue = parseInt(currentPageElement.getAttribute("value"));
-//     let startOfRange = buttonList[0].getAttribute("value");
-//     let endOfRange = buttonList[buttonList.length-1].getAttribute("value");
-//     let maxNumOfPages = buttonList.length;
-//
-//     if(startOfRange != 1 && currentPageValue <= (maxNumOfPages-2)){
-//         for(let element of buttonList){
-//             element.setAttribute("value", (parseInt(element.getAttribute("value")) - 1).toString());
-//             element.innerHTML = (parseInt(element.innerHTML) - 1).toString();
-//         }
-//         return getCurrentPageNumber();
-//     } else if(currentPageValue != 1) {
-//         let newCurrentPageIndex;
-//         for(let element = buttonList.length -1; element >=0; element--){
-//             console.log("element");
-//             console.log(element);
-//             if(buttonList[element].id == "current-page"){
-//                 console.log("found current page element");
-//                 buttonList[element].setAttribute("id", "");
-//                 newCurrentPageIndex=(element-1);
-//                 console.log(newCurrentPageIndex);
-//             }
-//             if(element == newCurrentPageIndex){
-//                 buttonList[element].setAttribute("id", "current-page");
-//                 return buttonList[element].getAttribute("value");
-//             }
-//         }
-//     } else {
-//         return getCurrentPageNumber();
-//     }
-// }
-//
-// function nextPageFunction(){
-//     let buttonList = document.getElementsByClassName("pagination-button");
-//     let currentPageElement = document.getElementById("current-page");
-//     let currentPageValue = parseInt(currentPageElement.getAttribute("value"));
-//     let startOfRange = buttonList[0].getAttribute("value");
-//     let endOfRange = buttonList[buttonList.length-1].getAttribute("value");
-//
-//     let maxNumOfPages = buttonList.length;
-//
-//     if(endOfRange != maxNumOfPages && currentPageValue >= 3){
-//         for(let element of buttonList){
-//             element.setAttribute("value", (parseInt(element.getAttribute("value"))+1).toString());
-//             element.innerHTML = (parseInt(element.innerHTML) + 1).toString();
-//         }
-//         return getCurrentPageNumber();
-//     } else if(currentPageValue != maxNumOfPages) {
-//         let newCurrentPageIndex;
-//         for(let element in buttonList){
-//             console.log("element");
-//             console.log(element);
-//             if(buttonList[element].id == "current-page"){
-//                 console.log("found current page element");
-//                 buttonList[element].setAttribute("id", "");
-//                 newCurrentPageIndex=(parseInt(element)+1);
-//                 console.log(newCurrentPageIndex);
-//             }
-//             if(element == newCurrentPageIndex){
-//                 buttonList[element].setAttribute("id", "current-page");
-//                 return buttonList[element].getAttribute("value");
-//             }
-//         }
-//     } else {
-//         return getCurrentPageNumber();
-//     }
-// }
-//
-// function lastPageFunction(){
-//     let buttonList = document.getElementsByClassName("pagination-button");
-//     console.log(buttonList);
-//     for(let i = buttonList.length-1, page = buttonList.length; i >= 0; i--, page--) {
-//         console.log(buttonList[i]);
-//         if(i != buttonList.length-1){
-//             buttonList[i].setAttribute("id", "");
-//         }
-//         else {
-//             buttonList[i].setAttribute("id", "current-page");
-//         }
-//         buttonList[i].setAttribute("value", page.toString());
-//         buttonList[i].innerHTML = page.toString();
-//     }
-//     return buttonList.length;
-// }
-//
-// function goToPage(event){
-//     event.preventDefault();
-//     console.log("target");
-//     console.log(event.target);
-//     let newPage = event.target.getAttribute("value");
-//     let currentPageNum = getCurrentPageNumber();
-//     console.log("new page");
-//     console.log(newPage);
-//     console.log("current Page");
-//     console.log(currentPageNum);
-//     let difference = parseInt(currentPageNum) - parseInt(newPage);
-//     console.log("difference");
-//     console.log(difference);
-//     for(let counter = 0; counter < Math.abs(difference); counter++){
-//         if(difference < 0){
-//             nextPageFunction();
-//         } else if(difference > 0) {
-//             previousPageFunction();
-//         }
-//     }
-//     resetData();
-//     return newPage;
-// }
+
 function showDataLeasables(pageNum, data){
     let counter = 1;
     let result;
@@ -280,22 +150,13 @@ function showDataLeasables(pageNum, data){
 
 
 //Modal views
+//Specific internal modal ids
 let modelIdView = document.querySelector("#model-id-modal");
 let modelCodeView = document.querySelector("#model-code-modal");
 let modelTypeView = document.querySelector("#model-type-modal");
 let modelSizeView = document.querySelector("#model-size-modal");
 let modelRentView = document.querySelector("#model-rent-modal");
 let modelStatusView = document.querySelector("#model-status-modal");
-
-let updateButton = document.querySelector("#modal-update-button");
-updateButton.addEventListener("click", (event) => viewLeasableModal(event));
-let deleteButton = document.querySelector("#modal-delete-button");
-deleteButton.addEventListener("click", (event) => viewLeasableModal(event));
-let closeViewButton = document.querySelector(".modal-close-button");
-closeViewButton.addEventListener("click", (event) => closeView(event));
-
-let modelHistoryIds = document.querySelectorAll(".model-history-identifier");
-let webBody = document.getElementsByTagName("body");
 
 function viewLeasableModal(event){
     event.preventDefault();
@@ -327,16 +188,6 @@ function viewLeasableModal(event){
             showHistoryLeases(data));
 }
 
-
-function closeView(event){
-    event.preventDefault();
-    console.log("this function is being called");
-    modalContainer.style.display = "none";
-    webBody[0].style.overflow = "scroll";
-    for(let modelHistoryId of modelHistoryIds){
-        modelHistoryId.parentElement.style.display="none";
-    }
-}
 
 function updateModal(event){
     event.preventDefault();
