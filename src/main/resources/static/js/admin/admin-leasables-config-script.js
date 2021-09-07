@@ -5,7 +5,7 @@ var unitScale = 5;
 let configurationModal = document.querySelector("#configuration-modal");
 
 let viewConfigModal = document.querySelector("#view-config-modal");
-viewConfigModal.addEventListener("click", displayModal);
+viewConfigModal.addEventListener("click", displayConfigModal);
 let configModalClose = document.querySelector("#config-modal-close-button");
 configModalClose.addEventListener("click", closeConfigModal);
 
@@ -64,7 +64,7 @@ function initCanvas(id) {
 
 const canvas = initCanvas('myCanvas');
 
-function displayModal(){
+function displayConfigModal(){
     configurationModal.style.display = 'flex';
     webBody[0].style.overflow = "hidden";
 }

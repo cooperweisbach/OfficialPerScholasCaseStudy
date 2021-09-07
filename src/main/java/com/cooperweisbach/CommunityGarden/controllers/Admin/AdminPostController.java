@@ -66,22 +66,34 @@ public class AdminPostController {
     @GetMapping("/admin/posts")
     public String adminGetAllPostsGet(Model m, HttpServletRequest request){
         Principal principal = request.getUserPrincipal();
+        Member currentUser = memberServices.getMemberByEmail(principal.getName());
         if(principal != null){
             log.warn(principal.getName());
-            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+            m.addAttribute("currentUser", currentUser);
         }
         m.addAttribute("allPosts", postServices.getAllPosts());
+        Post postToCreate = new Post();
+        postToCreate.setMember(currentUser);
+        m.addAttribute("postToCreate", postToCreate);
+        m.addAttribute("newTagsStringList", new PostTagContainer());
+        m.addAttribute("postStatuses", postStatusServices.findAll());
         return "admin/posts/posts";
     }
 
     @PostMapping("/admin/posts")
     public String adminGetAllPostsPost(Model m, HttpServletRequest request){
         Principal principal = request.getUserPrincipal();
+        Member currentUser = memberServices.getMemberByEmail(principal.getName());
         if(principal != null){
             log.warn(principal.getName());
-            m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
+            m.addAttribute("currentUser", currentUser);
         }
         m.addAttribute("allPosts", postServices.getAllPosts());
+        Post postToCreate = new Post();
+        postToCreate.setMember(currentUser);
+        m.addAttribute("postToCreate", postToCreate);
+        m.addAttribute("newTagsStringList", new PostTagContainer());
+        m.addAttribute("postStatuses", postStatusServices.findAll());
         return "admin/posts/posts";
     }
 

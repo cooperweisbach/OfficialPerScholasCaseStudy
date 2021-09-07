@@ -33,6 +33,8 @@ public class MessageThread {
     @Column(name="message_thread_creation")
     Date messageThreadCreation = new Timestamp(new Date().getTime());
 
+
+
     ///////////////////MAPPINGS///////////////////////////
 
     //Mapping for message thread to thread status.

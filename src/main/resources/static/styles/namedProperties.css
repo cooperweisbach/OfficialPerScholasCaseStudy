@@ -95,3 +95,14 @@
 .flex-wrap-wrap{
     flex-wrap: wrap;
 }
+
+.pos-absolute{
+    position: absolute;
+}
+.scroll-y{
+    overflow-y: scroll;
+}
+
+.hidden{
+    display: none;
+}

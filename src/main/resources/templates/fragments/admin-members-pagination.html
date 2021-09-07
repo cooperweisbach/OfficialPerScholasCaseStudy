@@ -33,29 +33,7 @@
                         <th>NAME</th>
                     </tr>
                     </thead>
-                    <!--                        <tbody id="returned-models-data-body">-->
-                    <!--                            <tr th:each="model, stat :${allModelInstances}" class="model-data-row" th:id="${stat.count}">-->
-                    <!--                                <td id="model-index-table" th:text="${stat.count}"></td>-->
-                    <!--                                <td id="model-id-table"  th:text="${model.leasableId}"></td>-->
-                    <!--                                <td id="model-code-table" th:text="${model.leasableCode}"></td>-->
-                    <!--                                <td id="model-type-table" th:text="${model.leasableType.leasableTypeName}"></td>-->
-                    <!--                                <td id="model-size-table" th:text="${model.leasableSize}"></td>-->
-                    <!--                                <td id="model-rent-table" th:text="${model.leasableYearlyRent}"></td>-->
-                    <!--                                <td id="model-status-table" th:text="${model.leasableStatus.leasableStatus}"></td>-->
-                    <!--                                <td id="model-date-table" th:text="${model.leasableCreationDate}"></td>-->
-                    <!--                            </tr>-->
-                    <!--                        </tbody>-->
                     <tbody id="returned-models-data-body">
-                    <!--                            <tr class="model-data-row" >-->
-                    <!--                                <td class="model-index-table" ></td>-->
-                    <!--                                <td class="model-id-table" ></td>-->
-                    <!--                                <td class="model-code-table" ></td>-->
-                    <!--                                <td class="model-type-table" ></td>-->
-                    <!--                                <td class="model-size-table" ></td>-->
-                    <!--                                <td class="model-rent-table" ></td>-->
-                    <!--                                <td class="model-status-table" ></td>-->
-                    <!--                                <td class="model-date-table" ></td>-->
-                    <!--                            </tr>-->
                     </tbody>
                 </table>
             </div>
@@ -63,32 +41,55 @@
 
 
         <div id="model-modal-container">
-            <div class="flex flex-vertical stretch-align-items" id="model-modal-content">
-                <div><button class="modal-close-button">&times;</button></div>
-                <div id="house-model-info" class="flex justify-content-center grow">
-                    <div class="model-view-info model-id" id="model-id-modal"></div>
-                    <img class="model-view-info model-pic stored-image" id="model-pic-modal"/>
-                    <div class="model-view-info model-name" id="model-name-modal"></div>
-                    <div class="model-view-info model-email" id="model-email-modal"></div>
-                    <div class="model-view-info model-phone" id="model-phone-modal"></div>
-                    <div class="model-view-info model-status" id="model-status-modal"></div>
-                    <div class="model-view-info model-joined" id="model-joined-modal"></div>
-                    <div class="model-view-info model-roles" id="model-roles-modal"></div>
-                </div>
+            <div class="flex flex-vertical stretch-align-items pos-relative" id="model-modal-content">
+                <div class="pos-absolute"><button class="modal-close-button">&times;</button></div>
+                    <div id="house-model-info" class="flex grow flex-wrap-wrap justify-content-space-between">
+                        <div class="data-container-view-modal">Id:
+                            <span class="model-view-info model-id" id="model-id-modal-span"></span>
+                            <input hidden type="text" class="model-input-info" id="model-id-modal-input"/>
+                        </div>
+<!--                        <img class="model-view-info model-pic stored-image" id="model-pic-modal"/>-->
+                        <div class="data-container-view-modal">Name:
+                            <span class="model-view-info model-name" id="model-name-modal-span"></span>
+                            <input hidden type="text" class="model-input-info" id="model-name-modal-input"/>
+                        </div>
+                        <div class="data-container-view-modal">Email:
+                            <span class="model-view-info model-email" id="model-email-modal-span"></span>
+                            <input hidden type="text" class="model-input-info" id="model-email-modal-input"/>
+                        </div>
+                        <div class="data-container-view-modal">Phone #:
+                            <span class="model-view-info model-phone" id="model-phone-modal-span"></span>
+                            <input hidden type="text" class="model-input-info" id="model-phone-modal-input"/>
+                        </div>
+                        <div class="data-container-view-modal">Status:
+                            <span class="model-view-info model-status" id="model-status-modal-span"></span>
+                            <input hidden type="text" class="model-input-info" id="model-status-modal-input"/>
+                        </div>
+                        <div class="data-container-view-modal">Joined:
+                            <span class="model-view-info model-joined" id="model-joined-modal-span"></span>
+                            <input hidden type="text" class="model-input-info" id="model-joined-modal-input"/>
+                        </div>
+                        <div class="data-container-view-modal">Roles:
+                            <span class="model-view-info model-roles" id="model-role-modal-span"></span>
+                            <input hidden type="text" class="model-input-info" id="model-role-modal-input"/>
+                        </div>
+                    </div>
                 <div class="model-view-info flex grow justify-content-center" id="model-history">
-                    <table class="flex flex-vertical" id="model-history-table">
-                        <thead  id="model-history-header" class="flex">
-                        <tr>
-                            <th>LEASE ID</th>
-                            <th>START DATE</th>
-                            <th>END DATE</th>
-                            <th>LEASABLE</th>
-                        </tr>
-                        </thead>
-                        <tbody  id="model-history-data-body" class="flex justify-content-space-between">
+                    <div class="scroll-y">
+                        <table class="flex flex-vertical" id="model-history-table">
+                            <thead  id="model-history-header" class="flex">
+                            <tr>
+                                <th>LEASE ID</th>
+                                <th>START DATE</th>
+                                <th>END DATE</th>
+                                <th>LEASABLE</th>
+                            </tr>
+                            </thead>
+                            <tbody  id="model-history-data-body" class="flex justify-content-space-between">
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="flex justify-content-center" id="update-delete-button-holder">
                     <button class="model-toggling" id="modal-update-button" text="update">UPDATE</button>

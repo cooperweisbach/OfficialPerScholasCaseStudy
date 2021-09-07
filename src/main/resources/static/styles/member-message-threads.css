@@ -1,0 +1,4 @@
+.message-area-container{
+    height: 35vh;
+    overflow-y: scroll;
+}

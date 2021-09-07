@@ -66,6 +66,8 @@ public class AdminMembersController {
         m.addAttribute("allMembers", memberServices.getAllMembers());
         m.addAttribute("memberStatuses", memberStatusServices.getEveryMemberStatus());
         m.addAttribute("userRoles", userRolesServices.getEveryUserRole());
+        m.addAttribute("memberToCreate", new Member());
+
         return "admin/members/members";
     }
 
@@ -78,6 +80,9 @@ public class AdminMembersController {
         }
 //        m.addAttribute("user", new Member());
         m.addAttribute("allMembers", memberServices.getAllMembers());
+        m.addAttribute("memberStatuses", memberStatusServices.getEveryMemberStatus());
+        m.addAttribute("userRoles", userRolesServices.getEveryUserRole());
+        m.addAttribute("memberToCreate", new Member());
         return "admin/members/members";
     }
 
@@ -123,6 +128,7 @@ public class AdminMembersController {
 
     @PostMapping("/admin/users/create-approved")
     public ModelAndView redirectToSuccessfulCreate(HttpServletRequest request, @ModelAttribute("memberToCreate") Member memberToCreate){
+        memberToCreate.setProfilePic(imageServices.getImageById(1));
         memberServices.save(memberToCreate);
         request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.FOUND);
         return new ModelAndView("redirect:/admin/users");

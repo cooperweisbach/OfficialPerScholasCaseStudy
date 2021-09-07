@@ -148,7 +148,7 @@ function showDataMembers(pageNum, data){
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
-                    dataPoint.setAttribute('class', 'model-date-table');
+                    dataPoint.setAttribute('class', 'model-joined-table');
                     break;
                 }
                 case 'memberStatus':{
@@ -167,7 +167,7 @@ function showDataMembers(pageNum, data){
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
-                    dataPoint.setAttribute('class', 'model-type-table');
+                    dataPoint.setAttribute('class', 'model-role-table');
                     break;
                 }
                 default: break;
@@ -181,13 +181,20 @@ function showDataMembers(pageNum, data){
 
 //Modal views
 //Specific internal modal ids
-let modelIdView = document.querySelector("#model-id-modal");
-let modelNameView = document.querySelector("#model-name-modal");
-let modelTypeView = document.querySelector("#model-type-modal");
-let modelJoinedView = document.querySelector("#model-joined-modal");
-let modelPhoneView = document.querySelector("#model-phone-modal");
-let modelStatusView = document.querySelector("#model-status-modal");
-let modelEmailView = document.querySelector("#model-email-modal");
+let modelIdViewSpan = document.querySelector("#model-id-modal-span");
+let modelIdViewInput = document.querySelector("#model-id-modal-input");
+let modelNameViewSpan = document.querySelector("#model-name-modal-span");
+let modelNameViewInput = document.querySelector("#model-name-modal-input");
+let modelRoleViewSpan = document.querySelector("#model-role-modal-span");
+let modelRoleViewInput = document.querySelector("#model-role-modal-input");
+let modelJoinedViewSpan = document.querySelector("#model-joined-modal-span");
+let modelJoinedViewInput = document.querySelector("#model-joined-modal-input");
+let modelPhoneViewSpan = document.querySelector("#model-phone-modal-span");
+let modelPhoneViewInput = document.querySelector("#model-phone-modal-input");
+let modelStatusViewSpan = document.querySelector("#model-status-modal-span");
+let modelStatusViewInput = document.querySelector("#model-status-modal-input");
+let modelEmailViewSpan = document.querySelector("#model-email-modal-span");
+let modelEmailViewInput = document.querySelector("#model-email-modal-input");
 
 
 function viewMemberModal(event){
@@ -196,19 +203,39 @@ function viewMemberModal(event){
     modalContainer.style.display = "flex";
     modalContainer.style.justifyContent = "center";
     modalContainer.style.alignItems = "center";
+    let textInput = document.createElement('input');
+    textInput.setAttribute("class", "data-input");
+    let textHolder = document.createElement("span");
+    textHolder.setAttribute("class", "data-holder");
     let rowSelectedId = event.currentTarget.id;
     let rowSelected = document.getElementById(rowSelectedId);
     let memberId;
     for (let element of rowSelected.children) {
+        let textHolder = document.createElement("span");
+        textHolder.setAttribute("class", "data-holder");
         switch(element.classList[0]) {
-            case "model-id-table": modelIdView.innerHTML = "Id: " + element.innerHTML;
-                memberId = element.innerHTML; break;
-            case "model-email-table": modelEmailView.innerHTML = "Email: " + element.innerHTML; break;
-            case "model-phone-table": modelPhoneView.innerHTML = "Phone: " + element.innerHTML; break;
-            case "model-type-table": modelTypeView.innerHTML = "Type: " + element.innerHTML; break;
-            case "model-name-table": modelNameView.innerHTML = "Name: " + element.innerHTML; break;
-            case "model-joined-table": modelJoinedView.innerHTML = "Joined: " + element.innerHTML; break;
-            case "model-status-table": modelStatusView.innerHTML = "Status: " + element.innerHTML; break;
+            case "model-id-table":
+                modelIdViewSpan.innerHTML = element.innerHTML;
+                modelIdViewInput.setAttribute('value', element.innerHTML);
+                    memberId = element.innerHTML; break;
+            case "model-email-table":
+                modelEmailViewSpan.innerHTML = element.innerHTML;
+                modelEmailViewInput.setAttribute('value', element.innerHTML); break;
+            case "model-phone-table":
+                modelPhoneViewSpan.innerHTML = element.innerHTML;
+                modelPhoneViewInput.setAttribute('value', element.innerHTML); break;
+            case "model-role-table":
+                modelRoleViewSpan.innerHTML = element.innerHTML;
+                modelRoleViewInput.setAttribute('value', element.innerHTML); break;
+            case "model-name-table":
+                modelNameViewSpan.innerHTML = element.innerHTML;
+                modelNameViewInput.setAttribute('value', element.innerHTML); break;
+            case "model-joined-table":
+                modelJoinedViewSpan.innerHTML = element.innerHTML;
+                modelJoinedViewInput.setAttribute('value', element.innerHTML); break;
+            case "model-status-table":
+                modelStatusViewSpan.innerHTML = element.innerHTML;
+                modelStatusViewInput.setAttribute('value', element.innerHTML); break;
             default: break;
         }
     }

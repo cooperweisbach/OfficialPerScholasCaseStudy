@@ -12,6 +12,7 @@
     <div th:replace="fragments/general :: base-script"></div>
     <div th:replace="fragments/admin-model-data :: admin-data-style"></div>
     <div th:replace="fragments/admin-panel-nav :: admin-nav-style"></div>
+    <div th:replace="fragments/create-modals :: create-modal-styles"></div>
     <meta charset="UTF-8">
     <title>Admin - Leases</title>
 </head>
@@ -37,10 +38,18 @@
     <div th:if="${#lists.isEmpty(allLeases)}">
         <p>No results</p>
     </div>
+
+    <div th:replace="fragments/create-modals :: create-modal-leases
+    (leaseToCreate=${leaseToCreate}, availableLeasables=${availableLeasables}, allMembers=${allMembers}, leaseStatuses=${leaseStatuses})"></div>
+
+    <div th:replace="fragments/general :: main-footer"></div>
+
 </div>
 <div th:replace="fragments/general :: main-navigation-script"></div>
 <div th:replace="fragments/admin-search-options :: admin-search-options"></div>
 <div th:replace="fragments/general :: general-admin-pagination-script" ></div>
 <div th:replace="fragments/admin-leases-pagination :: admin-leases-pagination"></div>
+<div th:replace="fragments/create-modals :: create-modal-script"></div>
+
 </body>
 </html>

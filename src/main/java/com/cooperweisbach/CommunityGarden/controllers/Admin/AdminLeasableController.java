@@ -76,6 +76,10 @@ public class AdminLeasableController {
         m.addAttribute("newConfig", new Configuration());
         m.addAttribute("savedConfigurations", configurationServices.getAllConfigurations());
         m.addAttribute("leaseHistory", leaseServices.getAllLeases());
+
+        m.addAttribute("leasableToCreate", new Leasable());
+        m.addAttribute("leasableStatuses", leasableStatusServices.getEveryLeasableStatus());
+        m.addAttribute("leasableTypes", leasableTypeServices.getEveryLeasableType());
         return "admin/leasables/leasables";
     }
 
@@ -90,6 +94,10 @@ public class AdminLeasableController {
         m.addAttribute("newConfig", new Configuration());
         m.addAttribute("savedConfigurations", configurationServices.getAllConfigurations());
         m.addAttribute("leaseHistory", leaseServices.getAllLeases());
+
+        m.addAttribute("leasableToCreate", new Leasable());
+        m.addAttribute("leasableStatuses", leasableStatusServices.getEveryLeasableStatus());
+        m.addAttribute("leasableTypes", leasableTypeServices.getEveryLeasableType());
         return "admin/leasables/leasables";
     }
 
@@ -156,13 +164,13 @@ public class AdminLeasableController {
     ////////////////////////////////////////////////////////////////////////////////////////
 
 
-    @PostMapping("/admin/leasables/create")
-    public String createLeasablePage(Model model){
-        model.addAttribute("leasableToCreate", new Leasable());
-        model.addAttribute("leasableStatuses", leasableStatusServices.getEveryLeasableStatus());
-        model.addAttribute("leasableTypes", leasableTypeServices.getEveryLeasableType());
-        return "/admin/leasables/leasable-create";
-    }
+//    @PostMapping("/admin/leasables/create")
+//    public String createLeasablePage(Model model){
+//        model.addAttribute("leasableToCreate", new Leasable());
+//        model.addAttribute("leasableStatuses", leasableStatusServices.getEveryLeasableStatus());
+//        model.addAttribute("leasableTypes", leasableTypeServices.getEveryLeasableType());
+//        return "/admin/leasables/leasable-create";
+//    }
 
 
     @PostMapping("/admin/leasables/create-approved")

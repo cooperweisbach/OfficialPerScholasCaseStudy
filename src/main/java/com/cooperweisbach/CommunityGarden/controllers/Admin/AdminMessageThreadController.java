@@ -64,6 +64,9 @@ public class AdminMessageThreadController {
             m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
         }
         m.addAttribute("allMessageThreads", messageThreadServices.getAllMessageThreads());
+        m.addAttribute("messageThreadToCreate", new MessageThread());
+        m.addAttribute("messageThreadStatuses", messageThreadStatusServices.getEveryMessageThreadStatus());
+
         return "admin/message-threads/message-threads";
     }
 
@@ -75,6 +78,9 @@ public class AdminMessageThreadController {
             m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
         }
         m.addAttribute("allMessageThreads", messageThreadServices.getAllMessageThreads());
+        m.addAttribute("messageThreadToCreate", new MessageThread());
+        m.addAttribute("messageThreadStatuses", messageThreadStatusServices.getEveryMessageThreadStatus());
+
         return "admin/message-threads/message-threads";
     }
 

@@ -90,6 +90,12 @@ public class AdminLeaseController {
             m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
         }
         m.addAttribute("allLeases", leaseServices.getAllLeases());
+
+        m.addAttribute("leaseToCreate", new Lease());
+        m.addAttribute("leaseStatuses", leaseStatusServices.getEveryLeaseStatus());
+        m.addAttribute("allMembers",memberServices.getAllMembers());
+        m.addAttribute("availableLeasables",leasableServices.getAllByLeasableStatus(LEASABLE_STATUS_AVAILABLE_FOR_RENT));
+
         return "admin/leases/leases";
     }
 
@@ -101,6 +107,10 @@ public class AdminLeaseController {
             m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
         }
         m.addAttribute("allLeases", leaseServices.getAllLeases());
+        m.addAttribute("leaseToCreate", new Lease());
+        m.addAttribute("leaseStatuses", leaseStatusServices.getEveryLeaseStatus());
+        m.addAttribute("allMembers",memberServices.getAllMembers());
+        m.addAttribute("availableLeasables",leasableServices.getAllByLeasableStatus(LEASABLE_STATUS_AVAILABLE_FOR_RENT));
         return "admin/leases/leases";
     }
 

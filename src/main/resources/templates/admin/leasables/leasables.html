@@ -18,6 +18,7 @@
     <div th:replace="fragments/admin-model-data :: admin-data-style"></div>
     <div th:replace="fragments/admin-panel-nav :: admin-nav-style"></div>
     <div th:replace="fragments/admin-leasables-config-modal :: admin-leasables-config-modal-styles"></div>
+    <div th:replace="fragments/create-modals :: create-modal-styles"></div>
 </head>
 <body>
 <div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
@@ -51,6 +52,8 @@
      savedConfigurations=${savedConfigurations},
       allLeasables=${allLeasables})"></div>
 
+    <div th:replace="fragments/create-modals :: create-modal-leasables
+    (leasableToCreate=${leasableToCreate}, leasasbleStatuses=${leasableStatuses}, leasableTypes=${leasableTypes})"></div>
     <div th:replace="fragments/general :: main-footer"></div>
 
 </div>
@@ -60,5 +63,6 @@
     <div th:replace="fragments/general :: general-admin-pagination-script" ></div>
     <div th:replace="fragments/admin-leasables-pagination :: admin-leasables-pagination"></div>
     <div th:replace="fragments/admin-leasables-config-modal :: admin-leasables-config-modal-script"></div>
+    <div th:replace="fragments/create-modals :: create-modal-script"></div>
 </body>
 </html>

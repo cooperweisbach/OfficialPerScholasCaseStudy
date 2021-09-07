@@ -99,6 +99,7 @@ public class AppRunner implements CommandLineRunner {
         memberStatusRepo.save(new MemberStatus("inactive"));
         messageThreadStatusRepo.save(new MessageThreadStatus("open"));
         messageThreadStatusRepo.save(new MessageThreadStatus("closed"));
+        messageThreadStatusRepo.save(new MessageThreadStatus("hidden"));
         paymentTypeRepo.save(new PaymentType("newMemberPayment"));
         paymentTypeRepo.save(new PaymentType("leasePayment"));
         paymentTypeRepo.save(new PaymentType("donation"));
@@ -195,6 +196,10 @@ public class AppRunner implements CommandLineRunner {
         member9.setProfilePic(imageRepo.getById(1));
 
 
+        MessageThread newthread = new MessageThread();
+        newthread.setMessageThreadName("Welcome");
+        newthread.setMessageThreadStatus(messageThreadStatusRepo.getById(1));
+        messageThreadRepo.save(newthread);
 
         //Adding leasables
         Leasable leasable;

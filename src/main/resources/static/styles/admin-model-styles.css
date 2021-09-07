@@ -1,3 +1,8 @@
+.data-container-view-modal{
+    margin-inline: 5%;
+}
+
+
 
 /*////////////////////////////////////*/
 #search-and-button-holder{
@@ -55,10 +60,6 @@ td {
 
 #returned-models-data{
     table-layout: fixed;
-}
-
-#model-history{
-    overflow-y: scroll;
 }
 
 #current-page{

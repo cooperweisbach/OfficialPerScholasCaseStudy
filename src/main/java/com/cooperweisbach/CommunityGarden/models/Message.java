@@ -20,6 +20,10 @@ import java.util.Date;
 @FieldDefaults(level=AccessLevel.PRIVATE)
 public class Message {
 
+    public enum MessageType{
+        CHAT, LEAVE, JOIN
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="message_id")
@@ -29,6 +33,11 @@ public class Message {
     @NotBlank
     @Column(name="message_content", columnDefinition = "TEXT NOT NULL")
     String messageContent;
+
+    @NonNull
+    @NotBlank
+    @Column(name="message_type")
+    MessageType type;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="message_sent")

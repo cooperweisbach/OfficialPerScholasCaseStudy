@@ -76,6 +76,9 @@ public class AdminImageController {
             m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
         }
         m.addAttribute("allImages", imageServices.getAllImages());
+
+        m.addAttribute("imageToUpload", new Image());
+        m.addAttribute("imageTypes", imageTypeServices.getAllImageTypes());
         return "admin/images/images";
     }
 
@@ -88,6 +91,9 @@ public class AdminImageController {
             m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
         }
         m.addAttribute("allImages", imageServices.getAllImages());
+
+        m.addAttribute("imageToUpload", new Image());
+        m.addAttribute("imageTypes", imageTypeServices.getAllImageTypes());
         return "admin/images/images";
     }
 

@@ -1,16 +1,282 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
 <head>
     <link th:fragment="create-modal-styles" rel="stylesheet" th:href="@{/styles/create-modal-styles.css}">
     <meta charset="UTF-8">
     <title>Create Modals</title>
 </head>
 <body>
-<div th:fragment="create-modal-leasables">
-
+<div class="modal-container" th:fragment="create-modal-leasables(leasableToCreate, leasasbleStatuses, leasableTypes)">
+    <div class="modal-content">
+        <div><button class="create-modal-close-button">&times;</button></div>
+        <h1>CREATE NEW LEASABLE</h1>
+        <form th:action="@{/admin/leasables/create-approved}" method="post" id="createLeasableForm" th:object="${leasableToCreate}">
+            <label for="leasableCode">Leasable Code:</label>
+            <input type="text" id="leasableCode" th:field="*{leasableCode}"  required/>
+            <label for="leasableSize">Leasable Size:</label>
+            <input type="text" id="leasableSize" th:field="*{leasableSize}" required/>
+            <label for="leasableYearlyRent">Yearly Rent:</label>
+            <input type="text" id="leasableYearlyRent" th:field="*{leasableYearlyRent}"  required/>
+            <table>
+                <thead>
+                <th>
+                <td>Leasable Type</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="leasableType:${leasableTypes}">
+                    <td>
+                        <input th:field="*{leasableType}" th:value="${leasableType.leasableTypeId}" type="radio" th:id="${leasableType.leasableTypeName}" name="leasabletype" />
+                        <label th:for="${leasableType.leasableTypeName}" th:text="${leasableType.leasableTypeName}">Label</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                <th>
+                <td>Leasable Status</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="leasableStatus:${leasableStatuses}">
+                    <td>
+                        <input th:field="*{leasableStatus}" th:value="${leasableStatus.leasableStatusId}" type="radio" th:id="${leasableStatus.leasableStatus}" name="status" />
+                        <label th:for="${leasableStatus.leasableStatus}" th:text="${leasableStatus.leasableStatus}">Label</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="Create Leasable"/>
+            <input type="reset" value="Reset Details"/>
+        </form>
+    </div>
 </div>
+<div class="modal-container" th:fragment="create-modal-leases(leaseToCreate, availableLeasables, allMembers, leaseStatuses)">
+    <div class="modal-content">
+        <div><button class="create-modal-close-button">&times;</button></div>
+        <h1>CREATE NEW LEASE</h1>
+        <form th:action="@{/admin/leases/create-approved}" method="post" id="createLeaseForm" th:object="${leaseToCreate}">
+            <table>
+                <thead>
+                <th>
+                <td>Available Leasables</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="leasable:${availableLeasables}">
+                    <td>
+                        <input class="leasables" th:field="*{leasable}" th:value="${leasable.leasableId}" type="radio" th:id="${leasable.leasableId}" name="leaseleasable" th:attr="data-leasable-code=${leasable.leasableCode}"/>
+                        <label th:for="${leasable.leasableId}" th:text="${leasable.leasableCode}">Label</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                <th>
+                <td>Lease Member</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="member:${allMembers}">
+                    <td>
+                        <input class="leaseMember" th:field="*{member}" th:value="${member.memberId}" type="radio" th:id="${member.memberId}" name="leaseMember" />
+                        <label th:for="${member.memberId}" th:text="${member.firstName} + ' ' + ${member.lastName}">Label</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                <th>
+                <td>Lease Status</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="leaseStatus:${leaseStatuses}">
+                    <td>
+                        <input class="leaseStatus" th:field="*{leaseStatus}" th:value="${leaseStatus.leaseStatusId}" type="radio" th:id="${leaseStatus.leaseStatus}" name="status" />
+                        <label th:for="${leaseStatus.leaseStatus}" th:text="${leaseStatus.leaseStatus}">Label</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="Create Lease"/>
+            <input type="reset" value="Reset Details"/>
+        </form>
+    </div>
+</div>
+<div class="modal-container" th:fragment="create-modal-members(memberToCreate, userRoles, memberStatuses)">
+    <div class="modal-content">
+        <div><button class="create-modal-close-button">&times;</button></div>
+        <h1>CREATE NEW MEMBER</h1>
+        <form th:action="@{/admin/users/create-approved}" method="post" id="createUserForm" th:object="${memberToCreate}">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" th:field="*{firstName}"  required/>
+            <label for="firstName">Last Name:</label>
+            <input type="text" id="lastName" th:field="*{lastName}" required/>
+            <label for="firstName">Phone Number:</label>
+            <input type="text" id="phoneNumber" th:field="*{phoneNumber}"  required/>
+            <label for="firstName">Email:</label>
+            <input type="email" id="email" th:field="*{email}" required/>
+            <label for="firstName">Password:</label>
+            <input type="text" id="password" th:field="*{password}" required/>
+            <table>
+                <thead>
+                <th>
+                <td>User Role</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="userRole:${userRoles}">
+                    <td>
+                        <input th:field="*{userRoles}" th:value="${userRole.userRoleId}" type="checkbox" th:id="${userRole.userRoleName}" name="userroles" />
+                        <label th:for="${userRole.userRoleName}" th:text="${userRole.userRoleName}">Label</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                <th>
+                <td>Member Status</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="memberStatus:${memberStatuses}">
+                    <td>
+                        <input th:field="*{memberStatus}" th:value="${memberStatus.memberStatusId}" type="radio" th:id="${memberStatus.memberStatus}" name="status" />
+                        <label th:for="${memberStatus.memberStatus}" th:text="${memberStatus.memberStatus}">Label</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="Create Member"/>
+            <input type="reset" value="Reset Details"/>
+        </form>
+    </div>
+</div>
+<div class="modal-container" th:fragment="create-modal-message-threads(messageThreadToCreate, messageThreadStatuses)">
+    <div class="modal-content">
+        <div><button class="create-modal-close-button">&times;</button></div>
+        <h1>CREATE NEW THREAD</h1>
 
-
+        <form th:action="@{/admin/message-threads/create-approved}" method="post" id="createMessageThreadForm" th:object="${messageThreadToCreate}">
+            <label for="messageThreadName">Message Thread Name:</label>
+            <input type="text" id="messageThreadName" th:field="*{messageThreadName}"  required/>
+            <table>
+                <thead>
+                <th>
+                <td>Message Thread Status</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="threadStatus:${messageThreadStatuses}">
+                    <td>
+                        <input th:field="*{messageThreadStatus}" th:value="${threadStatus.messageThreadStatusId}" type="radio" th:id="${threadStatus.messageThreadStatus}" name="status" />
+                        <label th:for="${threadStatus.messageThreadStatus}" th:text="${threadStatus.messageThreadStatus}">Label</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="Create Message Thread"/>
+            <input type="reset" value="Reset Details"/>
+        </form>
+    </div>
+</div>
+<div class="modal-container" th:fragment="create-modal-posts(postToCreate, newTagsStringList, postStatuses)">
+    <div class="modal-content">
+        <div><button class="create-modal-close-button">&times;</button></div>
+        <h1>CREATE NEW POST</h1>
+        <form th:action="@{/admin/posts/create-approved}" method="post" id="createPostForm">
+            <label for="postTitle">Post Title:</label>
+            <input type="text" class="postTitle" id="postTitle" th:field="*{postToCreate.postTitle}"  required/>
+            <label for="postContent">Post Content:</label>
+            <textarea id="postContent" th:field="*{postToCreate.postContent}" rows="6" maxlength="3000" required></textarea>
+            <table>
+                <thead>
+                <th>
+                <td>Post Tags</td>
+                </th>
+                </thead>
+                <tbody id="tagContainer">
+                <tr id="tagRow">
+                    <input hidden th:field="${newTagsStringList.newPostTagTitles}" id="newTagContainer" />
+                </tr>
+                <tr>
+                    <td>
+                        <input type="text" id="newPostTag"/>
+                        <label for="newPostTag">New Post Tag: </label>
+                        <button id="submitNewTag" >Add New Tag </button>
+                        <span>(10 Max)</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                <th>
+                <td>Post Status</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="postStatus:${postStatuses}">
+                    <td>
+                        <input class="postStatus" th:field="*{postToCreate.postStatus}" th:value="${postStatus.postStatusId}" type="radio" th:id="${postStatus.postStatus}" name="status" />
+                        <label th:for="${postStatus.postStatus}" th:text="${postStatus.postStatus}">Label</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="Create Post"/>
+            <input type="reset" value="Reset Details"/>
+        </form>
+    </div>
+</div>
+<div class="modal-container" th:fragment="create-modal-payments">
+    <div class="modal-content">
+        <div><button class="create-modal-close-button">&times;</button></div>
+        <h1>Create New Payment</h1>
+    </div>
+</div>
+<div class="modal-container" th:fragment="create-modal-images(imageToUpload, imageTypes)">
+    <div class="modal-content">
+        <div><button class="create-modal-close-button">&times;</button></div>
+        <h1>UPLOAD NEW IMAGE</h1>
+        <form th:action="@{/admin/images/upload-approved}" method="post" id="uploadImageForm" th:object="${imageToUpload}" enctype="multipart/form-data">
+            <label for="imagePath">Photo:</label>
+            <input type="file" id="imagePath" accept="image/png, image/jpeg" required name="image"/>
+            <label for="imageDescription">Description:</label>
+            <textarea id="imageDescription" th:field="*{imageDescription}" name="imageDescription"/>
+            <table>
+                <thead>
+                <th>
+                <td>Image Type</td>
+                </th>
+                </thead>
+                <tbody>
+                <tr th:each="imageType:${imageTypes}">
+                    <td>
+                        <input th:field="*{imageType}" th:value="${imageType.imageTypeId}" type="checkbox" th:id="${imageType.imageType}" name="type" />
+                        <label th:for="${imageType.imageType}" th:text="${imageType.imageType}">Label</label>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <input type="submit" value="Upload Image"/>
+            <input type="reset" value="Reset Details"/>
+        </form>
+    </div>
+</div>
 <script th:fragment="create-modal-script" th:src="@{/js/admin/admin-create-modal-script.js}"></script>
 </body>
 </html>

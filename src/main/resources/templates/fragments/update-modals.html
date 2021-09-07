@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org http://www.thymeleaf.org
+  http://www.ultraq.net.nz/thymeleaf/layout http://www.ultraq.net.nz/thymeleaf/layout
+  http://www.thymeleaf.org/thymeleaf-extras-springsecurity4 http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+
+<head>
+  <link th:fragment="update-modal-styles" rel="stylesheet" th:href="@{/styles/update-modal-styles.css}">
+  <meta charset="UTF-8">
+  <title>Update Modals</title>
+</head>
+<body>
+<div class="modal-container" th:fragment="update-modal-leasables">
+  <div class="modal-content">
+    <div><button class="update-modal-close-button">&times;</button></div>
+    <form></form>
+  </div>
+</div>
+<div class="modal-container" th:fragment="update-modal-leases">
+  <div class="modal-content">
+    <div><button class="update-modal-close-button">&times;</button></div>
+  </div>
+</div>
+<div class="modal-container" th:fragment="update-modal-members">
+  <div class="modal-content">
+    <div><button class="update-modal-close-button">&times;</button></div>
+
+  </div>
+</div>
+<div class="modal-container" th:fragment="update-modal-message-threads">
+  <div class="modal-content">
+    <div><button class="update-modal-close-button">&times;</button></div>
+
+  </div>
+</div>
+<div class="modal-container" th:fragment="update-modal-posts">
+  <div class="modal-content">
+    <div><button class="update-modal-close-button">&times;</button></div>
+
+  </div>
+</div>
+<div class="modal-container" th:fragment="update-modal-payments">
+  <div class="modal-content">
+    <div><button class="update-modal-close-button">&times;</button></div>
+
+  </div>
+</div>
+<div class="modal-container" th:fragment="update-modal-images">
+  <div class="modal-content">
+    <div><button class="update-modal-close-button">&times;</button></div>
+
+  </div>
+</div>
+<script th:fragment="update-modal-script" th:src="@{/js/admin/admin-update-modal-script.js}"></script>
+</body>
+</html>
