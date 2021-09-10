@@ -118,7 +118,7 @@ function showDataThreads(pageNum, data){
                     break;
                 }
                 case 'messageThreadStatus':{
-                    text = document.createTextNode(result[attribute].threadStatus);
+                    text = document.createTextNode(result[attribute].messageThreadStatus);
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
                     newRow.appendChild(dataPoint);
@@ -136,10 +136,13 @@ function showDataThreads(pageNum, data){
 
 //Modal views
 //Specific internal modal ids
-let modelIdView = document.querySelector("#model-id-modal");
-let modelNameView = document.querySelector("#model-name-modal");
-let modelCreatedView = document.querySelector("#model-created-modal");
-let modelStatusView = document.querySelector("#model-status-modal");
+let modelIdViewSpan = document.querySelector("#model-id-modal-span");
+let modelIdViewInput = document.querySelector("#model-id-modal-input");
+let modelNameViewSpan = document.querySelector("#model-name-modal-span");
+let modelNameViewInput = document.querySelector("#model-name-modal-input");
+let modelCreatedViewSpan = document.querySelector("#model-created-modal-span");
+let modelStatusViewSpan = document.querySelector("#model-status-modal-span");
+let modelStatusViewSelector = document.querySelector("#model-status-modal-selector");
 
 
 function viewThreadModal(event){
@@ -153,11 +156,18 @@ function viewThreadModal(event){
     let threadId;
     for (let element of rowSelected.children) {
         switch(element.classList[0]) {
-            case "model-id-table": modelIdView.innerHTML = "Id: " + element.innerHTML;
+            case "model-id-table": modelIdViewSpan.innerHTML = element.innerHTML;
+                modelIdViewInput.setAttribute('value', element.innerHTML);
                 threadId = element.innerHTML; break;
-            case "model-created-table": modelCreatedView.innerHTML = "Created: " + element.innerHTML; break;
-            case "model-name-table": modelNameView.innerHTML = "Name: " + element.innerHTML; break;
-            case "model-status-table": modelStatusView.innerHTML = "Status: " + element.innerHTML; break;
+            case "model-created-table": modelCreatedViewSpan.innerHTML = element.innerHTML;
+                break;
+            case "model-name-table": modelNameViewSpan.innerHTML = element.innerHTML;
+                modelNameViewInput.setAttribute('value', element.innerHTML);
+                break;
+            case "model-status-table": modelStatusViewSpan.innerHTML = element.innerHTML;
+                let status = document.querySelector('#'+element.innerHTML);
+                status.setAttribute('selected', 'selected');
+                break;
             default: break;
         }
     }
@@ -170,16 +180,6 @@ function viewThreadModal(event){
     //         showHistoryLeases(data));
 }
 
-
-function updateModal(event){
-    event.preventDefault();
-
-}
-
-function deleteModal(event){
-    event.preventDefault();
-
-}
 //
 // function showHistoryLeases(data) {
 //     resetHistory();
@@ -218,3 +218,72 @@ function deleteModal(event){
 //         modelHistoryDataBody.appendChild(newRow);
 //     }
 // }
+
+
+function viewDeleteModal(event){
+    event.preventDefault();
+    updateButton.classList.add("hidden");
+    deleteButton.classList.add("hidden");
+    continueDeletePrompt = document.querySelector("#continue-delete-prompt");
+    continueDeleteConfirm = document.querySelector("#continue-delete-yes");
+    continueDeleteCancel = document.querySelector("#continue-delete-no");
+    continueDeleteConfirm.addEventListener("click", (event) =>continueDeleteModal(event));
+    continueDeleteCancel.addEventListener("click", (event) =>continueDeleteModal(event));
+    continueDeletePrompt.classList.remove("hidden");
+    continueDeleteConfirm.classList.remove("hidden");
+    continueDeleteCancel.classList.remove("hidden");
+    modalViewForm.setAttribute('action', '/admin/message-threads/delete-approved');
+    return false;
+}
+
+function continueDeleteModal(event){
+    let target = event.target.getAttribute("id");
+    if(target == "continue-delete-no"){
+        event.preventDefault();
+        updateButton.classList.remove("hidden");
+        deleteButton.classList.remove("hidden");
+        continueDeletePrompt.classList.add("hidden");
+        continueDeleteConfirm.classList.add("hidden");
+        continueDeleteCancel.classList.add("hidden");
+        modalViewForm.removeAttribute('action');
+        return false;
+    }
+}
+
+
+function viewUpdateModal(event){
+    event.preventDefault();
+    updateButton.classList.add("hidden");
+    deleteButton.classList.add("hidden");
+    continueUpdatePrompt = document.querySelector("#continue-update-prompt");
+    continueUpdateConfirm = document.querySelector("#continue-update-confirm");
+    continueUpdateCancel = document.querySelector("#continue-update-cancel");
+    continueUpdateConfirm.addEventListener("click", (event)=> continueUpdateModal(event));
+    continueUpdateCancel.addEventListener("click", (event)=> continueUpdateModal(event));
+    continueUpdatePrompt.classList.remove("hidden");
+    continueUpdateConfirm.classList.remove("hidden");
+    continueUpdateCancel.classList.remove("hidden");
+    modalViewForm.setAttribute('action', '/admin/message-threads/update-approved');
+    modelViewInfo = document.querySelectorAll(".model-view-info");
+    modelViewInfo.forEach((row)=>{row.classList.add('hidden')});
+    modelInputInfo = document.querySelectorAll(".model-input-info");
+    modelInputInfo.forEach((row)=>{row.classList.remove('hidden')});
+
+    return false;
+}
+
+function continueUpdateModal(event){
+    let target = event.target.getAttribute("id");
+    if(target == 'continue-update-cancel'){
+        event.preventDefault();
+        updateButton.classList.remove("hidden");
+        deleteButton.classList.remove("hidden");
+        continueUpdatePrompt.classList.add("hidden");
+        continueUpdateConfirm.classList.add("hidden");
+        continueUpdateCancel.classList.add("hidden");
+        modalViewForm.removeAttribute('action');
+        modelInputInfo.forEach((row)=>{row.classList.add('hidden')});
+        modelViewInfo.forEach((row)=>{row.classList.remove('hidden')});
+        return false;
+    }
+}

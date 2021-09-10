@@ -40,6 +40,10 @@
     align-items: center;
 }
 
+.align-items-start{
+    align-items: flex-start;
+}
+
 .invisible{
     visibility: hidden;
 }
@@ -60,6 +64,10 @@
     justify-content: space-between;
 }
 
+
+.width-fill-parent{
+    width:100%
+}
 
 
 .hide-data{
@@ -86,6 +94,10 @@
     margin-top: 5rem;
 }
 
+.avoidHeaderNavPadding{
+    padding-top: 5rem;
+}
+
 .stored-image{
     height: 55px;
     object-fit: cover;
@@ -103,6 +115,10 @@
     overflow-y: scroll;
 }
 
-.hidden{
+.hidden {
     display: none;
+}
+
+.justify-content-flex-end{
+    justify-content: flex-end;
 }

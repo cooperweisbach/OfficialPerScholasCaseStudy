@@ -1,4 +1,85 @@
+body{
+    overflow: hidden;
+    height: 100vh;
+}
+
 .message-area-container{
-    height: 35vh;
+    height: 45vh;
     overflow-y: scroll;
+}
+
+
+.available-message-thread{
+    width: 55vw;
+    border: 2px solid black;
+    border-radius: 25px;
+   box-shadow: #aaaaaa;
+    position: relative;
+    margin-bottom: 2vh;
+}
+
+.available-message-thread:hover{
+    box-shadow: 2px 2px 5px #aaaaaa;
+    transition: ease-in;
+}
+
+.message-thread-header{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-color: rgba(255, 99, 71, 0.61);
+}
+
+.message-thread-title{
+    margin: 0;
+}
+.message-thread-header,
+.unentered-view,
+.entered-view{
+    padding-inline: 10%;
+    padding-block: 2vh;
+}
+
+.thread-description{
+    margin-right: 10%;
+}
+
+
+
+#search-and-nav-messaging{
+    margin-inline: 5vw;
+    border: 1.5px solid black;
+    height: 50vh;
+}
+#main-content{
+    padding-top: 5vh;
+    height: 100%;
+    overflow: hidden;
+}
+
+.close-thread-container{
+    top: 2%;
+    right: 5%;
+}
+
+.user-name-span,
+.time-span{
+    font-size: x-small;
+    font-weight: bold;
+}
+
+.time-span{
+    padding-inline: 3%;
+}
+
+.chat-message:hover{
+    background-color: rgba(170, 170, 170, 0.29);
+}
+
+.message-input{
+    width: 25vw;
+}
+
+#message-thread-container{
+    overflow-x: hidden;
+    /*height: 70vh;*/
 }

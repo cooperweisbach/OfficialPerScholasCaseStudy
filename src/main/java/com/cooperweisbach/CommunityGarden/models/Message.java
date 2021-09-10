@@ -1,5 +1,6 @@
 package com.cooperweisbach.CommunityGarden.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -20,10 +21,6 @@ import java.util.Date;
 @FieldDefaults(level=AccessLevel.PRIVATE)
 public class Message {
 
-    public enum MessageType{
-        CHAT, LEAVE, JOIN
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="message_id")
@@ -33,11 +30,6 @@ public class Message {
     @NotBlank
     @Column(name="message_content", columnDefinition = "TEXT NOT NULL")
     String messageContent;
-
-    @NonNull
-    @NotBlank
-    @Column(name="message_type")
-    MessageType type;
 
     @Temporal(value = TemporalType.TIMESTAMP)
     @Column(name="message_sent")
@@ -51,8 +43,9 @@ public class Message {
     //Additionally, because it is mandatory for every message to have a member associated with it, the fetch type is set to eager
     //Eager is the default, but it was made explicit to emphasize this.
     //Uni-Directional(Owner)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="member")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     Member member;
 
     //Mapping for messageThread to messages.
@@ -61,8 +54,9 @@ public class Message {
     //Additionally, because it is mandatory for every message to belong to a thread, the fetch type is set to eager
     //Eager is the default, but it was made explicit to emphasize this.
     //Uni-Directional(Owner)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="message_thread")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     MessageThread messageThread;
 
 }

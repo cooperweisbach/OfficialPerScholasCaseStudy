@@ -16,7 +16,7 @@
     <title>Members Data</title>
 </head>
 <body>
-<div th:fragment="members-data(allModelInstances)">
+<div th:fragment="members-data(allModelInstances, memberToAlter, userRoles, memberStatuses)">
     <div class="flex flex-vertical align-items-center" th:if="${!#lists.isEmpty(allModelInstances)}">
         <div  class="flex justify-content-center">
             <div class="flex justify-content-center" id="returned-models-data-container">
@@ -24,11 +24,11 @@
                     <thead id="model-headers">
                     <tr>
                         <th>MEMBER ID</th>
-                        <th>PROFILE PIC</th>
                         <th>EMAIL</th>
                         <th>PHONE #</th>
                         <th>JOINED</th>
                         <th>STATUS</th>
+                        <th>PROFILE PIC</th>
                         <th>ROLES</th>
                         <th>NAME</th>
                     </tr>
@@ -41,61 +41,81 @@
 
 
         <div id="model-modal-container">
-            <div class="flex flex-vertical stretch-align-items pos-relative" id="model-modal-content">
-                <div class="pos-absolute"><button class="modal-close-button">&times;</button></div>
-                    <div id="house-model-info" class="flex grow flex-wrap-wrap justify-content-space-between">
-                        <div class="data-container-view-modal">Id:
-                            <span class="model-view-info model-id" id="model-id-modal-span"></span>
-                            <input hidden type="text" class="model-input-info" id="model-id-modal-input"/>
+            <form id="modal-view-form" method="post" th:object="${memberToAlter}">
+                <div class="flex flex-vertical stretch-align-items pos-relative" id="model-modal-content">
+                    <div class="pos-absolute"><button class="modal-close-button">&times;</button></div>
+                        <div id="house-model-info" class="flex grow flex-wrap-wrap justify-content-space-between">
+                            <input hidden  type="text" th:field="*{password}" th:value="'dummypassword'"/>
+                            <div class="data-container-view-modal">Id:
+                                <span class="model-view-info model-id" id="model-id-modal-span"></span>
+                                <input type="text" class="model-input-info hidden" id="model-id-modal-input" th:field="*{memberId}"/>
+                            </div>
+    <!--                        <img class="model-view-info model-pic stored-image" id="model-pic-modal"/>-->
+<!--                            <div class="data-container-view-modal">Name:-->
+<!--                                <span class="model-view-info model-name" id="model-name-modal-span"></span>-->
+<!--                                <input type="text" class="model-input-info  hidden" id="model-name-modal-input" th:field="*{memberToAlter.firstName}"/>-->
+<!--                            </div>-->
+                            <div class="data-container-view-modal">First Name:
+                                <span class="model-view-info model-first" id="model-first-modal-span"></span>
+                                <input type="text" class="model-input-info  hidden" id="model-first-modal-input" th:field="*{firstName}"/>
+                            </div>
+                            <div class="data-container-view-modal">Last Name:
+                                <span class="model-view-info model-first" id="model-last-modal-span"></span>
+                                <input type="text" class="model-input-info  hidden" id="model-last-modal-input" th:field="*{lastName}"/>
+                            </div>
+                            <div class="data-container-view-modal">Email:
+                                <span class="model-view-info model-email" id="model-email-modal-span"></span>
+                                <input type="text" class="model-input-info hidden" id="model-email-modal-input" th:field="*{email}"/>
+                            </div>
+                            <div class="data-container-view-modal">Phone #:
+                                <span class="model-view-info model-phone" id="model-phone-modal-span"></span>
+                                <input type="text" class="model-input-info  hidden" id="model-phone-modal-input" th:field="*{phoneNumber}"/>
+                            </div>
+                            <div class="data-container-view-modal">Status:
+                                <span class="model-view-info model-status" id="model-status-modal-span"></span>
+                                <select class="model-input-info hidden" id="model-status-modal-selector" th:field="*{memberStatus}">
+                                    <option  th:each="aMemberStatus:${memberStatuses}" th:id="${aMemberStatus.memberStatus}"  th:value="${aMemberStatus.memberStatusId}" th:text="${aMemberStatus.memberStatus}"></option>
+                                </select>
+                            </div>
+                            <div class="data-container-view-modal">Joined:
+                                <span class="model-view-info model-input-info model-joined" id="model-joined-modal-span"></span>
+                            </div>
+                            <div class="data-container-view-modal">Roles:
+                                <span class="model-view-info model-roles" id="model-role-modal-span"></span>
+                                <select class="model-input-info hidden" id="model-role-modal-selector" th:field="*{userRoles}">
+                                    <option th:each="userRole:${userRoles}" th:id="${userRole.userRoleName}" th:value="${userRole.userRoleId}" th:text="${userRole.userRoleName}"></option>
+                                </select>
+                            </div>
                         </div>
-<!--                        <img class="model-view-info model-pic stored-image" id="model-pic-modal"/>-->
-                        <div class="data-container-view-modal">Name:
-                            <span class="model-view-info model-name" id="model-name-modal-span"></span>
-                            <input hidden type="text" class="model-input-info" id="model-name-modal-input"/>
-                        </div>
-                        <div class="data-container-view-modal">Email:
-                            <span class="model-view-info model-email" id="model-email-modal-span"></span>
-                            <input hidden type="text" class="model-input-info" id="model-email-modal-input"/>
-                        </div>
-                        <div class="data-container-view-modal">Phone #:
-                            <span class="model-view-info model-phone" id="model-phone-modal-span"></span>
-                            <input hidden type="text" class="model-input-info" id="model-phone-modal-input"/>
-                        </div>
-                        <div class="data-container-view-modal">Status:
-                            <span class="model-view-info model-status" id="model-status-modal-span"></span>
-                            <input hidden type="text" class="model-input-info" id="model-status-modal-input"/>
-                        </div>
-                        <div class="data-container-view-modal">Joined:
-                            <span class="model-view-info model-joined" id="model-joined-modal-span"></span>
-                            <input hidden type="text" class="model-input-info" id="model-joined-modal-input"/>
-                        </div>
-                        <div class="data-container-view-modal">Roles:
-                            <span class="model-view-info model-roles" id="model-role-modal-span"></span>
-                            <input hidden type="text" class="model-input-info" id="model-role-modal-input"/>
-                        </div>
-                    </div>
-                <div class="model-view-info flex grow justify-content-center" id="model-history">
-                    <div class="scroll-y">
-                        <table class="flex flex-vertical" id="model-history-table">
-                            <thead  id="model-history-header" class="flex">
-                            <tr>
-                                <th>LEASE ID</th>
-                                <th>START DATE</th>
-                                <th>END DATE</th>
-                                <th>LEASABLE</th>
-                            </tr>
-                            </thead>
-                            <tbody  id="model-history-data-body" class="flex justify-content-space-between">
+                    <div class="model-view-info flex grow justify-content-center" id="model-history">
+                        <div class="scroll-y">
+                            <table class="flex flex-vertical" id="model-history-table">
+                                <thead  id="model-history-header" class="flex">
+                                <tr>
+                                    <th>LEASE ID</th>
+                                    <th>START DATE</th>
+                                    <th>END DATE</th>
+                                    <th>LEASABLE</th>
+                                </tr>
+                                </thead>
+                                <tbody  id="model-history-data-body" class="flex justify-content-space-between">
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="flex justify-content-center" id="update-delete-button-holder">
+                        <button class="model-toggling initial-toggling" id="modal-update-button" >UPDATE</button>
+                        <button class="model-toggling initial-toggling" id="modal-delete-button" >DELETE</button>
+                        <span class="hidden continue-delete" id="continue-delete-prompt">ARE YOU SURE YOU'D LIKE TO DELETE?</span>
+                        <button type="submit" class="model-toggling continue-delete hidden" id="continue-delete-yes">YES</button>
+                        <button class="model-toggling continue-delete hidden" id="continue-delete-no">NO</button>
+                        <span class="hidden continue-update" id="continue-update-prompt">PLEASE CONFIRM THE UPDATES...</span>
+                        <button type="submit" class="model-toggling continue-update hidden" id="continue-update-confirm">CONFIRM</button>
+                        <button class="model-toggling continue-update hidden" id="continue-update-cancel">CANCEL</button>
                     </div>
                 </div>
-                <div class="flex justify-content-center" id="update-delete-button-holder">
-                    <button class="model-toggling" id="modal-update-button" text="update">UPDATE</button>
-                    <button class="model-toggling" id="modal-delete-button" text="delete">DELETE</button>
-                </div>
-            </div>
+            </form>
         </div>
 
 

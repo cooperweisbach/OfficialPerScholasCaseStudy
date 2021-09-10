@@ -25,6 +25,7 @@
 <div class="avoidHeaderNav">
     <div th:replace="fragments/admin-panel-nav :: admin-panel-nav(currentModelId='messageThreads', currentModelName='MESSAGE THREADS')"></div>
 
+    <div class="flex flex-vertical align-items-center"  th:if="${!#lists.isEmpty(allMessageThreads)}">
         <div layout:fragment="search-and-options">
             <div th:replace="fragments/admin-search-options :: search-and-button-holder-fragment
             (searchableAttribute='Thread Name',
@@ -35,18 +36,18 @@
             </div>
         </div>
 
-    <div class="flex flex-vertical align-items-center"  th:if="${!#lists.isEmpty(allMessageThreads)}">
 
         <div layout:fragment="model-data">
             <div th:replace="fragments/admin-message-threads-pagination :: message-threads-data
-            (allModelInstances=${allMessageThreads})"></div>
+            (allModelInstances=${allMessageThreads}, messageThreadStatuses=${messageThreadStatuses}, messageThreadToAlter=${messageThreadToAlter})"></div>
         </div>
+
     </div>
     <div th:unless="${!#lists.isEmpty(allMessageThreads)}">
             <p>No results</p>
     </div>
 
-    <div th:replace="fragments/create-modals :: create-modal-message-threads"></div>
+    <div th:replace="fragments/create-modals :: create-modal-message-threads(messageThreadToCreate=${messageThreadToCreate}, messageThreadStatuses=${messageThreadStatuses})"></div>
 
     <div th:replace="fragments/general :: main-footer"></div>
 

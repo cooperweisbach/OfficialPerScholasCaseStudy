@@ -39,7 +39,7 @@
         </div>
         <div layout:fragment="model-data">
             <div th:replace="fragments/admin-leasables-pagination :: leasables-data
-            (allModelInstances=${allLeasables})"></div>
+            (allModelInstances=${allLeasables}, leasableToAlter=${leasableToAlter}, leasableStatuses=${leasableStatuses}, leasableTypes=${leasableTypes})"></div>
         </div>
 
     </div>

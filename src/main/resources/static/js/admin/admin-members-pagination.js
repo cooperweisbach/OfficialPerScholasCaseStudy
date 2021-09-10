@@ -127,6 +127,24 @@ function showDataMembers(pageNum, data){
                     dataPoint.setAttribute('class', 'model-name-table');
                     break;
                 }
+                case 'firstName':{
+                    text = document.createTextNode(result[attribute]);
+                    dataPoint = document.createElement('td');
+                    dataPoint.appendChild(text);
+                    newRow.appendChild(dataPoint);
+                    dataPoint.setAttribute('class', 'model-first-table');
+                    dataPoint.setAttribute('hidden', 'hidden');
+                    break;
+                }
+                case 'lastName':{
+                    text = document.createTextNode(result[attribute]);
+                    dataPoint = document.createElement('td');
+                    dataPoint.appendChild(text);
+                    newRow.appendChild(dataPoint);
+                    dataPoint.setAttribute('class', 'model-last-table');
+                    dataPoint.setAttribute('hidden', 'hidden');
+                    break;
+                }
                 case 'email':{
                     text = document.createTextNode(result[attribute]);
                     dataPoint = document.createElement('td');
@@ -186,15 +204,19 @@ let modelIdViewInput = document.querySelector("#model-id-modal-input");
 let modelNameViewSpan = document.querySelector("#model-name-modal-span");
 let modelNameViewInput = document.querySelector("#model-name-modal-input");
 let modelRoleViewSpan = document.querySelector("#model-role-modal-span");
-let modelRoleViewInput = document.querySelector("#model-role-modal-input");
+let modelRoleViewSelector = document.querySelector("#model-role-modal-selector");
 let modelJoinedViewSpan = document.querySelector("#model-joined-modal-span");
-let modelJoinedViewInput = document.querySelector("#model-joined-modal-input");
+let modelJoinedViewSelector = document.querySelector("#model-joined-modal-input");
 let modelPhoneViewSpan = document.querySelector("#model-phone-modal-span");
 let modelPhoneViewInput = document.querySelector("#model-phone-modal-input");
 let modelStatusViewSpan = document.querySelector("#model-status-modal-span");
-let modelStatusViewInput = document.querySelector("#model-status-modal-input");
+let modelStatusViewSelector = document.querySelector("#model-status-modal-selector");
 let modelEmailViewSpan = document.querySelector("#model-email-modal-span");
 let modelEmailViewInput = document.querySelector("#model-email-modal-input");
+let modelFirstViewSpan = document.querySelector("#model-first-modal-span");
+let modelFirstViewInput = document.querySelector("#model-first-modal-input");
+let modelLastViewSpan = document.querySelector("#model-last-modal-span");
+let modelLastViewInput = document.querySelector("#model-last-modal-input");
 
 
 function viewMemberModal(event){
@@ -217,7 +239,8 @@ function viewMemberModal(event){
             case "model-id-table":
                 modelIdViewSpan.innerHTML = element.innerHTML;
                 modelIdViewInput.setAttribute('value', element.innerHTML);
-                    memberId = element.innerHTML; break;
+                modelId = document.querySelector("#model-id-modal-span").innerHTML;
+                memberId = element.innerHTML; break;
             case "model-email-table":
                 modelEmailViewSpan.innerHTML = element.innerHTML;
                 modelEmailViewInput.setAttribute('value', element.innerHTML); break;
@@ -226,16 +249,23 @@ function viewMemberModal(event){
                 modelPhoneViewInput.setAttribute('value', element.innerHTML); break;
             case "model-role-table":
                 modelRoleViewSpan.innerHTML = element.innerHTML;
-                modelRoleViewInput.setAttribute('value', element.innerHTML); break;
-            case "model-name-table":
-                modelNameViewSpan.innerHTML = element.innerHTML;
-                modelNameViewInput.setAttribute('value', element.innerHTML); break;
+                let role = document.querySelector("#"+element.innerHTML);
+                console.log(role);
+                role.setAttribute('selected', 'selected'); break;
+            case "model-first-table":
+                modelFirstViewSpan.innerHTML = element.innerHTML;
+                modelFirstViewInput.setAttribute('value', element.innerHTML); break;
+            case "model-last-table":
+                modelLastViewSpan.innerHTML = element.innerHTML;
+                modelLastViewInput.setAttribute('value', element.innerHTML); break;
             case "model-joined-table":
-                modelJoinedViewSpan.innerHTML = element.innerHTML;
-                modelJoinedViewInput.setAttribute('value', element.innerHTML); break;
+                modelJoinedViewSpan.innerHTML = element.innerHTML; break;
+                // modelJoinedViewInput.setAttribute('value', element.innerHTML); break;
             case "model-status-table":
+                console.log("Model status table----");
                 modelStatusViewSpan.innerHTML = element.innerHTML;
-                modelStatusViewInput.setAttribute('value', element.innerHTML); break;
+                let status = document.querySelector("#"+element.innerHTML);
+                status.setAttribute('selected', 'selected'); break;
             default: break;
         }
     }
@@ -246,17 +276,6 @@ function viewMemberModal(event){
         .then(response => response.json())
         .then(data =>
             showHistoryLeases(data));
-}
-
-
-function updateModal(event){
-    event.preventDefault();
-
-}
-
-function deleteModal(event){
-    event.preventDefault();
-
 }
 
 function showHistoryLeases(data) {
@@ -294,5 +313,74 @@ function showHistoryLeases(data) {
             newRow.appendChild(dataPoint);
         }
         modelHistoryDataBody.appendChild(newRow);
+    }
+}
+
+
+function viewDeleteModal(event){
+    event.preventDefault();
+    updateButton.classList.add("hidden");
+    deleteButton.classList.add("hidden");
+    continueDeletePrompt = document.querySelector("#continue-delete-prompt");
+    continueDeleteConfirm = document.querySelector("#continue-delete-yes");
+    continueDeleteCancel = document.querySelector("#continue-delete-no");
+    continueDeleteConfirm.addEventListener("click", (event) =>continueDeleteModal(event));
+    continueDeleteCancel.addEventListener("click", (event) =>continueDeleteModal(event));
+    continueDeletePrompt.classList.remove("hidden");
+    continueDeleteConfirm.classList.remove("hidden");
+    continueDeleteCancel.classList.remove("hidden");
+    modalViewForm.setAttribute('action', '/admin/users/delete-approved');
+    return false;
+}
+
+function continueDeleteModal(event){
+    let target = event.target.getAttribute("id");
+    if(target == "continue-delete-no"){
+        event.preventDefault();
+        updateButton.classList.remove("hidden");
+        deleteButton.classList.remove("hidden");
+        continueDeletePrompt.classList.add("hidden");
+        continueDeleteConfirm.classList.add("hidden");
+        continueDeleteCancel.classList.add("hidden");
+        modalViewForm.removeAttribute('action');
+        return false;
+    }
+}
+
+
+function viewUpdateModal(event){
+    event.preventDefault();
+    updateButton.classList.add("hidden");
+    deleteButton.classList.add("hidden");
+    continueUpdatePrompt = document.querySelector("#continue-update-prompt");
+    continueUpdateConfirm = document.querySelector("#continue-update-confirm");
+    continueUpdateCancel = document.querySelector("#continue-update-cancel");
+    continueUpdateConfirm.addEventListener("click", (event)=> continueUpdateModal(event));
+    continueUpdateCancel.addEventListener("click", (event)=> continueUpdateModal(event));
+    continueUpdatePrompt.classList.remove("hidden");
+    continueUpdateConfirm.classList.remove("hidden");
+    continueUpdateCancel.classList.remove("hidden");
+    modalViewForm.setAttribute('action', '/admin/users/update-approved');
+    modelViewInfo = document.querySelectorAll(".model-view-info");
+    modelViewInfo.forEach((row)=>{row.classList.add('hidden')});
+    modelInputInfo = document.querySelectorAll(".model-input-info");
+    modelInputInfo.forEach((row)=>{row.classList.remove('hidden')});
+
+    return false;
+}
+
+function continueUpdateModal(event){
+    let target = event.target.getAttribute("id");
+    if(target == 'continue-update-cancel'){
+        event.preventDefault();
+        updateButton.classList.remove("hidden");
+        deleteButton.classList.remove("hidden");
+        continueUpdatePrompt.classList.add("hidden");
+        continueUpdateConfirm.classList.add("hidden");
+        continueUpdateCancel.classList.add("hidden");
+        modalViewForm.removeAttribute('action');
+        modelInputInfo.forEach((row)=>{row.classList.add('hidden')});
+        modelViewInfo.forEach((row)=>{row.classList.remove('hidden')});
+        return false;
     }
 }

@@ -16,7 +16,7 @@
     <title>Leasables Data</title>
 </head>
 <body>
-    <div th:fragment="leasables-data(allModelInstances)">
+    <div th:fragment="leasables-data(allModelInstances, leasableToAlter, leasableStatuses, leasableTypes)">
         <div class="flex flex-vertical align-items-center" th:if="${!#lists.isEmpty(allModelInstances)}">
             <div  class="flex justify-content-center">
                 <div class="flex justify-content-center" id="returned-models-data-container">
@@ -32,29 +32,7 @@
                                 <th>LEASABLE STATUS</th>
                             </tr>
                         </thead>
-<!--                        <tbody id="returned-models-data-body">-->
-<!--                            <tr th:each="model, stat :${allModelInstances}" class="model-data-row" th:id="${stat.count}">-->
-<!--                                <td id="model-index-table" th:text="${stat.count}"></td>-->
-<!--                                <td id="model-id-table"  th:text="${model.leasableId}"></td>-->
-<!--                                <td id="model-code-table" th:text="${model.leasableCode}"></td>-->
-<!--                                <td id="model-type-table" th:text="${model.leasableType.leasableTypeName}"></td>-->
-<!--                                <td id="model-size-table" th:text="${model.leasableSize}"></td>-->
-<!--                                <td id="model-rent-table" th:text="${model.leasableYearlyRent}"></td>-->
-<!--                                <td id="model-status-table" th:text="${model.leasableStatus.leasableStatus}"></td>-->
-<!--                                <td id="model-date-table" th:text="${model.leasableCreationDate}"></td>-->
-<!--                            </tr>-->
-<!--                        </tbody>-->
                         <tbody id="returned-models-data-body">
-<!--                            <tr class="model-data-row" >-->
-<!--                                <td class="model-index-table" ></td>-->
-<!--                                <td class="model-id-table" ></td>-->
-<!--                                <td class="model-code-table" ></td>-->
-<!--                                <td class="model-type-table" ></td>-->
-<!--                                <td class="model-size-table" ></td>-->
-<!--                                <td class="model-rent-table" ></td>-->
-<!--                                <td class="model-status-table" ></td>-->
-<!--                                <td class="model-date-table" ></td>-->
-<!--                            </tr>-->
                         </tbody>
                     </table>
                 </div>
@@ -62,36 +40,70 @@
 
 
             <div id="model-modal-container">
-                <div class="flex flex-vertical stretch-align-items" id="model-modal-content">
-                    <div><button class="modal-close-button">&times;</button></div>
-                    <div id="house-model-info" class="flex justify-content-center grow">
-                        <div class="model-view-info model-id" id="model-id-modal"></div>
-                        <div class="model-view-info model-code" id="model-code-modal"></div>
-                        <div class="model-view-info model-type" id="model-type-modal"></div>
-                        <div class="model-view-info model-size" id="model-size-modal"></div>
-                        <div class="model-view-info model-rent" id="model-rent-modal"></div>
-                        <div class="model-view-info model-status" id="model-status-modal"></div>
-                    </div>
-                    <div class="model-view-info flex grow justify-content-center" id="model-history">
-                        <table class="flex flex-vertical" id="model-history-table">
-                            <thead  id="model-history-header" class="flex">
-                                    <tr>
-                                        <th>LEASE ID</th>
-                                        <th>START DATE</th>
-                                        <th>END DATE</th>
-                                        <th>MEMBER</th>
-                                    </tr>
-                            </thead>
-                            <tbody  id="model-history-data-body" class="flex justify-content-space-between">
+                <form method="post" id="modal-view-form" th:object="${leasableToAlter}">
+                    <div class="flex flex-vertical stretch-align-items" id="model-modal-content">
+                        <div><button class="modal-close-button">&times;</button></div>
+                        <div id="house-model-info" class="flex grow flex-wrap-wrap justify-content-space-between">
+                            <div class="data-container-view-modal">Id:
+                                <span class="model-view-info model-id" id="model-id-modal-span"></span>
+                                <input type="text" class="model-input-info  hidden" id="model-id-modal-input" th:field="*{leasableId}"/>
+                            </div>
+                            <div class="data-container-view-modal">Code:
+                                <span class="model-view-info model-code" id="model-code-modal-span"></span>
+                                <input type="text" class="model-input-info  hidden" id="model-code-modal-input" th:field="*{leasableCode}"/>
+                            </div>
+                            <div class="data-container-view-modal">Type:
+                                <span class="model-view-info model-type" id="model-type-modal-span"></span>
+<!--                                <input class="model-input-info  hidden" id="model-type-modal-input"/>-->
+                                <select class="model-input-info hidden" id="model-type-modal-selector" th:field="*{leasableType}">
+                                    <option th:each="leasableType:${leasableTypes}" th:text="${leasableType.leasableTypeName}" th:value="${leasableType.leasableTypeId}" th:id="${leasableType.leasableTypeName}"></option>
+                                </select>
+                            </div>
+                            <div class="data-container-view-modal">Size:
+                                <span class="model-view-info model-size" id="model-size-modal-span"></span>
+                                <input type="text" class="model-input-info  hidden" id="model-size-modal-input" th:field="*{leasableSize}"/>
+                            </div>
+                            <div class="data-container-view-modal">Rent:
+                                <span class="model-view-info model-rent" id="model-rent-modal-span"></span>
+                                <input type="text" class="model-input-info  hidden" id="model-rent-modal-input" th:field="*{leasableYearlyRent}"/>
+                            </div>
+                            <div class="data-container-view-modal">Status:
+                                <span class="model-view-info model-status" id="model-status-modal-span"></span>
+<!--                                <input class="model-input-info  hidden" id="model-status-modal-input"/>-->
+                                <select  class="model-input-info hidden" id="model-status-modal-selector" th:field="*{leasableStatus}">
+                                    <option th:each="status:${leasableStatuses}" th:value="${status.leasableStatusId}" th:text="${status.leasableStatus}" th:id="${status.leasableStatus}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="model-view-info flex grow justify-content-center" id="model-history">
+                            <div class="scroll-y">
+                                <table class="flex flex-vertical" id="model-history-table">
+                                    <thead  id="model-history-header" class="flex">
+                                            <tr>
+                                                <th>LEASE ID</th>
+                                                <th>START DATE</th>
+                                                <th>END DATE</th>
+                                                <th>MEMBER</th>
+                                            </tr>
+                                    </thead>
+                                    <tbody  id="model-history-data-body" class="flex justify-content-space-between">
 
-                            </tbody>
-                        </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-center" id="update-delete-button-holder">
+                            <button class="model-toggling" id="modal-update-button" text="update">UPDATE</button>
+                            <button class="model-toggling" id="modal-delete-button" text="delete">DELETE</button>
+                            <span class="hidden continue-delete" id="continue-delete-prompt">ARE YOU SURE YOU'D LIKE TO DELETE?</span>
+                            <button type="submit" class="model-toggling continue-delete hidden" id="continue-delete-yes">YES</button>
+                            <button class="model-toggling continue-delete hidden" id="continue-delete-no">NO</button>
+                            <span class="hidden continue-update" id="continue-update-prompt">PLEASE CONFIRM THE UPDATES...</span>
+                            <button type="submit" class="model-toggling continue-update hidden" id="continue-update-confirm">CONFIRM</button>
+                            <button class="model-toggling continue-update hidden" id="continue-update-cancel">CANCEL</button>
+                        </div>
                     </div>
-                    <div class="flex justify-content-center" id="update-delete-button-holder">
-                        <button class="model-toggling" id="modal-update-button" text="update">UPDATE</button>
-                        <button class="model-toggling" id="modal-delete-button" text="delete">DELETE</button>
-                    </div>
-                </div>
+                </form>
             </div>
 
 

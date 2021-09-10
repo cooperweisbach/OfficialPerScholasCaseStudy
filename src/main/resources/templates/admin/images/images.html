@@ -37,7 +37,7 @@
         </div>
         <div layout:fragment="model-data">
             <div th:replace="fragments/admin-images-pagination :: images-data
-            (allModelInstances=${allImages})"></div>
+            (allModelInstances=${allImages}, imageTypes=${imageTypes}, imageToAlter=${imageToAlter})"></div>
         </div>
     </div>
     <div th:if="${#lists.isEmpty(allImages)}">

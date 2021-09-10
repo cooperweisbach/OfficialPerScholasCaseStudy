@@ -19,23 +19,43 @@
 </head>
 <body>
 <div th:replace="fragments/general :: main-navigation (currentUser=${currentUser})"></div>
-<div class="avoidHeaderNav">
+<div id="main-content" class="flex avoidHeaderNavPadding">
     <div hidden th:id="current-user-id" th:text="${currentUser.memberId}"></div>
-    <div class="message-thread-container flex flex-vertical align-items-center">
-        <div th:each="messageThread :${messageThreads}" class="available-message-thread" th:id="${messageThread.messageThreadId}">
-                <h2 th:text="${messageThread.messageThreadName}"></h2>
-            <div class="unentered-view" th:id="'unentered-view-'+${messageThread.messageThreadId}">
-                <button th:id="${messageThread.messageThreadId}+'-message-thread'" class="enter-message-thread-button">Enter</button>
+    <div id="search-and-nav-messaging" class="flex flex-vertical align-items-center">
+        <div class="message-thread-controls" id="search-threads-container" >
+            <input type="text" placeholder="Search Threads" id="search-threads" />
+        </div>
+        <div class="message-thread-controls" id="notifications">
+            <div id="notifications-header-container">
+                <span id="notifications-header">Notifications</span>
+            </div>
+        </div>
+        <div class="message-thread-controls" id="filter-threads">
+
+        </div>
+    </div>
+    <div class="flex flex-vertical align-items-center" id="message-thread-container">
+        <div th:each="messageThread :${messageThreads}" th:if="${messageThread.messageThreadStatus.messageThreadStatus != 'closed'}" class="available-message-thread pos-relative" th:id="${messageThread.messageThreadId}">
+            <div class="close-thread-container hidden pos-absolute" th:id="'close-thread-'+${messageThread.messageThreadId}+'-container'">
+                <button class="close-thread-button" th:id="'close-thread-'+${messageThread.messageThreadId}">&times;</button>
+            </div>
+            <div class="message-thread-header"><span class="message-thread-title" th:text="${messageThread.messageThreadName.toUpperCase()}"></span></div>
+            <div class="flex unentered-view align-items-center justify-content-space-between" th:id="'unentered-view-'+${messageThread.messageThreadId}">
+                <div class="thread-description-container grow"><span class="thread-description grow" th:text="${messageThread.threadDescription}?:''"></span></div>
+                <div class="enter-chat-container flex justify-content-flex-end">
+                    <button th:id="${messageThread.messageThreadId}+'-message-thread'" class="enter-message-thread-button">ENTER</button>
+                </div>
             </div>
             <div class="entered-view hidden" th:id="'entered-view-'+${messageThread.messageThreadId}">
-                <div class="connecting">Conecting to chat...</div>
+                <div class="connecting" th:id="'connecting-'+${messageThread.messageThreadId}">Conecting to chat...</div>
                 <div class="message-area-container">
-                    <ul th:id="'message-area-'+${messageThread.messageThreadId}"></ul>
+                    <table class="width-fill-parent" th:id="'message-area-'+${messageThread.messageThreadId}">
+                    </table>
                 </div>
-              <div class="message-input-container">
+              <div class="message-input-container flex justify-content-center">
                   <form th:id="'message-form-'+${messageThread.messageThreadId}">
                       <input th:id="'message-input-'+${messageThread.messageThreadId}" type="text" class="message-input" />
-                      <input type="submit" />
+                      <input type="submit" value="SEND" />
                   </form>
               </div>
             </div>
@@ -44,6 +64,11 @@
 </div>
 
 <div th:replace="fragments/general :: main-navigation-script"></div>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var user = /*[[${currentUser.getFullName()}]]*/ 'User Name';
+    /*]]>*/
+</script>
 <script
         src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script

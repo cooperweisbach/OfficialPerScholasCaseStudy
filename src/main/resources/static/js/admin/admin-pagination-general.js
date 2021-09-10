@@ -22,12 +22,22 @@ let modelHistoryTable = document.querySelector("#model-history-table");
 let modalContainer = document.querySelector("#model-modal-container");
 
 let updateButton = document.querySelector("#modal-update-button");
-updateButton.addEventListener("click", (event) => viewLeasableModal(event));
+updateButton.addEventListener("click", (event) => viewUpdateModal(event));
 let deleteButton = document.querySelector("#modal-delete-button");
-deleteButton.addEventListener("click", (event) => viewLeasableModal(event));
+deleteButton.addEventListener("click", (event) => viewDeleteModal(event));
 let closeViewButton = document.querySelector(".modal-close-button");
 closeViewButton.addEventListener("click", (event) => closeView(event));
 let webBody = document.getElementsByTagName("body");
+let modalViewForm = document.querySelector("#modal-view-form");
+let modelId;
+let continueDeletePrompt;
+let continueDeleteConfirm;
+let continueDeleteCancel;
+let continueUpdatePrompt;
+let continueUpdateConfirm;
+let continueUpdateCancel;
+let modelViewInfo;
+let modelInputInfo;
 
 function resetData(){
     returnedModelsDataBody.remove();
@@ -196,4 +206,5 @@ function closeView(event){
     console.log("this function is being called");
     modalContainer.style.display = "none";
     webBody[0].style.overflow = "scroll";
+
 }

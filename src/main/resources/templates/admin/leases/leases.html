@@ -32,7 +32,8 @@
             </div>
         </div>
         <div layout:fragment="model-data">
-            <div th:replace="fragments/admin-leases-pagination :: leases-data(allModelInstances=${allLeases})"></div>
+            <div th:replace="fragments/admin-leases-pagination :: leases-data
+            (allModelInstances=${allLeases}, leaseStatuses=${leaseStatuses},availableLeasables=${availableLeasables}, allMembers=${allMembers}, leaseToAlter=${leaseToAlter} )"></div>
         </div>
     </div>
     <div th:if="${#lists.isEmpty(allLeases)}">

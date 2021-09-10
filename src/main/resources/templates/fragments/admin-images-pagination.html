@@ -8,7 +8,7 @@
     <title>Title</title>
 </head>
 <body>
-<div th:fragment="images-data(allModelInstances)">
+<div th:fragment="images-data(allModelInstances, imageTypes, imageToAlter)">
     <div class="flex flex-vertical align-items-center" th:if="${!#lists.isEmpty(allModelInstances)}">
         <div  class="flex justify-content-center">
             <div class="flex justify-content-center" id="returned-models-data-container">
@@ -33,37 +33,61 @@
 
 
         <div id="model-modal-container">
-            <div class="flex flex-vertical stretch-align-items" id="model-modal-content">
-                <div><button class="modal-close-button">&times;</button></div>
-                <div id="house-model-info" class="flex justify-content-center grow">
-                    <div class="model-view-info model-id" id="model-id-modal"></div>
-                    <div class="model-view-info model-name" id="model-name-modal"></div>
-                    <div class="model-view-info model-type" id="model-type-modal"></div>
-                    <label for="model-image-modal">Image: </label>
-                    <img class="model-view-info model-actual" id="model-image-modal">
-                    <div class="model-view-info model-description" id="model-description-modal"></div>
-                    <div class="model-view-info model-uploaded" id="model-uploaded-modal"></div>
-                </div>
-<!--                <div class="model-view-info flex grow justify-content-center" id="model-history">-->
-<!--                    <table class="flex flex-vertical" id="model-history-table">-->
-<!--                        <thead  id="model-history-header" class="flex">-->
-<!--                        <tr>-->
-<!--                            <th>LEASE ID</th>-->
-<!--                            <th>START DATE</th>-->
-<!--                            <th>END DATE</th>-->
-<!--                            <th>MEMBER</th>-->
-<!--                        </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody  id="model-history-data-body" class="flex justify-content-space-between">-->
+            <form method="post" id="modal-view-form" th:object="${imageToAlter}">
+                <div class="flex flex-vertical stretch-align-items" id="model-modal-content">
+                    <div><button class="modal-close-button">&times;</button></div>
+                    <div id="house-model-info" class="flex grow flex-wrap-wrap justify-content-space-between">
+                        <div class="data-container-view-modal">Id:
+                            <span class="model-view-info model-id" id="model-id-modal-span"></span>
+                            <input type="text" class="model-input-info hidden" id="model-id-modal-input" th:field="*{imageId}"/>
+                        </div>
+                        <div class="data-container-view-modal">Name:
+                            <span class="model-view-info model-name" id="model-name-modal-span"></span>
+                            <input type="text" class="model-input-info hidden" id="model-name-modal-input" th:field="*{imageUploadName}"/>
+                        </div>
+                        <div class="data-container-view-modal">Type:
+                            <span class="model-view-info model-type" id="model-type-modal-span"></span>
+                            <select class="model-input-info hidden" id="model-type-modal-selector">
+                                <option th:each="imageType :${imageTypes}" th:id="${imageType.imageType}" th:text="${imageType.imageType}" th:value="${imageType.imageTypeId}"></option>
+                            </select>
+                        </div>
+                        <label for="model-image-modal">Image: </label>
+                        <img class="model-view-info  model-input-info stored-image" id="model-image-modal">
+                        <div class="data-container-view-modal">Description:
+                            <span class="model-view-info model-description" id="model-description-modal-span"></span>
+                            <textarea th:field="*{imageDescription}" class="model-input-info hidden" id="model-description-modal-textarea" max="180"></textarea>
+                        </div>
+                        <div class="data-container-view-modal">Uploaded:
+                            <span class="model-view-info model-input-info model-uploaded" id="model-uploaded-modal-span"></span>
+                        </div>
+                    </div>
+    <!--                <div class="model-view-info flex grow justify-content-center" id="model-history">-->
+    <!--                    <table class="flex flex-vertical" id="model-history-table">-->
+    <!--                        <thead  id="model-history-header" class="flex">-->
+    <!--                        <tr>-->
+    <!--                            <th>LEASE ID</th>-->
+    <!--                            <th>START DATE</th>-->
+    <!--                            <th>END DATE</th>-->
+    <!--                            <th>MEMBER</th>-->
+    <!--                        </tr>-->
+    <!--                        </thead>-->
+    <!--                        <tbody  id="model-history-data-body" class="flex justify-content-space-between">-->
 
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
-                <div class="flex justify-content-center" id="update-delete-button-holder">
-                    <button class="model-toggling" id="modal-update-button" text="update">UPDATE</button>
-                    <button class="model-toggling" id="modal-delete-button" text="delete">DELETE</button>
+    <!--                        </tbody>-->
+    <!--                    </table>-->
+    <!--                </div>-->
+                    <div class="flex justify-content-center" id="update-delete-button-holder">
+                        <button class="model-toggling" id="modal-update-button" text="update">UPDATE</button>
+                        <button class="model-toggling" id="modal-delete-button" text="delete">DELETE</button>
+                        <span class="hidden continue-delete" id="continue-delete-prompt">ARE YOU SURE YOU'D LIKE TO DELETE?</span>
+                        <button type="submit" class="model-toggling continue-delete hidden" id="continue-delete-yes">YES</button>
+                        <button class="model-toggling continue-delete hidden" id="continue-delete-no">NO</button>
+                        <span class="hidden continue-update" id="continue-update-prompt">PLEASE CONFIRM THE UPDATES...</span>
+                        <button type="submit" class="model-toggling continue-update hidden" id="continue-update-confirm">CONFIRM</button>
+                        <button class="model-toggling continue-update hidden" id="continue-update-cancel">CANCEL</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
 
 

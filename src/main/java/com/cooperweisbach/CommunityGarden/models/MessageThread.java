@@ -1,5 +1,6 @@
 package com.cooperweisbach.CommunityGarden.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,9 @@ public class MessageThread {
     @Column(name="message_thread_creation")
     Date messageThreadCreation = new Timestamp(new Date().getTime());
 
+//    UserRoles writeAccess;
+    @Column(name="thread_description")
+    String threadDescription;
 
 
     ///////////////////MAPPINGS///////////////////////////
@@ -43,5 +47,10 @@ public class MessageThread {
     //Uni-Directional(Owner)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name ="thread_status")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     MessageThreadStatus messageThreadStatus;
+
+
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinColumn(name="")
 }

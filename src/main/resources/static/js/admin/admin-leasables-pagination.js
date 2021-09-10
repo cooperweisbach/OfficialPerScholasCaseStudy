@@ -125,6 +125,9 @@ function showDataLeasables(pageNum, data){
                     break;
                 }
                 case 'leasableStatus':{
+                    console.log("leasable status");
+                    console.log(result[attribute]);
+                    console.log(result[attribute].leasableStatus);
                     text = document.createTextNode(result[attribute].leasableStatus);
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(text);
@@ -151,12 +154,18 @@ function showDataLeasables(pageNum, data){
 
 //Modal views
 //Specific internal modal ids
-let modelIdView = document.querySelector("#model-id-modal");
-let modelCodeView = document.querySelector("#model-code-modal");
-let modelTypeView = document.querySelector("#model-type-modal");
-let modelSizeView = document.querySelector("#model-size-modal");
-let modelRentView = document.querySelector("#model-rent-modal");
-let modelStatusView = document.querySelector("#model-status-modal");
+let modelIdViewSpan = document.querySelector("#model-id-modal-span");
+let modelIdViewInput = document.querySelector("#model-id-modal-input");
+let modelCodeViewSpan = document.querySelector("#model-code-modal-span");
+let modelCodeViewInput = document.querySelector("#model-code-modal-input");
+let modelTypeViewSpan = document.querySelector("#model-type-modal-span");
+let modelTypeViewInput = document.querySelector("#model-type-modal-input");
+let modelSizeViewSpan = document.querySelector("#model-size-modal-span");
+let modelSizeViewInput = document.querySelector("#model-size-modal-input");
+let modelRentViewSpan = document.querySelector("#model-rent-modal-span");
+let modelRentViewInput = document.querySelector("#model-rent-modal-input");
+let modelStatusViewSpan = document.querySelector("#model-status-modal-span");
+let modelStatusViewInput = document.querySelector("#model-status-modal-input");
 
 function viewLeasableModal(event){
     event.preventDefault();
@@ -169,13 +178,21 @@ function viewLeasableModal(event){
     let leasableId;
     for (let element of rowSelected.children) {
         switch(element.classList[0]) {
-            case "model-id-table": modelIdView.innerHTML = "Id: " + element.innerHTML;
+            case "model-id-table": modelIdViewSpan.innerHTML = element.innerHTML;
+                modelIdViewInput.setAttribute('value', element.innerHTML);
                 leasableId = element.innerHTML; break;
-            case "model-code-table": modelCodeView.innerHTML = "Leasable Code: " + element.innerHTML; break;
-            case "model-type-table": modelTypeView.innerHTML = "Type: " + element.innerHTML; break;
-            case "model-size-table": modelSizeView.innerHTML = "Leasable Size: " + element.innerHTML; break;
-            case "model-rent-table": modelRentView.innerHTML = "Leasable Yearly Rent: " + element.innerHTML; break;
-            case "model-status-table": modelStatusView.innerHTML = "Status: " + element.innerHTML; break;
+            case "model-code-table": modelCodeViewSpan.innerHTML = element.innerHTML;
+                modelCodeViewInput.setAttribute('value', element.innerHTML); break;
+            case "model-type-table": modelTypeViewSpan.innerHTML = element.innerHTML;
+                let type = document.querySelector('#'+element.innerHTML);
+                type.setAttribute('selected', 'selected'); break;
+            case "model-size-table": modelSizeViewSpan.innerHTML = element.innerHTML;
+                modelSizeViewInput.setAttribute('value', element.innerHTML); break;
+            case "model-rent-table": modelRentViewSpan.innerHTML = element.innerHTML;
+                modelRentViewInput.setAttribute('value', element.innerHTML); break;
+            case "model-status-table": modelStatusViewSpan.innerHTML = element.innerHTML;
+                let status = document.querySelector('#'+element.innerHTML);
+                status.setAttribute('selected', 'selected'); break;
             default: break;
         }
     }
@@ -186,17 +203,6 @@ function viewLeasableModal(event){
         .then(response => response.json())
         .then(data =>
             showHistoryLeases(data));
-}
-
-
-function updateModal(event){
-    event.preventDefault();
-
-}
-
-function deleteModal(event){
-    event.preventDefault();
-
 }
 
 
@@ -267,3 +273,72 @@ function showHistoryLeases(data) {
 //     }
 //
 // }
+
+
+function viewDeleteModal(event){
+    event.preventDefault();
+    updateButton.classList.add("hidden");
+    deleteButton.classList.add("hidden");
+    continueDeletePrompt = document.querySelector("#continue-delete-prompt");
+    continueDeleteConfirm = document.querySelector("#continue-delete-yes");
+    continueDeleteCancel = document.querySelector("#continue-delete-no");
+    continueDeleteConfirm.addEventListener("click", (event) =>continueDeleteModal(event));
+    continueDeleteCancel.addEventListener("click", (event) =>continueDeleteModal(event));
+    continueDeletePrompt.classList.remove("hidden");
+    continueDeleteConfirm.classList.remove("hidden");
+    continueDeleteCancel.classList.remove("hidden");
+    modalViewForm.setAttribute('action', '/admin/leasables/delete-approved');
+    return false;
+}
+
+function continueDeleteModal(event){
+    let target = event.target.getAttribute("id");
+    if(target == "continue-delete-no"){
+        event.preventDefault();
+        updateButton.classList.remove("hidden");
+        deleteButton.classList.remove("hidden");
+        continueDeletePrompt.classList.add("hidden");
+        continueDeleteConfirm.classList.add("hidden");
+        continueDeleteCancel.classList.add("hidden");
+        modalViewForm.removeAttribute('action');
+        return false;
+    }
+}
+
+
+function viewUpdateModal(event){
+    event.preventDefault();
+    updateButton.classList.add("hidden");
+    deleteButton.classList.add("hidden");
+    continueUpdatePrompt = document.querySelector("#continue-update-prompt");
+    continueUpdateConfirm = document.querySelector("#continue-update-confirm");
+    continueUpdateCancel = document.querySelector("#continue-update-cancel");
+    continueUpdateConfirm.addEventListener("click", (event)=> continueUpdateModal(event));
+    continueUpdateCancel.addEventListener("click", (event)=> continueUpdateModal(event));
+    continueUpdatePrompt.classList.remove("hidden");
+    continueUpdateConfirm.classList.remove("hidden");
+    continueUpdateCancel.classList.remove("hidden");
+    modalViewForm.setAttribute('action', '/admin/leasables/update-approved');
+    modelViewInfo = document.querySelectorAll(".model-view-info");
+    modelViewInfo.forEach((row)=>{row.classList.add('hidden')});
+    modelInputInfo = document.querySelectorAll(".model-input-info");
+    modelInputInfo.forEach((row)=>{row.classList.remove('hidden')});
+
+    return false;
+}
+
+function continueUpdateModal(event){
+    let target = event.target.getAttribute("id");
+    if(target == 'continue-update-cancel'){
+        event.preventDefault();
+        updateButton.classList.remove("hidden");
+        deleteButton.classList.remove("hidden");
+        continueUpdatePrompt.classList.add("hidden");
+        continueUpdateConfirm.classList.add("hidden");
+        continueUpdateCancel.classList.add("hidden");
+        modalViewForm.removeAttribute('action');
+        modelInputInfo.forEach((row)=>{row.classList.add('hidden')});
+        modelViewInfo.forEach((row)=>{row.classList.remove('hidden')});
+        return false;
+    }
+}

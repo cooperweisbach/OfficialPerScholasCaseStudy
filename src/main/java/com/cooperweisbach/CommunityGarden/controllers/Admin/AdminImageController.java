@@ -78,6 +78,7 @@ public class AdminImageController {
         m.addAttribute("allImages", imageServices.getAllImages());
 
         m.addAttribute("imageToUpload", new Image());
+        m.addAttribute("imageToAlter", new Image());
         m.addAttribute("imageTypes", imageTypeServices.getAllImageTypes());
         return "admin/images/images";
     }
@@ -93,6 +94,7 @@ public class AdminImageController {
         m.addAttribute("allImages", imageServices.getAllImages());
 
         m.addAttribute("imageToUpload", new Image());
+        m.addAttribute("imageToAlter", new Image());
         m.addAttribute("imageTypes", imageTypeServices.getAllImageTypes());
         return "admin/images/images";
     }
@@ -150,14 +152,14 @@ public class AdminImageController {
         return "/admin/images/image-delete";
     }
     @PostMapping("/admin/images/delete-approved")
-    public ModelAndView redirectSuccesfulPhotoDeletion(HttpServletRequest request, @ModelAttribute("imageToDelete") Image imageToDelete) {
-        imageToDelete = imageServices.getImageById(imageToDelete.getImageId());
-        String fileName = imageToDelete.getImageUploadName();
+    public ModelAndView redirectSuccesfulPhotoDeletion(HttpServletRequest request, @ModelAttribute("imageToAlter") Image imageToAlter) {
+        imageToAlter = imageServices.getImageById(imageToAlter.getImageId());
+        String fileName = imageToAlter.getImageUploadName();
         Path deleteLocation = Paths.get(uploadDir + File.separator + fileName);
 
         try {
             Files.delete(deleteLocation);
-            imageServices.deleteById(imageToDelete.getImageId());
+            imageServices.deleteById(imageToAlter.getImageId());
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -174,10 +176,10 @@ public class AdminImageController {
     }
 
     @PostMapping("/admin/images/update-approved")
-    public ModelAndView updateImageById(HttpServletRequest request, @ModelAttribute("imageToUpdate") Image imageToUpdate){
-        Image databaseImage = imageServices.getImageById(imageToUpdate.getImageId());
-        databaseImage.setImageDescription(imageToUpdate.getImageDescription());
-        databaseImage.setImageType(imageToUpdate.getImageType());
+    public ModelAndView updateImageById(HttpServletRequest request, @ModelAttribute("imageToAlter") Image imageToAlter){
+        Image databaseImage = imageServices.getImageById(imageToAlter.getImageId());
+        databaseImage.setImageDescription(imageToAlter.getImageDescription());
+        databaseImage.setImageType(imageToAlter.getImageType());
         imageServices.save(databaseImage);
         return new ModelAndView("redirect:/admin/images");
     }

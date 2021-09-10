@@ -98,8 +98,8 @@ public class AppRunner implements CommandLineRunner {
         memberStatusRepo.save(new MemberStatus("active"));
         memberStatusRepo.save(new MemberStatus("inactive"));
         messageThreadStatusRepo.save(new MessageThreadStatus("open"));
+        messageThreadStatusRepo.save(new MessageThreadStatus("archived"));
         messageThreadStatusRepo.save(new MessageThreadStatus("closed"));
-        messageThreadStatusRepo.save(new MessageThreadStatus("hidden"));
         paymentTypeRepo.save(new PaymentType("newMemberPayment"));
         paymentTypeRepo.save(new PaymentType("leasePayment"));
         paymentTypeRepo.save(new PaymentType("donation"));
@@ -200,6 +200,31 @@ public class AppRunner implements CommandLineRunner {
         newthread.setMessageThreadName("Welcome");
         newthread.setMessageThreadStatus(messageThreadStatusRepo.getById(1));
         messageThreadRepo.save(newthread);
+        newthread.setThreadDescription("Community garden member's code of conduct and roadmap!! If you're new, start here...");
+
+        MessageThread newthread2 = new MessageThread();
+        newthread2.setMessageThreadName("General Announcements");
+        newthread2.setMessageThreadStatus(messageThreadStatusRepo.getById(1));
+        messageThreadRepo.save(newthread2);
+        newthread.setThreadDescription("Come here to stay up to date about new activities, policies, and everything else!");
+
+        MessageThread newthread3 = new MessageThread();
+        newthread3.setMessageThreadName("Charity");
+        newthread3.setMessageThreadStatus(messageThreadStatusRepo.getById(1));
+        messageThreadRepo.save(newthread3);
+//        newthread.setThreadDescription("Come here to stay up to date about new activities, policies, and everything else!");
+
+        MessageThread newthread4 = new MessageThread();
+        newthread4.setMessageThreadName("Classes");
+        newthread4.setMessageThreadStatus(messageThreadStatusRepo.getById(1));
+        messageThreadRepo.save(newthread4);
+
+        MessageThread newthread5 = new MessageThread();
+        newthread5.setMessageThreadName("Farmer's Market");
+        newthread5.setMessageThreadStatus(messageThreadStatusRepo.getById(1));
+        messageThreadRepo.save(newthread5);
+
+
 
         //Adding leasables
         Leasable leasable;

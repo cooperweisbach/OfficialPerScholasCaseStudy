@@ -21,8 +21,9 @@ public class MessageDTO {
     public enum MessageType{
         CHAT, LEAVE, JOIN
     }
+    Integer messageId;
 
-    String messageContent;
+    String content;
 
     MessageType type;
 

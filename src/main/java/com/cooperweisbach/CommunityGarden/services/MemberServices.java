@@ -6,6 +6,7 @@ import com.cooperweisbach.CommunityGarden.exceptions.UserAlreadyExistsException;
 import com.cooperweisbach.CommunityGarden.models.Member;
 import com.cooperweisbach.CommunityGarden.models.UserRoles;
 import com.cooperweisbach.CommunityGarden.security.MemberDTO;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,7 @@ import java.util.List;
 @Service
 @Slf4j
 @Transactional
+@NoArgsConstructor
 public class MemberServices {
 
     private iMemberRepo memberRepo;

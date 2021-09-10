@@ -77,6 +77,7 @@ public class AdminLeasableController {
         m.addAttribute("savedConfigurations", configurationServices.getAllConfigurations());
         m.addAttribute("leaseHistory", leaseServices.getAllLeases());
 
+        m.addAttribute("leasableToAlter", new Leasable());
         m.addAttribute("leasableToCreate", new Leasable());
         m.addAttribute("leasableStatuses", leasableStatusServices.getEveryLeasableStatus());
         m.addAttribute("leasableTypes", leasableTypeServices.getEveryLeasableType());
@@ -95,6 +96,7 @@ public class AdminLeasableController {
         m.addAttribute("savedConfigurations", configurationServices.getAllConfigurations());
         m.addAttribute("leaseHistory", leaseServices.getAllLeases());
 
+        m.addAttribute("leasableToAlter", new Leasable());
         m.addAttribute("leasableToCreate", new Leasable());
         m.addAttribute("leasableStatuses", leasableStatusServices.getEveryLeasableStatus());
         m.addAttribute("leasableTypes", leasableTypeServices.getEveryLeasableType());

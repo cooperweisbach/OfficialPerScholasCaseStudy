@@ -107,6 +107,7 @@ function showDataImages(pageNum, data){
                     imgSRC = result[attribute];
                     image = document.createElement('img');
                     image.setAttribute('src', imgSRC);
+                    image.setAttribute('id', 'image-'+result['imageId']);
                     image.classList.add("stored-image");
                     dataPoint = document.createElement('td');
                     dataPoint.appendChild(image);
@@ -131,9 +132,11 @@ function showDataImages(pageNum, data){
                     break;
                 }
                 case 'imageType':{
-                    text = document.createTextNode(result[attribute].imageType);
                     dataPoint = document.createElement('td');
-                    dataPoint.appendChild(text);
+                    for(let element of result[attribute]){
+                        text = document.createTextNode(element.imageType);
+                        dataPoint.appendChild(text);
+                    }
                     newRow.appendChild(dataPoint);
                     dataPoint.setAttribute('class', 'model-type-table');
                     break;
@@ -149,12 +152,16 @@ function showDataImages(pageNum, data){
 
 //Modal views
 //Specific internal modal ids
-let modelIdView = document.querySelector("#model-id-modal");
-let modelUploadedView = document.querySelector("#model-uploaded-modal");
-let modelTypeView = document.querySelector("#model-type-modal");
+let modelIdViewSpan = document.querySelector("#model-id-modal-span");
+let modelIdViewInput = document.querySelector("#model-id-modal-input");
+let modelUploadedViewSpan = document.querySelector("#model-uploaded-modal-span");
+let modelTypeViewSpan = document.querySelector("#model-type-modal-span");
+let modelTypeViewSelector = document.querySelector("#model-type-modal-selector");
 let modelImageView = document.querySelector("#model-image-modal");
-let modelDescriptionView = document.querySelector("#model-description-modal");
-let modelNameView = document.querySelector("#model-name-modal");
+let modelDescriptionViewSpan = document.querySelector("#model-description-modal-span");
+let modelDescriptionViewTextArea = document.querySelector("#model-description-modal-textarea");
+let modelNameViewSpan = document.querySelector("#model-name-modal-span");
+let modelNameViewInput = document.querySelector("#model-name-modal-input");
 
 function viewLeasableModal(event){
     event.preventDefault();
@@ -167,13 +174,23 @@ function viewLeasableModal(event){
     let imageId;
     for (let element of rowSelected.children) {
         switch(element.classList[0]) {
-            case "model-id-table": modelIdView.innerHTML = "Id: " + element.innerHTML;
-                imageId = element.innerHTML; break;
-            case "model-image-table": modelImageView.setAttribute('src', element.getAttribute('src')); break;
-            case "model-type-table": modelTypeView.innerHTML = "Type: " + element.innerHTML; break;
-            case "model-description-table": modelDescriptionView.innerHTML = "Image Description: " + element.innerHTML; break;
-            case "model-uploaded-table": modelUploadedView.innerHTML = "Upload Date: " + element.innerHTML; break;
-            case "model-name-table": modelNameView.innerHTML = "Image Name: " + element.innerHTML; break;
+            case "model-id-table": modelIdViewSpan.innerHTML = element.innerHTML;
+                modelIdViewInput.setAttribute('value', element.innerHTML);
+                modelId = document.querySelector("#model-id-modal-span").innerHTML;
+                imageId = element.innerHTML;
+                let image = document.querySelector("#image-"+modelId);
+                modelImageView.setAttribute('src', image.getAttribute('src'));
+                break;
+            case "model-type-table": modelTypeViewSpan.innerHTML = element.innerHTML;
+                let type = document.querySelector("#"+element.innerHTML);
+                type.setAttribute('selected', 'selected');
+                break;
+            case "model-description-table": modelDescriptionViewSpan.innerHTML = element.innerHTML;
+                modelDescriptionViewTextArea.setAttribute('value', element.innerHTML);
+                break;
+            case "model-uploaded-table": modelUploadedViewSpan.innerHTML = element.innerHTML; break;
+            case "model-name-table": modelNameViewSpan.innerHTML = element.innerHTML;
+                modelNameViewInput.setAttribute('value', element.innerHTML); break;
             default: break;
         }
     }
@@ -184,17 +201,6 @@ function viewLeasableModal(event){
     //     .then(response => response.json())
     //     .then(data =>
     //         showHistoryLeases(data));
-}
-
-
-function updateModal(event){
-    event.preventDefault();
-
-}
-
-function deleteModal(event){
-    event.preventDefault();
-
 }
 
 
@@ -235,3 +241,71 @@ function deleteModal(event){
 //         modelHistoryDataBody.appendChild(newRow);
 //     }
 // }
+
+function viewDeleteModal(event){
+    event.preventDefault();
+    updateButton.classList.add("hidden");
+    deleteButton.classList.add("hidden");
+    continueDeletePrompt = document.querySelector("#continue-delete-prompt");
+    continueDeleteConfirm = document.querySelector("#continue-delete-yes");
+    continueDeleteCancel = document.querySelector("#continue-delete-no");
+    continueDeleteConfirm.addEventListener("click", (event) =>continueDeleteModal(event));
+    continueDeleteCancel.addEventListener("click", (event) =>continueDeleteModal(event));
+    continueDeletePrompt.classList.remove("hidden");
+    continueDeleteConfirm.classList.remove("hidden");
+    continueDeleteCancel.classList.remove("hidden");
+    modalViewForm.setAttribute('action', '/admin/images/delete-approved');
+    return false;
+}
+
+function continueDeleteModal(event){
+    let target = event.target.getAttribute("id");
+    if(target == "continue-delete-no"){
+        event.preventDefault();
+        updateButton.classList.remove("hidden");
+        deleteButton.classList.remove("hidden");
+        continueDeletePrompt.classList.add("hidden");
+        continueDeleteConfirm.classList.add("hidden");
+        continueDeleteCancel.classList.add("hidden");
+        modalViewForm.removeAttribute('action');
+        return false;
+    }
+}
+
+
+function viewUpdateModal(event){
+    event.preventDefault();
+    updateButton.classList.add("hidden");
+    deleteButton.classList.add("hidden");
+    continueUpdatePrompt = document.querySelector("#continue-update-prompt");
+    continueUpdateConfirm = document.querySelector("#continue-update-confirm");
+    continueUpdateCancel = document.querySelector("#continue-update-cancel");
+    continueUpdateConfirm.addEventListener("click", (event)=> continueUpdateModal(event));
+    continueUpdateCancel.addEventListener("click", (event)=> continueUpdateModal(event));
+    continueUpdatePrompt.classList.remove("hidden");
+    continueUpdateConfirm.classList.remove("hidden");
+    continueUpdateCancel.classList.remove("hidden");
+    modalViewForm.setAttribute('action', '/admin/images/update-approved');
+    modelViewInfo = document.querySelectorAll(".model-view-info");
+    modelViewInfo.forEach((row)=>{row.classList.add('hidden')});
+    modelInputInfo = document.querySelectorAll(".model-input-info");
+    modelInputInfo.forEach((row)=>{row.classList.remove('hidden')});
+
+    return false;
+}
+
+function continueUpdateModal(event){
+    let target = event.target.getAttribute("id");
+    if(target == 'continue-update-cancel'){
+        event.preventDefault();
+        updateButton.classList.remove("hidden");
+        deleteButton.classList.remove("hidden");
+        continueUpdatePrompt.classList.add("hidden");
+        continueUpdateConfirm.classList.add("hidden");
+        continueUpdateCancel.classList.add("hidden");
+        modalViewForm.removeAttribute('action');
+        modelInputInfo.forEach((row)=>{row.classList.add('hidden')});
+        modelViewInfo.forEach((row)=>{row.classList.remove('hidden')});
+        return false;
+    }
+}

@@ -15,7 +15,7 @@
     <title>Message-Threads</title>
 </head>
 <body>
-<div th:fragment="message-threads-data(allModelInstances)">
+<div th:fragment="message-threads-data(allModelInstances, messageThreadStatuses, messageThreadToAlter)">
     <div class="flex flex-vertical align-items-center" >
         <div  class="flex justify-content-center">
             <div class="flex justify-content-center" id="returned-models-data-container">
@@ -38,34 +38,55 @@
 
 
         <div id="model-modal-container">
-            <div class="flex flex-vertical stretch-align-items" id="model-modal-content">
-                <div><button class="modal-close-button">&times;</button></div>
-                <div id="house-model-info" class="flex justify-content-center grow">
-                    <div class="model-view-info model-id" id="model-id-modal"></div>
-                    <div class="model-view-info model-name" id="model-name-modal"></div>
-                    <div class="model-view-info model-created" id="model-created-modal"></div>
-                    <div class="model-view-info model-status" id="model-status-modal"></div>
-                </div>
-<!--                <div class="model-view-info flex grow justify-content-center" id="model-history">-->
-<!--                    <table class="flex flex-vertical" id="model-history-table">-->
-<!--                        <thead  id="model-history-header" class="flex">-->
-<!--                        <tr>-->
-<!--                            <th>LEASE ID</th>-->
-<!--                            <th>START DATE</th>-->
-<!--                            <th>END DATE</th>-->
-<!--                            <th>LEASABLE</th>-->
-<!--                        </tr>-->
-<!--                        </thead>-->
-<!--                        <tbody  id="model-history-data-body" class="flex justify-content-space-between">-->
+            <form id="modal-view-form" method="post" th:object="${messageThreadToAlter}">
+                <div class="flex flex-vertical stretch-align-items" id="model-modal-content">
+                    <div><button class="modal-close-button">&times;</button></div>
+                    <div id="house-model-info" class="flex grow flex-wrap-wrap justify-content-space-between">
+                        <div class="data-container-view-modal">Id:
+                            <span class="model-view-info model-id" id="model-id-modal-span"></span>
+                            <input class="model-input-info  hidden" id="model-id-modal-input" th:field="*{messageThreadId}"/>
+                        </div>
+                        <div class="data-container-view-modal">Name:
+                            <span class="model-view-info model-name" id="model-name-modal-span"></span>
+                            <input class="model-input-info  hidden" id="model-name-modal-input" th:field="*{messageThreadName}"/>
+                        </div>
+                        <div class="data-container-view-modal">Created:
+                            <span class="model-view-info model-input-info model-created" id="model-created-modal-span"></span>
+                        </div>
+                        <div class="data-container-view-modal">Status:
+                            <span class="model-view-info model-status" id="model-status-modal-span"></span>
+                            <select class="model-input-info hidden" id="model-status-modal-selector" th:field="*{messageThreadStatus}">
+                                <option th:each="status :${messageThreadStatuses}" th:value="${status.messageThreadStatusId}" th:text="${status.messageThreadStatus}" th:id="${status.messageThreadStatus}"></option>
+                            </select>
+                        </div>
+                    </div>
+    <!--                <div class="model-view-info flex grow justify-content-center" id="model-history">-->
+    <!--                    <table class="flex flex-vertical" id="model-history-table">-->
+    <!--                        <thead  id="model-history-header" class="flex">-->
+    <!--                        <tr>-->
+    <!--                            <th>LEASE ID</th>-->
+    <!--                            <th>START DATE</th>-->
+    <!--                            <th>END DATE</th>-->
+    <!--                            <th>LEASABLE</th>-->
+    <!--                        </tr>-->
+    <!--                        </thead>-->
+    <!--                        <tbody  id="model-history-data-body" class="flex justify-content-space-between">-->
 
-<!--                        </tbody>-->
-<!--                    </table>-->
-<!--                </div>-->
-                <div class="flex justify-content-center" id="update-delete-button-holder">
-                    <button class="model-toggling" id="modal-update-button" text="update">UPDATE</button>
-                    <button class="model-toggling" id="modal-delete-button" text="delete">DELETE</button>
+    <!--                        </tbody>-->
+    <!--                    </table>-->
+    <!--                </div>-->
+                    <div class="flex justify-content-center" id="update-delete-button-holder">
+                        <button class="model-toggling" id="modal-update-button" text="update">UPDATE</button>
+                        <button class="model-toggling" id="modal-delete-button" text="delete">DELETE</button>
+                        <span class="hidden continue-delete" id="continue-delete-prompt">ARE YOU SURE YOU'D LIKE TO DELETE?</span>
+                        <button type="submit" class="model-toggling continue-delete hidden" id="continue-delete-yes">YES</button>
+                        <button class="model-toggling continue-delete hidden" id="continue-delete-no">NO</button>
+                        <span class="hidden continue-update" id="continue-update-prompt">PLEASE CONFIRM THE UPDATES...</span>
+                        <button type="submit" class="model-toggling continue-update hidden" id="continue-update-confirm">CONFIRM</button>
+                        <button class="model-toggling continue-update hidden" id="continue-update-cancel">CANCEL</button>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
 
 

@@ -67,6 +67,7 @@ public class AdminMembersController {
         m.addAttribute("memberStatuses", memberStatusServices.getEveryMemberStatus());
         m.addAttribute("userRoles", userRolesServices.getEveryUserRole());
         m.addAttribute("memberToCreate", new Member());
+        m.addAttribute("memberToAlter", new Member());
 
         return "admin/members/members";
     }
@@ -83,20 +84,26 @@ public class AdminMembersController {
         m.addAttribute("memberStatuses", memberStatusServices.getEveryMemberStatus());
         m.addAttribute("userRoles", userRolesServices.getEveryUserRole());
         m.addAttribute("memberToCreate", new Member());
+        m.addAttribute("memberToAlter", new Member());
+
         return "admin/members/members";
     }
 
     @PostMapping("/admin/users/update-approved")
-    public ModelAndView redirectToSuccessfulUpdate(HttpServletRequest request, @ModelAttribute("memberToUpdate") Member memberToUpdate){
-        log.warn("Updated member Id " + String.valueOf(memberToUpdate.getMemberId()));
-        Member databaseMember = memberServices.getMemberById(memberToUpdate.getMemberId());
-        databaseMember.setFirstName(memberToUpdate.getFirstName());
-        databaseMember.setLastName(memberToUpdate.getLastName());
-        databaseMember.setEmail(memberToUpdate.getEmail());
-        databaseMember.setUserRoles(memberToUpdate.getUserRoles());
-        databaseMember.setMemberStatus(memberToUpdate.getMemberStatus());
-        databaseMember.setPassword(memberToUpdate.getPassword());
-        databaseMember.setPhoneNumber(memberToUpdate.getPhoneNumber());
+    public ModelAndView redirectToSuccessfulUpdate(HttpServletRequest request, @ModelAttribute("memberToAlter") Member memberToAlter){
+        log.warn("Updated member Id " + String.valueOf(memberToAlter.getMemberId()));
+        Member databaseMember = memberServices.getMemberById(memberToAlter.getMemberId());
+        databaseMember.setFirstName(memberToAlter.getFirstName());
+        databaseMember.setLastName(memberToAlter.getLastName());
+        databaseMember.setEmail(memberToAlter.getEmail());
+        databaseMember.setUserRoles(memberToAlter.getUserRoles());
+        log.warn("member statuses");
+        log.warn(String.valueOf(memberToAlter.getMemberStatus()));
+        databaseMember.setMemberStatus(memberToAlter.getMemberStatus());
+        log.warn("member to alter password");
+        log.warn(memberToAlter.getPassword());
+//        databaseMember.setPassword(memberToAlter.getPassword());
+        databaseMember.setPhoneNumber(memberToAlter.getPhoneNumber());
         memberServices.save(databaseMember);
         request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.FOUND);
         return new ModelAndView("redirect:/admin/users");
@@ -145,9 +152,9 @@ public class AdminMembersController {
 
 
     @PostMapping("/admin/users/delete-approved")
-    public ModelAndView redirectToSuccessfulDelete(HttpServletRequest request, @ModelAttribute("memberToDelete") Member memberToDelete){
-        log.warn("Member to delete " + memberToDelete.getMemberId());
-        memberServices.deleteMemberById(memberToDelete.getMemberId());
+    public ModelAndView redirectToSuccessfulDelete(HttpServletRequest request, @ModelAttribute("memberToAlter") Member memberToAlter){
+        log.warn("Member to delete " + memberToAlter.getMemberId());
+        memberServices.deleteMemberById(memberToAlter.getMemberId());
         request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.FOUND);
         return new ModelAndView("redirect:/admin/users");
     }

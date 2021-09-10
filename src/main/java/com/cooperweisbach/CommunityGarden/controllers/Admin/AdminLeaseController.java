@@ -90,7 +90,7 @@ public class AdminLeaseController {
             m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
         }
         m.addAttribute("allLeases", leaseServices.getAllLeases());
-
+        m.addAttribute("leaseToAlter", new Lease());
         m.addAttribute("leaseToCreate", new Lease());
         m.addAttribute("leaseStatuses", leaseStatusServices.getEveryLeaseStatus());
         m.addAttribute("allMembers",memberServices.getAllMembers());
@@ -107,6 +107,7 @@ public class AdminLeaseController {
             m.addAttribute("currentUser", memberServices.getMemberByEmail(principal.getName()));
         }
         m.addAttribute("allLeases", leaseServices.getAllLeases());
+        m.addAttribute("leaseToAlter", new Lease());
         m.addAttribute("leaseToCreate", new Lease());
         m.addAttribute("leaseStatuses", leaseStatusServices.getEveryLeaseStatus());
         m.addAttribute("allMembers",memberServices.getAllMembers());
@@ -137,21 +138,21 @@ public class AdminLeaseController {
 
 
     @PostMapping("/admin/leases/update-approved")
-    public ModelAndView redirectToSuccessfulUpdate(HttpServletRequest request, @ModelAttribute("leaseToUpdate") Lease leaseToUpdate){
-        log.warn("Updated lease Id " + String.valueOf(leaseToUpdate.getLeaseId()));
-        log.warn("updated Leas leasable code " + leaseToUpdate.getLeasable().getLeasableCode());
-        Lease databaseLease = leaseServices.getLeaseById(leaseToUpdate.getLeaseId());
+    public ModelAndView redirectToSuccessfulUpdate(HttpServletRequest request, @ModelAttribute("leaseToAlter") Lease leaseToAlter){
+        log.warn("Updated lease Id " + String.valueOf(leaseToAlter.getLeaseId()));
+        log.warn("updated Leas leasable code " + leaseToAlter.getLeasable().getLeasableCode());
+        Lease databaseLease = leaseServices.getLeaseById(leaseToAlter.getLeaseId());
         Leasable oldLeaseLeasable = leasableServices.getLeasableById(databaseLease.getLeasable().getLeasableId());
         oldLeaseLeasable.setLeasableStatus(openLeasableStatus());
-        Leasable newLeaseLeasable = leasableServices.getLeasableById(leaseToUpdate.getLeasable().getLeasableId());
-        if(leaseToUpdate.getLeaseStatus() == expiredLeaseStatus() || leaseToUpdate.getLeaseStatus() == terminatedEarlyLeaseStatus()){
+        Leasable newLeaseLeasable = leasableServices.getLeasableById(leaseToAlter.getLeasable().getLeasableId());
+        if(leaseToAlter.getLeaseStatus() == expiredLeaseStatus() || leaseToAlter.getLeaseStatus() == terminatedEarlyLeaseStatus()){
             newLeaseLeasable.setLeasableStatus(openLeasableStatus());
         } else{
             newLeaseLeasable.setLeasableStatus(leasedLeasableStatus());
         }
-        databaseLease.setLeaseStatus(leaseToUpdate.getLeaseStatus());
-        databaseLease.setMember(leaseToUpdate.getMember());
-        databaseLease.setLeasable(leaseToUpdate.getLeasable());
+        databaseLease.setLeaseStatus(leaseToAlter.getLeaseStatus());
+        databaseLease.setMember(leaseToAlter.getMember());
+        databaseLease.setLeasable(leaseToAlter.getLeasable());
         leaseServices.save(databaseLease);
         leasableServices.save(oldLeaseLeasable);
         leasableServices.save(newLeaseLeasable);
@@ -175,11 +176,11 @@ public class AdminLeaseController {
 
 
     @PostMapping("/admin/leases/delete-approved")
-    public ModelAndView redirectToSuccessfulDelete(HttpServletRequest request, @ModelAttribute("leaseToDelete") Lease leaseToDelete){
-        int leaseId = leaseToDelete.getLeaseId();
+    public ModelAndView redirectToSuccessfulDelete(HttpServletRequest request, @ModelAttribute("leaseToAlter") Lease leaseToAlter){
+        int leaseId = leaseToAlter.getLeaseId();
         log.warn("This should be the lease Id of the lease to delete " + leaseId);
-        leaseToDelete = leaseServices.getLeaseById(leaseId);
-        Leasable leasableForDeletedLease = leasableServices.getLeasableById(leaseToDelete.getLeasable().getLeasableId());
+        leaseToAlter = leaseServices.getLeaseById(leaseId);
+        Leasable leasableForDeletedLease = leasableServices.getLeasableById(leaseToAlter.getLeasable().getLeasableId());
        log.warn("Leasable code for soon to be deleted lease"+leasableForDeletedLease.getLeasableCode());
         if(leasableForDeletedLease.getLeasableStatus() == leasedLeasableStatus()){
             leasableForDeletedLease.setLeasableStatus(openLeasableStatus());

@@ -38,7 +38,7 @@
 
         <div layout:fragment="model-data">
             <div th:replace="fragments/admin-members-pagination :: members-data
-            (allModelInstances=${allMembers})"></div>
+            (allModelInstances=${allMembers}, memberToAlter=${memberToAlter}, userRoles=${userRoles}, memberStatuses=${memberStatuses})"></div>
         </div>
     </div>
     <div th:if="${#lists.isEmpty(allMembers)}">

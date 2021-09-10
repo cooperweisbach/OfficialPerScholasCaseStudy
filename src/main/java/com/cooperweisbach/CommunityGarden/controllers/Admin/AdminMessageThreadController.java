@@ -66,7 +66,7 @@ public class AdminMessageThreadController {
         m.addAttribute("allMessageThreads", messageThreadServices.getAllMessageThreads());
         m.addAttribute("messageThreadToCreate", new MessageThread());
         m.addAttribute("messageThreadStatuses", messageThreadStatusServices.getEveryMessageThreadStatus());
-
+        m.addAttribute("messageThreadToAlter", new MessageThread());
         return "admin/message-threads/message-threads";
     }
 
@@ -80,7 +80,7 @@ public class AdminMessageThreadController {
         m.addAttribute("allMessageThreads", messageThreadServices.getAllMessageThreads());
         m.addAttribute("messageThreadToCreate", new MessageThread());
         m.addAttribute("messageThreadStatuses", messageThreadStatusServices.getEveryMessageThreadStatus());
-
+        m.addAttribute("messageThreadToAlter", new MessageThread());
         return "admin/message-threads/message-threads";
     }
 

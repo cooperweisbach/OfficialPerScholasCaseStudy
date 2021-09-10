@@ -74,6 +74,7 @@ public class AdminPostController {
         m.addAttribute("allPosts", postServices.getAllPosts());
         Post postToCreate = new Post();
         postToCreate.setMember(currentUser);
+//        m.addAttribute("postToAlter", postToAlter);
         m.addAttribute("postToCreate", postToCreate);
         m.addAttribute("newTagsStringList", new PostTagContainer());
         m.addAttribute("postStatuses", postStatusServices.findAll());
