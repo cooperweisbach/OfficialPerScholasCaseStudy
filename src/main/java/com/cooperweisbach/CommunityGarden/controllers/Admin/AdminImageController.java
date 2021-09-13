@@ -116,11 +116,13 @@ public class AdminImageController {
     public ModelAndView redirectToSuccessfulUpload(HttpServletRequest request,
                                                    @ModelAttribute("imageToUpload") Image imageToUpload,
                                                    @RequestParam("image") MultipartFile multipartFile) throws IOException, FileStorageException {
-
-        try {    //file name clean up
+        log.warn("blah blah blah bl");
+//        log.warn(request.getUserPrincipal().getName());
+//        int id = memberServices.getMemberByEmail(request.getUserPrincipal().getName()).getMemberId();
+//        FileUploadUtil.saveFile(imageToUpload.getImageType(), multipartFile, false, id);
+        try {
+            //file name clean up
             List<String> locationsToSave = imageToUpload.getImageType().stream().map(imageType -> imageType.getImageType()).collect(Collectors.toList());
-
-
             String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
             //location of the file on the disk
             for(String location: locationsToSave){
@@ -141,6 +143,12 @@ public class AdminImageController {
         log.warn("Saved image " + imageToUpload.getImageId() + " with image name " + multipartFile.getOriginalFilename());
 //        String uploadDir = "/images/";
 //        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+
+
+
+//        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+//        imageToUpload.setImageUploadName(fileName);
+//        imageServices.save(imageToUpload);
         request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.FOUND);
         return new ModelAndView("redirect:/admin/images");
     }

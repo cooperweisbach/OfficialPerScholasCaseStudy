@@ -9,16 +9,17 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Image {
@@ -28,8 +29,6 @@ public class Image {
     @Column(name="image_id")
     int imageId;
 
-    @NonNull
-    @NotBlank
     @Column(name="image_upload_name")
     String imageUploadName;
 
@@ -39,6 +38,9 @@ public class Image {
 
     @Column(name="image_description")
     String imageDescription;
+
+    @Column(name="member_id")
+    int memberId;
 
     ///////////////////MAPPINGS///////////////////////////
 
@@ -57,6 +59,8 @@ public class Image {
     List<ImageType> imageType;
 
     public String getUploadPath(){
+        if(imageType.get(0).getImageType().toLowerCase().equals("profilepicture"))
+            return "/images/profilePicture/" + memberId + File.separator + imageUploadName;
         return "/images/" + imageType.get(0).getImageType() + "/" + imageUploadName;
     }
 

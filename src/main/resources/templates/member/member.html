@@ -10,159 +10,109 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/normalize.css">
-    <link rel="stylesheet" href="/styles/namedProperties.css">
-    <link rel="stylesheet" href="/styles/headerNav.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Signika+Negative:wght@300&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Signika Negative', sans-serif;
-        }
-    </style>
-    <title>Title</title>
+    <div th:replace="fragments/general :: base-style"></div>
+    <div th:replace="fragments/general :: base-script"></div>
+    <div th:replace="fragments/general :: main-navigation-style"></div>
+    <link  rel="stylesheet" th:href="@{/styles/account-info.css}">
+    <title>Account Info</title>
 </head>
 <body>
-<div class="top-level-header-container flex">
-    <div class ="sub-level-header-container flex only-flex-item beauty-margin">
-        <nav class = "header-navigation flex only-flex-item">
-            <div class= "navigation-link-container flex only-flex-item flex-space-between">
-                <div class= "container-of-spans span-logo-container flex flex-item">
-                    <span class="span-logo-holder"><a class="logo-link" th:href="@{/}">SCOTTSDALE<br />COMMUNITY<br />GARDEN</a></span>
-                </div>
-                <div class= "container-of-spans span-links-container flex flex-item">
-                        <span class="span-header-link-container"><a href="">JOIN US!</a>
-                        </span>
-                    <span class="span-header-link-container"><a href="">ABOUT</a>
-                        </span>
+<div th:replace="fragments/general :: main-navigation(currentUser=${currentUser})"></div>
 
-                    <div class="flex drop-down-holder" id="resources-drop-down-holder">
-                                <span class="span-header-link-container span-hover-dropdown">RESOURCES
-                                    <svg class="pad-svg" width="22" height="11">
-                                        <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
-                                    </svg>
-                                </span>
-                        <div class="flex flex-vertical drop-down-menu" id="resources-drop-down-menu">
-                            <div class="link-div-container flex">
-                                <img id="pencil-icon" class="icon" src="images/icon-blog.png" alt="pencil icon"><a href="">BLOG</a>
-                            </div>
-                            <div class="link-div-container flex">
-                                <img id="sun-icon" class="icon" src="images/icon-weather.png" alt="sun icon"><a href="">WEATHER, CLIMATE, ENERGY</a>
-                            </div>
-                            <div class="link-div-container flex">
-                                <img id="brain-icon" class="icon" src="images/icon-class.png" alt=""><a href="">CLASSES</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex drop-down-holder" id="events-drop-down-holder">
-                                <span class="span-header-link-container span-hover-dropdown">EVENTS
-                                    <svg class="pad-svg" width="22" height="11">
-                                        <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
-                                    </svg>
-                                </span>
-                        <div class="flex flex-vertical drop-down-menu" id="events-drop-down-menu">
-                            <div class="link-div-container flex">
-                                <img class="icon" src="images/icon-charity.png" alt="pencil icon"><a href="">CHARITY</a>
-                            </div>
-                            <div class="link-div-container flex">
-                                <img  class="icon" src="images/icon-market.png" alt="sun icon"><a href="">FARMER'S MARKET</a>
-                            </div>
-                            <div class="link-div-container flex">
-                                <img  class="icon" src="images/icon-calendar.png" alt=""><a href="">CALENDAR</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <span class="span-header-link-container"><a href="@{/contact-us}">CONTACT US</a>
-                        </span>
-                </div>
-                <div sec:authorize="isAnonymous()" class= "container-of-spans span-signin-container flex flex-item">
-                    <span class="span-header-sign-in-container"><a th:href="@{/login}">SIGN-IN</a></span>
-                </div>
-                <div sec:authorize="isAuthenticated()" class="container-of-spans span-member-links-container flex flex-item">
-                                <span th:text="${currentUser.getFullName().toUpperCase()}" class="span-header-link-container span-hover-dropdown">
-                                    <svg class="pad-svg" width="22" height="11">
-                                        <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
-                                    </svg>
-                                </span>
-                    <div class="flex flex-vertical invisible" id="hover-driven-side-panel">
-                        <div class="flex flex-vertical" id="complete-side-menu-container">
-                            <div class="container-of-spans side-menu-links-container"><span><a href="/members">MESSAGE BOARD</a></span></div>
-                            <div class="container-of-spans side-menu-links-container"><span><a href="/members/leasables">LEASABLES</a></span></div>
-                            <div class="container-of-spans side-menu-links-container"><span><a href="/members/member" >ACCOUNT</a></span></div>
-                            <div class="container-of-spans side-menu-links-container"><span sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin">ADMIN</a></span></div>
-                            <div class="container-of-spans side-menu-links-container"><span sec:authorize="isAuthenticated()"><a href="/logout">LOGOUT</a></span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-item hidden-flower-button-container center-center-items pos-relative">
-                    <button class=" flex flex-item hidden-flower-button center-center-items menu-item-click">
-                        <svg viewbox= "0 0 48 48"   class="flower-button-svg center-center-items">
-                            <path id="flower-button" d="M 24 18 L 24 30 C 32 30 32 18 24 18 M 24 18 L 24 30 C 16 30 16 18 24 18 M 24 24 C 0 0 24 0 24 24 M 24 24 C 0 24 0 0 24 24 M 24 24 C 48 0 24 0 24 24 M 24 24 C 48 24 48 0 24 24 M 24 24 C 0 48 0 24 24 24 M 24 24 C 24 48 0 48 24 24 M 24 24 C 48 48 48 24 24 24 M 24 24 C 24 48 48 48 24 24" stroke="black" stroke-width="1" fill="none" />
-                        </svg>
-                    </button>
-                    <div class= "hidden-menu-container flex flex-item pos-absolute flex-vertical align-items-center">
-                        <span class="block"><a href="#">JOIN US!</a></span>
-                        <span class="block"><a href="#">ABOUT</a></span>
-                        <button id="resources-button">RESOURCES
-                            <svg class="pad-svg" width="22" height="11">
-                                <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
-                            </svg>
-                        </button>
-                        <span id="resources-links" class="hide-resource-links"><a class="block" href="#">BLOG</a><a class="block" href="#">WEATHER, CLIMATE, ENERGY</a><a class="block" href="#">CLASSES</a></span>
-                        <button id="events-button">EVENTS
-                            <svg class="pad-svg" width="22" height="11">
-                                <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
-                            </svg>
-                        </button>
-                        <span id="events-links" class="hide-event-links"><a class="block" href="#">CHARITY</a><a class="block" href="#">FARMERS MARKET</a><a class="block" href="#">CALENDAR</a></span>
-                        <span><a href="contactUs.html">CONTACT US</a></span>
-                        <span sec:authorize="isAnonymous()"><a th:href="@{/login}">SIGN IN</a></span>
-                        <span sec:authorize="isAuthenticated()"><a th:href="@{/members}">MEMBERS</a></span>
-                        <span sec:authorize="isAuthenticated()"><a th:href="@{/logout}">LOGOUT</a></span>
-                    </div>
-                </div>
-
+<div class="avoidHeaderNav flex flex-vertical" id="main-content">
+        <div id="header-and-profile-pic" class="flex justify-content-space-between">
+            <div class="grow" id="account-header-container">
+                <h1 th:text="${currentUser.getFullName().toUpperCase()} + '\'S ACCOUNT INFO'"></h1>
             </div>
-        </nav>
-    </div>
+            <div id="profile-pic-area">
+                <div class="pos-relative" id="profile-pic-container">
+                    <form method="post" action="/members/member/update-profile-pic" id="profile-pic-form" enctype="multipart/form-data">
+                        <label class="pos-absolute flex justify-content-center align-items-center" id="trigger-for-upload" for="imagePath">Upload New</label>
+                        <img id="profile-pic" th:alt="${currentUser.getFullName()} + ' profile picture'"  th:src="${currentUser.getProfilePic().getUploadPath()}" >
+                        <input class="hidden" type="file" id="imagePath" accept="image/png, image/jpeg" required name="profilePic"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="flex justify-content-space-between">
+            <span>GENERAL</span>
+            <svg class="pad-svg expand-collapse-info" id="expand-collapse-general-info" width="22" height="11">
+                <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
+            </svg>
+        </div>
+    <form id="general-info-form" method="post" action="/members/member/update-info">
+        <div class="hide-info-container">
+            <div class="flex flex-wrap-wrap justify-content-space-between" id="general-info-container">
+                <div>FIRST NAME:<p th:text="${currentUser.getFirstName().toUpperCase()}"></p>
+                    <input type="text" id="first-name-input" class="member-info-update hidden"  th:value="${currentUser.firstName}"/>
+                </div>
+                <div>LAST NAME:<p th:text="${currentUser.getLastName().toUpperCase()}"></p>
+                    <input type="text" id="last-name-input" class="member-info-update hidden"  th:value="${currentUser.lastName}"/>
+                </div>
+                <div>PHONE NUMBER:<p th:text="${currentUser.getPhoneNumber()}"></p>
+                    <input type="text" id="phone-number-input" class="member-info-update hidden"  th:value="${currentUser.phoneNumber}"/>
+                </div>
+                <div>EMAIL:<p th:text="${currentUser.getEmail().toUpperCase()}"></p>
+                    <input type="text" id="email-input" class="member-info-update hidden"  th:value="${currentUser.email}"/>
+                </div>
+                <div>MEMBER SINCE:<p th:text="${currentUser.getJoinedDate()}"></p></div>
+            </div>
+            <div>
+                <input class="member-info-update hidden" type="submit" id="submit-general-updates"/>
+            </div>
+        </div>
+    </form>
+    <form action="/members/member/update-password" method="post" id="password-info-form">
+        <div class="flex justify-content-space-between">
+            <span>PASSWORD</span>
+            <svg class="pad-svg expand-collapse-info" id="expand-collapse-password-info" width="22" height="11">
+                <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
+            </svg>
+        </div>
+        <div class="hide-info-container collapse" id="change-password-container">
+            <div id="change-password" class="flex flex-vertical password">
+                <label for="current-password">Current Password:</label>
+                <input id="current-password" type="password"/>
+                <label for="new-password">New Password:</label>
+                <input id="new-password" type="password"/>
+                <label for="confirm-new-password">Confirm New Password:</label>
+                <input id="confirm-new-password" type="password"/>
+            </div>
+            <div id="submit-password-change-container" class="password">
+                <input type="submit" id="submit-password-change"/>
+            </div>
+        </div>
+    </form>
+    <form action="/members/member/terminate-lease" method="post" id="lease-info-form">
+        <div class="flex justify-content-space-between">
+            <span>LEASES</span>
+            <svg class="pad-svg expand-collapse-info" id="expand-collapse-lease-info" width="22" height="11">
+                <path d="M 0 0 L 9 10 M 9 10 L 18 0" stroke-width="1" stroke="black"></path>
+            </svg>
+        </div>
+        <div class="hide-info-container collapse" id="lease-history-container">
+            <div id="lease-history">
+                <table id="lease-history-table">
+                </table>
+            </div>
+            <div>
+                <input type="submit" id="submit-lease-termination"/>
+            </div>
+        </div>
+    </form>
 </div>
-
-<div>
-        <form th:action="@{/members}" method="get">
-            <input type="submit" value="Message Board">
-        </form>
-        <form th:action="@{/members/leasables}" method="get">
-            <input type="submit" value="Leasables">
-        </form>
-        <form th:action="@{/members/leases}" method="get">
-            <input type="submit" value="Your Leases">
-        </form>
-        <form th:action="@{/members/payments}" method="get">
-            <input type="submit" value="Your Payments">
-        </form>
-        <form th:action="@{/members/history}" method="get">
-            <input type="submit" value="Your Message History">
-        </form>
-        <form th:action="@{/members/member}" method="get">
-            <input type="submit" value="Your Account Info">
-        </form>
-        <div sec:authorize="hasRole('ROLE_ADMIN')">
-            <form th:action="@{/admin}" method="get">
-                <input type="submit" value="Admin Panel">
-            </form>
+<div class="pos-absolute flex justify-content-center align-items-center" id="modal-container">
+    <div id="modal-content">
+        <div>
+            <span>Please confirm changes...</span>
+        </div>
+        <div class="flex justify-content-center">
+            <button id="confirm-updates">Confirm</button>
+            <button id="cancel-updates">Cancel</button>
         </div>
     </div>
-
-    <h1 th:text="${currentUser.getFullName()} + '\'s Account Info'"></h1>
-    <div>First Name:<p th:text="${currentUser.getFirstName()}"></p> </div>
-    <div>Last Name:<p th:text="${currentUser.getLastName()}"></p> </div>
-    <div>Phone Number:<p th:text="${currentUser.getPhoneNumber()}"></p> </div>
-    <div>Email:<p th:text="${currentUser.getEmail()}"></p> </div>
-    <div>Member Since:<p th:text="${currentUser.getJoinedDate()}"></p> </div>
-
+</div>
 <div th:replace="fragments/general :: main-navigation-script"></div>
+<script th:src="@{/js/member/account-info.js}"></script>
 </body>
 </html>

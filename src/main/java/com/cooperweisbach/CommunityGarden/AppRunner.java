@@ -115,6 +115,7 @@ public class AppRunner implements CommandLineRunner {
         imageTypeRepo.save(new ImageType("postImage"));
         imageTypeRepo.save(new ImageType("slideShowHP"));
         imageTypeRepo.save(new ImageType("gallery"));
+        imageTypeRepo.save(new ImageType("temporary"));
         postTagRepo.save(new PostTag("gardening"));
         postTagRepo.save(new PostTag("beekeeping"));
         postTagRepo.save(new PostTag("greenhouse"));
@@ -122,12 +123,14 @@ public class AppRunner implements CommandLineRunner {
 
 
         //Adding default profile pic
-        Image defaultProf = new Image("default.png");
+        Image defaultProf = new Image();
+        defaultProf.setImageUploadName("default.png");
         imageRepo.save(defaultProf);
         List<ImageType> imageTypes = new ArrayList<>();
         imageTypes.add(imageTypeRepo.getById(1));
         defaultProf.setImageType(imageTypes);
-        Image defaultProf2 = new Image("gitHubProfile.jpg");
+        Image defaultProf2 = new Image();
+        defaultProf2.setImageUploadName("gitHubProfile.jpg");
         imageRepo.save(defaultProf2);
         List<ImageType> imageTypes2 = new ArrayList<>();
         imageTypes2.add(imageTypeRepo.getById(1));
@@ -206,7 +209,7 @@ public class AppRunner implements CommandLineRunner {
         newthread2.setMessageThreadName("General Announcements");
         newthread2.setMessageThreadStatus(messageThreadStatusRepo.getById(1));
         messageThreadRepo.save(newthread2);
-        newthread.setThreadDescription("Come here to stay up to date about new activities, policies, and everything else!");
+        newthread2.setThreadDescription("Come here to stay up to date about new activities, policies, and everything else!");
 
         MessageThread newthread3 = new MessageThread();
         newthread3.setMessageThreadName("Charity");

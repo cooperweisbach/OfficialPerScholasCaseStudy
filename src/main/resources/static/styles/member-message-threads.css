@@ -81,5 +81,5 @@ body{
 
 #message-thread-container{
     overflow-x: hidden;
-    /*height: 70vh;*/
+    height: 75vh;
 }

@@ -1,6 +1,7 @@
 package com.cooperweisbach.CommunityGarden.services;
 
 import com.cooperweisbach.CommunityGarden.daos.iImageTypeRepo;
+import com.cooperweisbach.CommunityGarden.models.Image;
 import com.cooperweisbach.CommunityGarden.models.ImageType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,9 @@ public class ImageTypeServices {
 
     public List<ImageType> getAllImageTypes(){
         return imageTypeRepo.findAll();
+    }
+
+    public ImageType getByImageType(String imageType){
+        return imageTypeRepo.getImageTypeByImageType(imageType);
     }
 }

@@ -254,7 +254,7 @@
         <h1>UPLOAD NEW IMAGE</h1>
         <form th:action="@{/admin/images/upload-approved}" method="post" id="uploadImageForm" th:object="${imageToUpload}" enctype="multipart/form-data">
             <label for="imagePath">Photo:</label>
-            <input type="file" id="imagePath" accept="image/png, image/jpeg" required name="image"/>
+            <input type="file" id="imagePath" accept="image/png, image/jpeg" required name="image" />
             <label for="imageDescription">Description:</label>
             <textarea id="imageDescription" th:field="*{imageDescription}" name="imageDescription"/>
             <table>

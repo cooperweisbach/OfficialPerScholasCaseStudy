@@ -14,12 +14,12 @@
  <div th:replace="fragments/general :: base-style"></div>
  <div th:replace="fragments/general :: base-script"></div>
  <div th:replace="fragments/general :: main-navigation-style"></div>
-    <link th:fragment="member-messaging-styles" rel="stylesheet" th:href="@{/styles/member-message-threads.css}">
+    <link rel="stylesheet" th:href="@{/styles/member-message-threads.css}">
   <title>Message Board</title>
 </head>
 <body>
 <div th:replace="fragments/general :: main-navigation (currentUser=${currentUser})"></div>
-<div id="main-content" class="flex avoidHeaderNavPadding">
+<div id="main-content" class="flex avoidHeaderNav">
     <div hidden th:id="current-user-id" th:text="${currentUser.memberId}"></div>
     <div id="search-and-nav-messaging" class="flex flex-vertical align-items-center">
         <div class="message-thread-controls" id="search-threads-container" >

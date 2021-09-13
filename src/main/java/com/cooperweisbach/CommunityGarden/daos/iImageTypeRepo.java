@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface iImageTypeRepo extends JpaRepository<ImageType, Integer> {
     void deleteByImageTypeId(Integer integer);
+
+    ImageType getImageTypeByImageType(String imageType);
 }
