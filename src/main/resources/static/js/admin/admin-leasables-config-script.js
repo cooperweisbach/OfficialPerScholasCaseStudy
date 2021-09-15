@@ -1,6 +1,8 @@
 let gridState = false;
 var unitScale = 5;
 
+let snapToGrid = document.querySelector("#snap-to-grid");
+snapToGrid.addEventListener('change', (event)=> snapToGridFunction(event));
 
 let configurationModal = document.querySelector("#configuration-modal");
 
@@ -73,18 +75,20 @@ function closeConfigModal(){
     webBody[0].style.overflow = "scroll";
 }
 
-canvas.add(new fabric.Rect({
-    left: 100,
-    top: 100,
-    fill: 'red',
-    width: 20,
-    height: 20,
-    id: "Starter Block"
-}));
+// canvas.add(new fabric.Rect({
+//     left: 100,
+//     top: 100,
+//     fill: 'red',
+//     width: 20,
+//     height: 20,
+//     id: "Starter Block",
+//     dirty: true,
+//     hasControls: false
+// }));
 
 
-
-canvas.on('object:moving', (e) => handleBorders(e));
+// canvas.on('object:modified', (e) => handleBordersScaling(e));
+canvas.on('object:moving', (e) => handleBordersTranslation(e));
 canvas.on('selection:created', (e) => onSelect(e));
 canvas.on('selection:updated', (e) => updateSelect(e));
 canvas.on('selection:cleared', (e) => exitSelect(e));
@@ -147,7 +151,8 @@ function updateSelect(e){
     objectId.setAttribute("id", "selectedObjectId");
 }
 
-function handleBorders(e) {
+function handleBordersTranslation(e) {
+    console.log(e);
     var obj = e.target;
     console.log(obj);
     var brOld = obj.getBoundingRect();
@@ -158,12 +163,107 @@ function handleBorders(e) {
 
     if(brNew.left < -5
         || brNew.top < -5
-        || brNew.left + brNew.width - 5> obj.canvas.width
+        || brNew.left + brNew.width - 5 > obj.canvas.width
         || brNew.top + brNew.height - 5 > obj.canvas.height) {
-        obj.left = brOld.left;
-        obj.top = brOld.top;
+
+            obj.left = brOld.left;
+            obj.top = brOld.top;
+
+            obj.setCoords();
+    }
+    // else
+    //     {
+    //         prevLeft = brOld.left;
+    //         prevTop = brOld.top;
+    //         prevWidth = brOld.width;
+    //         prevHeight = brOld.height;
+    //     }
+}
+
+
+let prevLeft;
+let prevTop;
+let maxWidth;
+let maxHeight;
+
+function handleBordersScaling(e){
+    console.log(e);
+    var obj = e.target;
+    console.log(obj);
+    var brOld = obj.getBoundingRect();
+    console.log(brOld);
+    // obj.setCoords();
+    var brNew = obj.getBoundingRect();
+    console.log(brNew);
+
+    // if(brNew.left < -5 ){
+    //     obj.left = -5;
+    //     obj.setCoords();
+    // } else if(brNew.top < -5){
+    //     obj.top = -5;
+    //     obj.setCoords();
+    // }else if(brNew.left + brNew.width - 5 > obj.canvas.width){
+    //     obj.width = obj.canvas.width + 5;
+    //     obj.setCoords();
+    // } else if(brNew.top + brNew.height - 5 > obj.canvas.height){
+    //     obj.height = obj.canvas.height + 5;
+    //     obj.setCoords();
+    // }
+    // console.log("max width");
+    // console.log(maxWidth);
+    // console.log("max height");
+    // console.log(maxHeight);
+    if(obj.left < -5){
+        obj.width = obj.width + (3 + obj.left);
+        obj.left = 0;
         obj.setCoords();
     }
+    if(obj.top < -5){
+        obj.height = obj.height + (3 + obj.top);
+        obj.top = 0;
+        obj.setCoords();
+    }
+    if(obj.left + obj.width - 5 > obj.canvas.width){
+        obj.width = obj.canvas.width - obj.left;
+        obj.setCoords();
+    }
+    if(obj.top + obj.height - 5 > obj.canvas.height){
+        obj.height = obj.canvas.height - obj.top;
+        obj.setCoords();
+    }
+
+
+
+
+    // if(brNew.left < -5
+    //     || brNew.left + brNew.width - 5 > obj.canvas.width){
+    //     if(maxWidth == undefined || maxWidth > brOld.width){
+    //         maxWidth = brOld.width;
+    //         console.log("max width");
+    //         console.log(maxWidth);
+    //     }
+    //
+    //     obj.hasControls = false;
+    //     // obj.width = maxWidth;
+    //     // obj.setCoords();
+    // } else if(
+    //     brNew.top < -5
+    //     || brNew.top + brNew.height - 5 > obj.canvas.height){
+    //
+    //     if(maxHeight == undefined || maxHeight > brOld.height){
+    //         maxHeight = brOld.height;
+    //         console.log("max height");
+    //         console.log(maxHeight);
+    //     }
+    //     obj.height = maxHeight;
+    //     obj.setCoords();
+    // }
+    // if(brNew.left > 0 && brNew.left + brNew.width < obj.canvas.width){
+    //     maxWidth = undefined;
+    // }
+    // if(brNew.top > 0 && brNew.top + brNew.height < obj.canvas.height){
+    //     maxHeight = undefined;
+    // }
 }
 
 function toggleGrid() {
@@ -330,10 +430,60 @@ function loadConfig(){
     if(selectedConfig != "default"){
         canvas.clear();
         canvas.loadFromJSON(json);
-        configurationName.setAttribute("value", selectedConfig.name);
+        configNameInput.val(selectedConfig[0].innerText);
         console.log("selected configuration name: " + selectedConfig.name);
-        // publishConfig.removeAttribute("checked", "checked");
         canvas.renderAll();
     }
+    json = JSON.parse(json);
+    let usedPlots = [];
+    for(let element of json.objects){
+        if(element.id != null){
+            usedPlots.push(element.id);
+        }
+    }
+    console.log(usedPlots);
+    let plots = document.querySelectorAll(".plotOption");
+    for(let plot of plots){
+        console.log(plot);
+        if(!(usedPlots.indexOf(plot.getAttribute('id')) < 0))
+            plot.setAttribute('disabled', 'disabled');
+        else{
+            plot.removeAttribute('disabled');
+        }
+    }
 
+}
+
+
+function snapToGridFunction(event){
+    console.log("checked");
+    console.log(snapToGrid.getAttribute('checked'));
+    console.log(snapToGrid);
+
+    if(event.target.checked){
+        if(!gridState){
+            gridState = true;
+            toggleGrid();
+        }
+        canvas.on("object:moving",
+            function (event) {
+                event.target.set({
+                    top: Math.round(event.target.top / gridSize.value)*gridSize.value,
+                    left: Math.round(event.target.left / gridSize.value)*gridSize.value
+                });
+            });
+            // snap(event)
+
+    } else{
+        console.log("try to remove event listener");
+        canvas.off("object:moving");
+        canvas.on("object:moving",(e) => handleBordersTranslation(e));
+    }
+}
+
+function snap(event){
+    event.target.set({
+        top: Math.round(event.target.top / gridSize.value)*gridSize.value,
+        left: Math.round(event.target.left / gridSize.value)*gridSize.value
+    });
 }

@@ -38,8 +38,8 @@
                     <button id="redoAction">Redo</button>
                 </div>
             </div>
-            <div class="flex flex-vertical grow">
-                <div class="flex grow" id="aboveCanvasControls">
+            <div id="center-column" class="flex flex-vertical grow">
+                <div class="flex" id="aboveCanvasControls">
                     <button class="aboveCanvasControl" id="toggleGrid">Grid Toggle</button>
                     <select class="aboveCanvasControl" id="plotSelector">
                         <option class="plotOption" id="defaultSelectPlotOption" value="Default">Plots To Add</option>
@@ -52,12 +52,13 @@
                     <span class="hiddenAddPlotNotifications" id="noPlotsToSelectOnAdd">No more plots to add, please create a new leasable</span>
                 </div>
                 <canvas id="myCanvas" style="border:1px solid #000000;">
-
                 </canvas>
             </div>
             <div class="flex flex-vertical grow" id="rightSideCanvasControls">
                 <label for="grid-size">Grid Size:</label>
                 <input type="number" id="grid-size" min="10" value="20" step="5"/>
+                <input type="checkbox" id="snap-to-grid" />
+                <label>Snap To Grid</label>
                 <label>Additional Elements</label>
                 <select>
                     <option class="extraOption" id="defaultExtraOption" value="Default">Add Element</option>
@@ -69,24 +70,24 @@
                 </select>
                 <button id="addExtraButton">Add Extra</button>
 
-                <div class="flex flex-vertical beauty-padding" id="selectedObjectInfoDiv">
+                <div class="flex flex-vertical" id="selectedObjectInfoDiv">
                     <div id="selectedObjectIdHeader">
                         <span>Selected</span>
                     </div>
-                    <label for="adjustSelectedByBorder">Scale Shape Manually</label>
-                    <input id="adjustSelectedByBorder" type="checkbox"/>
-                    <label for="selectedObjectWidth">Width</label>
-                    <div class="flex">
-                        <input type="button" value="-" id="sizeMinusStepWidth">
-                        <input type="type" id="selectedObjectWidth" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
-                        <input type="button" value="+"id="sizePlusStepWidth">
-                    </div>
-                    <label for="selectedObjectHeight">Height</label>
-                    <div class="flex">
-                        <input type="button" value="-" id="sizeMinusStepHeight">
-                        <input type="type" id="selectedObjectHeight" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">
-                        <input type="button" value="+"id="sizePlusStepHeight">
-                    </div>
+<!--                    <label for="adjustSelectedByBorder">Scale Shape Manually</label>-->
+<!--                    <input id="adjustSelectedByBorder" type="checkbox"/>-->
+<!--                    <label for="selectedObjectWidth">Width</label>-->
+<!--                    <div class="flex">-->
+<!--                        <input type="button" value="-" id="sizeMinusStepWidth">-->
+<!--                        <input type="type" id="selectedObjectWidth" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">-->
+<!--                        <input type="button" value="+"id="sizePlusStepWidth">-->
+<!--                    </div>-->
+<!--                    <label for="selectedObjectHeight">Height</label>-->
+<!--                    <div class="flex">-->
+<!--                        <input type="button" value="-" id="sizeMinusStepHeight">-->
+<!--                        <input type="type" id="selectedObjectHeight" step="1" min="1" max="" name="quantity" title="Qty" class="input-text qty text" size="4" pattern="" inputmode="">-->
+<!--                        <input type="button" value="+" id="sizePlusStepHeight">-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>

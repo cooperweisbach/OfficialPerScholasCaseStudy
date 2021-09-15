@@ -177,7 +177,7 @@ public class MemberAccountController {
         Member member = memberServices.getMemberByEmail(principal.getName());
         leaseServices.createNewLease(leasableRented, member);
         request.setAttribute(View.RESPONSE_STATUS_ATTRIBUTE, HttpStatus.FOUND);
-        return new ModelAndView("redirect:/members/leases");
+        return new ModelAndView("redirect:/members/leasables");
     }
 
 //    @GetMapping("/members/leases")

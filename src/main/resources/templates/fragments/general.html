@@ -91,7 +91,7 @@
                   <div class="container-of-spans side-menu-links-container"><span><a href="/members">MESSAGE BOARD</a></span></div>
                   <div class="container-of-spans side-menu-links-container"><span><a href="/members/leasables">LEASABLES</a></span></div>
                   <div class="container-of-spans side-menu-links-container"><span><a href="/members/member" >ACCOUNT</a></span></div>
-                  <div class="container-of-spans side-menu-links-container"><span sec:authorize="hasRole('ROLE_ADMIN')"><a href="/admin">ADMIN</a></span></div>
+                  <div sec:authorize="hasRole('ROLE_ADMIN')" class="container-of-spans side-menu-links-container"><span><a href="/admin">ADMIN</a></span></div>
                   <div class="container-of-spans side-menu-links-container"><span sec:authorize="isAuthenticated()"><a href="/logout">LOGOUT</a></span></div>
                 </div>
               </div>

@@ -20,8 +20,15 @@
     padding: 1vh 0;
 }
 
-.aboveCanvasControl{
-    height: auto;
-    width: auto;
+/*.aboveCanvasControl{*/
+/*    height: auto;*/
+/*    width: auto;*/
+/*}*/
+
+#center-column{
+    margin: 5px;
 }
 
+canvas{
+    margin-bottom: 5px;
+}

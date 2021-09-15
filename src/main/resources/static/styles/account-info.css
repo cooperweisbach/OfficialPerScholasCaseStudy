@@ -11,13 +11,13 @@
 #profile-pic,
 #trigger-for-upload{
     height: 20vh;
+    width: 20vh;
 }
 
 #trigger-for-upload{
     color: transparent;
     cursor: pointer;
     z-index: 1;
-    width: 15vw;
     border-radius: 50%;
 }
 
